@@ -42,13 +42,13 @@ def athletes():
     else: 
         return redirect(url_for('login'))
 
-@app.before_request
-def before_request():
-    g.user = None
-    if 'user' in session: 
-        return session['user']
-
-    return 'Not logged in!'
+# @app.before_request
+# def before_request():
+#     g.user = None
+#     if 'user' in session:
+#         return session['user']
+#
+#     return 'Not logged in!'
 
 
 def allowed_file(filename):

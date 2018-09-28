@@ -8,11 +8,12 @@ import plotly.graph_objs as go
 
 
 from werkzeug.wsgi import DispatcherMiddleware
-import flask
+from flask import  Flask, render_template, redirect, url_for, request, session, g
 from werkzeug.serving import run_simple
+import requests
 #import athleteDash
 
-server = flask.Flask(__name__)
+server = Flask(__name__)
 dash1 = Dash(__name__, server = server, url_base_pathname='/dashboard/' )
 
 def print_button():
@@ -168,9 +169,25 @@ def update_output(list_of_contents, list_of_names, list_of_dates):
 #dash_app2.layout = html.Div([html.H1('Hi there, I am app2 for reports')])
 
 @server.route('/')
-@server.route('/hello')
-def hello():
-    return 'hello world!'
+@server.route('/login', methods=['POST','GET'])
+def login():
+	return render_template('login.html')
+
+
+@server.route('/loginTwo', methods=['POST', 'GET'])
+def loginTwo():
+	error = None
+	if request.method == 'POST':
+		username = request.form['username']
+		password = request.form['password']
+		payload_login = dict(username=username,password=password)
+		token = requests.post("https://a-zapi.herokuapp.com/login/",data=payload_login)
+		if token.status_code != 200:
+			return "error " + str(token.status_code)
+		else: 
+			#session['access_token'] = token.json()['token']
+			return redirect(url_for('/dashboard/'))
+	return render_template('login.html')
 
 @server.route('/dashboard')
 def render_dashboard():
