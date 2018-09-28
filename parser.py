@@ -34,7 +34,7 @@ class parser_csv():
                 df = pd.read_excel(io.BytesIO(decoded))
             print("successful got df", df.head())
             print("df tail", df.tail())
-            data = html.H3("File Uploaded Succesfully")
+            data = html.H3(filename, " Uploaded Succesfully")
 
             # requests.post(url=url, payload=)
             return data

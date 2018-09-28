@@ -35,6 +35,15 @@ def get_logo():
     ], className="row gs-header")
     return logo
 
+def get_team():
+    s = requests.get('https://a-zapi.herokuapp.com/team/')
+    options = []
+    for i in range(0,len(s.json())):
+        my_data = dict(label=s.json()[i]['team_name'],value=s.json()[i]['team_name'])
+        options.append(my_data)
+    print(options)
+    return options
+
 
 def get_header():
     header = html.Div([
@@ -66,20 +75,25 @@ def get_menu():
     ], className="row ")
     return menu
 
-
 overview = html.Div([  # page 1
 
         print_button(),
 
         html.Div([
-
             # Header
             get_logo(),
             get_header(),
             html.Br([]),
             get_menu(),
+            #get_team(),
 
             html.Div([
+            html.H3("Player Name"),
+            html.Div(dcc.Input(id='player_input', type='text')),
+            html.H3("Choose Team"),
+            dcc.Dropdown(
+                options=get_team()
+            ),
               dcc.Upload(
                 id='upload-data',
                 children=html.Div([
@@ -102,6 +116,7 @@ overview = html.Div([  # page 1
                 html.Div(id='output-data-upload'),
                 #html.Div(dt.DataTable(rows=[{}]), style={'display':'none'})
               ], className='row'),
+
         ], className="subpage")
 
     ], className="page")
@@ -121,9 +136,11 @@ noPage = html.Div([  # 404
 # Describe the layout, or the UI, of the app
 dash1.layout = html.Div([
     dcc.Location(id='url', refresh=False),
+    dcc.Input(id='player_input'),
     dcc.Upload(id='upload-data'),
     html.Div(id='output-data-upload'),
     html.Div(id='page-content'),
+
 ])
 
   
@@ -174,7 +191,7 @@ def login():
 	return render_template('login.html')
 
 
-@server.route('/loginTwo', methods=['POST', 'GET'])
+@server.route('/logintwo', methods=['POST', 'GET'])
 def loginTwo():
 	error = None
 	if request.method == 'POST':
