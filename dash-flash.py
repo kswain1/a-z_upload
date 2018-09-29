@@ -60,9 +60,9 @@ def get_header():
 def get_menu():
     menu = html.Div([
 
-        dcc.Link('Overview   ', href='/overview', className="tab first"),
+        dcc.Link('Create Session  ', href='/overview', className="tab first"),
 
-        # dcc.Link('Price Performance   ', href='/price-performance', className="tab"),
+        dcc.Link('View Athletes   ', href='/view-athletes', className="tab"),
 
         # dcc.Link('Portfolio & Management   ', href='/portfolio-management', className="tab"),
 
@@ -92,8 +92,10 @@ overview = html.Div([  # page 1
             html.Div(dcc.Input(id='player_input', type='text')),
             html.H3("Choose Team"),
             dcc.Dropdown(
-                options=get_team()
+                options=get_team(),
+                value=get_team()[0]['value']
             ),
+            html.H3('Upload File'),
               dcc.Upload(
                 id='upload-data',
                 children=html.Div([
@@ -114,6 +116,7 @@ overview = html.Div([  # page 1
                 multiple=True
                 ),
                 html.Div(id='output-data-upload'),
+                html.Button('Submit Player Data',id='player-data-button'),
                 #html.Div(dt.DataTable(rows=[{}]), style={'display':'none'})
               ], className='row'),
 
@@ -121,6 +124,15 @@ overview = html.Div([  # page 1
 
     ], className="page")
 
+athletes = (
+    print_button(),
+    html.Div([
+        get_logo(),
+        get_header(),
+        get_menu(),
+        html.H3("Athletes Page"),
+    ], className="page")
+)
 
 noPage = html.Div([  # 404
 
@@ -140,8 +152,10 @@ dash1.layout = html.Div([
     dcc.Upload(id='upload-data'),
     html.Div(id='output-data-upload'),
     html.Div(id='page-content'),
+    html.Button(id='player-data-button'),
 
 ])
+
 
   
 # Update page
@@ -150,8 +164,8 @@ dash1.layout = html.Div([
 def display_page(pathname):
     if pathname == '/dashboard/' or pathname == '/overview':
         return overview
-    elif pathname == '/price-performance':
-        return pricePerformance
+    elif pathname == '/view-athletes':
+        return athletes
     elif pathname == '/portfolio-management':
         return portfolioManagement
     elif pathname == '/fees':
@@ -166,21 +180,35 @@ def display_page(pathname):
         return noPage
 
 from parser import parser_csv
+from parser import HomerTechniqueCSVReader as s
 
 #upload data 
 @dash1.callback(Output('output-data-upload', 'children'),
-              [Input('upload-data', 'contents'),
-              Input('upload-data', 'filename'),
-              Input('upload-data','last_modified')])
-def update_output(list_of_contents, list_of_names, list_of_dates):
-  if list_of_contents is not None:
-    children = [
-        parser_csv.parse_contents(c,n,d) for c, n, d in
-        zip(list_of_contents, list_of_names, list_of_dates)]
-    upload_data = children
-    print(children)
+                [Input('upload-data', 'contents'),
+                 Input('upload-data', 'filename'),
+                 Input('upload-data','last_modified'), ])
+def update_output(content, filename, last_modified):
+    if content is not None:
+        print(content)
+        g = s.read_csv(content[0],filename[0])
+        fatigue_sum = s.neuro_sum(g)
+        return html.H3('Data uploaded and saved succesfully')
 
-    return children
+
+# @dash1.callback(Output('output-data-upload', 'children'), [Input('player-data-button','n_clicks')])
+# def submit_data(n_clicks):
+#     print(n_clicks)
+#     return html.H3('Data has been submitted')
+
+# def update_output(list_of_contents, list_of_names, list_of_dates):
+#     if list_of_contents is not None:
+#         children = [
+#             parser_csv.parse_contents(c,n,d) for c, n, d in
+#             zip(list_of_contents, list_of_names, list_of_dates)]
+#         upload_data = children
+#         print(children)
+#         return children
+
 #dash_app2 = Dash(__name__, server = server, url_base_pathname='/reports/')
 #dash_app1.layout = html.Div([html.H1('Hi there, I am app1 for dashboards')])
 #dash_app2.layout = html.Div([html.H1('Hi there, I am app2 for reports')])
