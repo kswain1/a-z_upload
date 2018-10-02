@@ -1,11 +1,12 @@
 from dash import Dash
 import dash
-from dash.dependencies import Input, Output
+from dash.dependencies import Input, Output, State
 import dash_core_components as dcc
 import dash_html_components as html
 import dash_table_experiments as dt
 import plotly.graph_objs as go
 
+from parser import HomerTechniqueCSVReader
 
 from werkzeug.wsgi import DispatcherMiddleware
 from flask import  Flask, render_template, redirect, url_for, request, session, g
@@ -92,9 +93,12 @@ overview = html.Div([  # page 1
             html.Div(dcc.Input(id='player_input', type='text')),
             html.H3("Choose Team"),
             dcc.Dropdown(
+                id='player-team',
                 options=get_team(),
                 value=get_team()[0]['value']
             ),
+            html.H3("User Age"),
+            html.Div(dcc.Input(id='player_age', type='int')),
             html.H3('Upload File'),
               dcc.Upload(
                 id='upload-data',
@@ -117,12 +121,52 @@ overview = html.Div([  # page 1
                 ),
                 html.Div(id='output-data-upload'),
                 html.Button('Submit Player Data',id='player-data-button'),
+                html.Div(id='submit-player-data-db'),
                 #html.Div(dt.DataTable(rows=[{}]), style={'display':'none'})
               ], className='row'),
 
         ], className="subpage")
 
     ], className="page")
+
+upload_csv_form = html.Div([
+    print_button(),
+    html.Div([
+        #header
+        get_logo(),
+        get_header(),
+        html.Br([]),
+        get_menu(),
+
+        #upload url form
+        html.H3('Upload File'),
+              dcc.Upload(
+                id='upload-data',
+                children=html.Div([
+                  'Drag and Drop File or ',
+                  html.A('Select Files')
+                  ]),
+                style={
+                'width':'100%',
+                'height':'60px',
+                'lineHeight':'60px',
+                'borderWidth':'1px',
+                'borderStyle':'dashed',
+                'borderRadius':'5px',
+                'textAlign':'center',
+                'margin':'10px',
+                },
+                #allow multiple files to be uploaded here
+                multiple=True
+                ),
+                html.Div(id='output-data-upload'),
+                html.Button('Submit Player Data',id='player-data-button'),
+                html.Div(id='submit-player-data-db'),
+                #html.Div(dt.DataTable(rows=[{}]), style={'display':'none'})
+
+    ], className='row'),
+], className="page")
+
 
 athletes = (
     print_button(),
@@ -147,13 +191,14 @@ noPage = html.Div([  # 404
 
 # Describe the layout, or the UI, of the app
 dash1.layout = html.Div([
+    html.Div(id='page-content'),
     dcc.Location(id='url', refresh=False),
     dcc.Input(id='player_input'),
+    dcc.Input(id='player_age'),
+    dcc.Dropdown(id='player-team'),
     dcc.Upload(id='upload-data'),
     html.Div(id='output-data-upload'),
-    html.Div(id='page-content'),
     html.Button(id='player-data-button'),
-
 ])
 
 
@@ -179,20 +224,41 @@ def display_page(pathname):
     else:
         return noPage
 
-from parser import parser_csv
-from parser import HomerTechniqueCSVReader as s
-
 #upload data 
 @dash1.callback(Output('output-data-upload', 'children'),
                 [Input('upload-data', 'contents'),
                  Input('upload-data', 'filename'),
-                 Input('upload-data','last_modified'), ])
-def update_output(content, filename, last_modified):
+                 Input('player-data-button', 'n_clicks'),],
+                [State('player_input', 'value'),
+                 State('player_age', 'value'),
+                 State('player-team', 'value'),
+                ])
+def update_output(content, filename,n_clicks,input_1, input_2, input_3):
+    pay_load_1 = [dict(player_name=None),dict(user_age=0),dict(team_name=None)]
+    pay_load_2 = [dict(player_name='Kehlin Swain'),
+                  dict(peroneals_rle=None),dict(peroneals_lle=None),dict(med_gasto_rle=None),dict(med_gastro_lle=None),
+                  dict(tib_anterior_lle=None),dict(tib_anterior_rle=None),dict(lat_gastro_lle=None),
+                  dict(lat_gastro_rle=None), dict(assessment=None),dict(treatment=None),]
+    headers = dict(authorization='token d3fd16e25de98308c111af5013faf465bce4e494')
+
     if content is not None:
         print(content)
+        s = HomerTechniqueCSVReader
         g = s.read_csv(content[0],filename[0])
         fatigue_sum = s.neuro_sum(g)
+        s = n_clicks
+        name = input_1
+        age = input_2
+        team = input_3
+        print(fatigue_sum)
+        print(name)
+        print(age)
+        print(team)
+        response = requests.post(url='https://a-zapi.herokuapp.com/session/',data=pay_load_2, headers=headers)
+        print(response.status_code)
         return html.H3('Data uploaded and saved succesfully')
+
+
 
 
 # @dash1.callback(Output('output-data-upload', 'children'), [Input('player-data-button','n_clicks')])
