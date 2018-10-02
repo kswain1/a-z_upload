@@ -20,12 +20,12 @@ token = "Token " + token
 #create player form
 header_two = dict(Authorization =token)
 player_name = "Zack Cross"
-team_name = "University of Miami"
+team_name = 1
 user_age = 18
 payload_player = {'player_name':player_name, 'team_name':team_name,'user_age':user_age}
-d = requests.post("https://a-zapi.herokuapp.com/player", data=payload_player, headers=header_two)
+d = requests.post("https://a-zapi.herokuapp.com/player/", data=payload_player, headers=header_two)
 print(d.status_code)
-
+print(d.text)
 
 
 #Create Session Form
