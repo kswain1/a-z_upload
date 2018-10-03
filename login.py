@@ -1,45 +1,124 @@
-from flask import  Flask, render_template, redirect, url_for, request, session, g
+from flask import (
+    Flask, render_template, redirect, url_for, request, session, g,
+    flash)
 import requests
-import os 
+import os
 from werkzeug.utils import secure_filename
 
 UPLOAD_FOLDER = '~/'
-ALLOWED_EXTENSIONS = set(['txt','csv','xlsx'])
+ALLOWED_EXTENSIONS = set(['txt', 'csv', 'xlsx'])
+API_BASE_URL = 'https://a-zapi.herokuapp.com'
 
 app = Flask(__name__)
-app.secret_key = "precious"
+app.secret_key = 'precious'
 
-#use decorators
-@app.route('/login', methods=['GET','POST'])
+
+@app.route('/login', methods=['GET', 'POST'])
 def login():
-    error = None
+    error = ''
+    username = ''
     if request.method == 'POST':
-        username = request.form['username']
-        password = request.form['password']
-        login = dict(username=username,password=password)
-        token = requests.post("https://a-zapi.herokuapp.com/login/",data=login)
-        if token.status_code != 200:
-            return "error " + str(token.status_code)
+        username = request.form.get('username', '')
+        password = request.form.get('password', '')
+        login = dict(username=username, password=password)
+        res = requests.post('%s/login/' % API_BASE_URL, data=login)
+        if res.ok:
+            session['access_token'] = res.json()['token']
+            session['username'] = username
+            return redirect(url_for('trainer'))
         else:
-            session['access_token']=token.json()['token']
-            session['user'] = username
-            return redirect(url_for('athletes'))
-    return render_template('login.html', error=error)
+            error = 'Login failed, error code: %s' % res.status_code
+    return render_template('login.html', error=error, username=username)
 
-@app.route('/trainer', methods=['GET','POST'])
+
+@app.route('/trainer', methods=['GET', 'POST'])
 def trainer():
-    error = None
-    return render_template('trainer.html',error=error)
+    if 'username' not in session:
+        return redirect(url_for('login'))
+    return render_template('trainer.html')
+
+
+@app.route('/player', methods=['GET', 'POST'])
+def players():
+    if 'username' not in session:
+        return redirect(url_for('login'))
+    error = ''
+    data = {
+        'player_name': request.form.get('player', ''),
+        'team_name': request.form.get('team', ''),
+        'user_age': request.form.get('age', ''),
+    }
+    headers = {
+        'Authorization': 'Token %s' % session['access_token'],
+    }
+    res = requests.get('%s/api/team/' % API_BASE_URL, headers=headers)
+    teams = res.json()
+    if request.method == 'POST':
+        res = requests.post('%s/player/' % API_BASE_URL, data=data,
+                            headers=headers)
+        if res.ok:
+            return redirect(url_for('trainer'))
+        else:
+            error = 'Error creating player, code: %s' % res.status_code
+    return render_template('player.html', data=data, teams=teams, error=error)
+
+
+@app.route('/session', methods=['GET', 'POST'])
+def sessions():
+    if 'username' not in session:
+        return redirect(url_for('login'))
+    error = ''
+    payload = {
+        'player_profile': request.form.get('athlete_profile', ''),
+        'peroneals_rle': request.form.get('peroneals_rle', ''),
+        'peroneals_lle': request.form.get('peroneals_lle', ''),
+        'med_gastro_rle': request.form.get('med_gastro_rle', ''),
+        'med_gastro_lle': request.form.get('med_gastro_lle', ''),
+        'tib_anterior_lle': request.form.get('tib_anterior_lle', ''),
+        'tib_anterior_rle': request.form.get('tib_anterior_rle', ''),
+        'lat_gastro_lle': request.form.get('lat_gastro_lle', ''),
+        'lat_gastro_rle': request.form.get('lat_gastro_rle', ''),
+        'assessment': request.form.get('assessment', ''),
+        'treatment': request.form.get('treatment', ''),
+    }
+    headers = {
+        'Authorization': 'Token %s' % session['access_token'],
+    }
+    res = requests.get('%s/api/player/' % API_BASE_URL, headers=headers)
+    athlete_profiles = res.json()
+    if request.method == 'POST':
+        headers = {
+            'Authorization': 'Token %s' % session['access_token'],
+        }
+        ## Added file implementation for collecting data
+        if 'file' not in request.files or 'file-2' not in request.files:
+            flash("no file uploaded")
+            return (redirect(request.url))
+        file = request.files['file-1']
+        file_two = request.files['file-2']
+        if file.filename == '':
+            flash("no file selected")
+            return (redirect(request.url))
+
+        res = requests.post('%s/session/' % API_BASE_URL, data=payload,
+                            headers=headers)
+        if res.ok:
+            return redirect(url_for('trainer'))
+        else:
+            error = 'Error creating session, code: %s' % res.status_code
+    return render_template('session.html', data=payload,
+                           athlete_profiles=athlete_profiles, error=error)
+
 
 #setting up to make sure that the user has an active session before they enter this session
 @app.route('/athletes', methods=['GET','POST'])
 def athletes():
-    if g.user: 
+    if g.user:
         athlete_profile = requests.get("https://a-zapi.herokuapp.com/api/profile")
         print(athlete_profile.status_code)
         athlete_profile.json()
         return athlete_profile.json()
-    else: 
+    else:
         return redirect(url_for('login'))
 
 # @app.before_request

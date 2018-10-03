@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block title %}Create Player{% endblock %}
+{% block content %}
+    <h1 style="align-center" align="center">Create Player</h1>
+    {% if error %}
+        <div class="alert alert-danger" role="alert">
+            {{ error }}
+        </div>
+    {% endif %}
+    <form action="" method="post">
+        <div class="form-group">
+            <label for="player">Player</label>
+            <input type="text" class="form-control" id="player" name="player"
+            placeholder="Enter player name" value="{{ data.player }}">
+        </div>
+        <div class="form-group">
+            <label for="team">Team</label>
+            <select class="form-control" id="team" name="team">
+            {% for team in teams %}
+                <option value="{{ team.id }}">{{ team.team_name}}</option>
+            {% endfor %}
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="age">Age</label>
+            <input type="text" class="form-control" id="age" name="age"
+            placeholder="Enter Age" value="{{ data.age }}">
+        </div>
+        <button type="submit" class="btn btn-primary">Create</button>
+    </form>
+{% endblock %}
+
