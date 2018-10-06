@@ -5,11 +5,12 @@ import requests
 import os
 from werkzeug.utils import secure_filename
 from parser import HomerTechniqueCSVReader as reader
+import json
 
 UPLOAD_FOLDER = '~/'
 ALLOWED_EXTENSIONS = set(['txt', 'csv', 'xlsx'])
 #API_BASE_URL = 'https://a-zapi.herokuapp.com'
-API_BASE_URL = 'http://localhost:8001'
+API_BASE_URL = 'http://localhost:8000'
 
 app = Flask(__name__)
 app.secret_key = 'precious'
@@ -187,17 +188,19 @@ def upload_session():
         rle_payload = reader.neuro_sum(s)
         payload = {
             'player_profile': request.form.get('athlete_profile', ''),
-            'peroneals_rle': rle_payload['peroneals_rle'],
-            'peroneals_lle': lle_payload['peroneals_lle'],
-            'med_gastro_rle': rle_payload['med_gastro_rle'],
-            'med_gastro_lle': lle_payload['med_gastro_lle'],
-            'tib_anterior_lle': lle_payload['tib_anterior_lle'],
-            'tib_anterior_rle': rle_payload['tib_anterior_rle'],
-            'lat_gastro_lle': lle_payload['lat_gastro_lle'],
-            'lat_gastro_rle': rle_payload['lat_gastro_rle'],
+            'peroneals_rle': json.dumps(rle_payload['peroneals_rle']),
+            'peroneals_lle': json.dumps(lle_payload['peroneals_lle']),
+            'med_gastro_rle': json.dumps(rle_payload['med_gastro_rle']),
+            'med_gastro_lle': json.dumps(lle_payload['med_gastro_lle']),
+            'tib_anterior_lle': json.dumps(lle_payload['tib_anterior_lle']),
+            'tib_anterior_rle': json.dumps(rle_payload['tib_anterior_rle']),
+            'lat_gastro_lle': json.dumps(lle_payload['lat_gastro_lle']),
+            'lat_gastro_rle': json.dumps(rle_payload['lat_gastro_rle']),
         }
+
         res = requests.post('%s/session/' % API_BASE_URL, data=payload,
                             headers=headers)
+        s = payload
         if res.ok:
             return redirect(url_for('trainer'))
     return render_template('upload_session.html', profiles=athlete_profiles)
