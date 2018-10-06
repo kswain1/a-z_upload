@@ -64,6 +64,11 @@ def players():
     return render_template('player.html', data=data, teams=teams, error=error)
 
 
+@app.route('/sessionsummary', methods=['GET', ])
+def sessionsummary():
+    return 'Session Summary'
+
+
 @app.route('/session', methods=['GET', 'POST'])
 def sessions():
     if 'username' not in session:
@@ -108,16 +113,24 @@ def dashboard():
     return render_template('dashboard.html', player_session=player_data)
 
 
-#setting up to make sure that the user has an active session before they enter this session
-@app.route('/athletes', methods=['GET','POST'])
+@app.route('/athletes', methods=['GET', ])
 def athletes():
-    if g.user:
-        athlete_profile = requests.get("https://a-zapi.herokuapp.com/api/profile")
-        print(athlete_profile.status_code)
-        athlete_profile.json()
-        return athlete_profile.json()
-    else:
+    if 'username' not in session:
         return redirect(url_for('login'))
+    headers = {
+        'Authorization': 'Token %s' % session['access_token']
+    }
+    res = requests.get('%s/player/' % API_BASE_URL, headers=headers)
+    if res.ok:
+        athlete_profiles = res.json()
+        print(athlete_profiles)
+        error = ''
+    else:
+        error = 'Error fetching athletes, code: %s' % res.status_code
+        athlete_profiles = []
+    return render_template('athlete_profiles.html', data=athlete_profiles,
+                           error=error)
+
 
 # @app.before_request
 # def before_request():
@@ -152,8 +165,16 @@ def upload_file():
             # s= requests.post("https://a-zapi.heorkuapp.com/api/hello-viewset/",data=filename)
             # print(s.status_code)
             file.save(os.path.join('uploads/', filename))
+            #collect first payload
             s = reader.read_csv(os.path.join('uploads',filename))
             payload = reader.neuro_sum(s)
+
+            #collect second payload
+            s = reader.read_csv(os.path.join('uploads',filename))
+            payload = reader.neuro_sum(s)
+            payload.update(payload)
+            #send session data to the backend
+            #reques.post()
             return redirect(url_for('upload',
                                         filename=filename))
     return '''
