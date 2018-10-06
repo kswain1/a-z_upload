@@ -8,7 +8,8 @@ from parser import HomerTechniqueCSVReader as reader
 
 UPLOAD_FOLDER = '~/'
 ALLOWED_EXTENSIONS = set(['txt', 'csv', 'xlsx'])
-API_BASE_URL = 'https://a-zapi.herokuapp.com'
+#API_BASE_URL = 'https://a-zapi.herokuapp.com'
+API_BASE_URL = 'http://localhost:8001'
 
 app = Flask(__name__)
 app.secret_key = 'precious'
@@ -46,7 +47,7 @@ def players():
     error = ''
     data = {
         'player_name': request.form.get('player', ''),
-        'team_name': request.form.get('team', ''),
+        'team_id': request.form.get('team', ''),
         'user_age': request.form.get('age', ''),
     }
     headers = {
@@ -105,7 +106,8 @@ def sessions():
     return render_template('session.html', data=payload,
                            athlete_profiles=athlete_profiles, error=error)
 
-@app.route('/dashboard', methods=['GET','POST'])
+
+@app.route('/dashboard', methods=['GET', 'POST'])
 def dashboard():
     # player_session = requests.get('%s/api/session')
     import player_data as s
@@ -123,7 +125,6 @@ def athletes():
     res = requests.get('%s/player/' % API_BASE_URL, headers=headers)
     if res.ok:
         athlete_profiles = res.json()
-        print(athlete_profiles)
         error = ''
     else:
         error = 'Error fetching athletes, code: %s' % res.status_code
@@ -144,49 +145,62 @@ def athletes():
 def allowed_file(filename):
     return '.' in filename and \
            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
-@app.route('/upload', methods=['GET', 'POST'])
-def upload_file():
+
+
+@app.route('/upload-session', methods=['GET', 'POST'])
+def upload_session():
+    if 'username' not in session:
+        return redirect(url_for('login'))
+    error = ''
+    headers = {
+        'Authorization': 'Token %s' % session['access_token']
+    }
+    res = requests.get('%s/api/player/' % API_BASE_URL, headers=headers)
+    athlete_profiles = res.json()
     if request.method == 'POST':
-        #check if the post request has the file change 
-        if 'file' not in request.files:
-            flash('No file part')
-            return redirect(request.url)
-        file = request.files['file']
-        # if user does not select file, browser alse
-        #submit an empty part without filename 
-        if file.filename == '':
-            flash('No selected file')
-            return redirect(request.url)
-        if 'csv' not in file.filename:
-            flash('Only CSV Files ')
-            return redirect(request.url)
-        if file and allowed_file(file.filename):
-            filename = secure_filename(file.filename)
-            # s= requests.post("https://a-zapi.heorkuapp.com/api/hello-viewset/",data=filename)
-            # print(s.status_code)
-            file.save(os.path.join('uploads/', filename))
-            #collect first payload
-            s = reader.read_csv(os.path.join('uploads',filename))
-            payload = reader.neuro_sum(s)
+        # check if the post request has the file change
+        if 'data-lle' not in request.files:
+            error = 'Left leg data file missing'
+            return render_template('upload_session.html', error=error)
+        if 'data-rle' not in request.files:
+            error = 'Right leg data file missing'
+            return render_template('upload_session.html', error=error)
 
-            #collect second payload
-            s = reader.read_csv(os.path.join('uploads',filename))
-            payload = reader.neuro_sum(s)
-            payload.update(payload)
-            #send session data to the backend
-            #reques.post()
-            return redirect(url_for('upload',
-                                        filename=filename))
-    return '''
-    <!doctype html>
-    <title>Upload new File</title>
-    <h1>Upload new File</h1>
-    <form method=post enctype=multipart/form-data>
-      <input type=file name=file>
-      <input type=submit value=Upload>
-    </form>
-    '''
+        lle_file = request.files['data-lle']
+        rle_file = request.files['data-rle']
 
+        if lle_file.filename == '' or rle_file.filename == '':
+            error = 'No file selected'
+            return render_template('upload_session.html', error=error)
+        if ('csv' not in lle_file.filename) or (
+                'csv' not in rle_file.filename):
+            error = 'Only CSV Files '
+            return render_template('upload_session.html', error=error)
+        lle_filename = secure_filename(lle_file.filename)
+        rle_filename = secure_filename(rle_file.filename)
+        lle_file.save(os.path.join('uploads', lle_filename))
+        rle_file.save(os.path.join('uploads', rle_filename))
+
+        s = reader.read_csv(os.path.join('uploads', lle_filename))
+        lle_payload = reader.neuro_sum(s)
+        s = reader.read_csv(os.path.join('uploads', rle_filename))
+        rle_payload = reader.neuro_sum(s)
+        payload = {
+            'player_profile': request.form.get('athlete_profile', ''),
+            'peroneals_rle': rle_payload['peroneals_rle'],
+            'peroneals_lle': lle_payload['peroneals_lle'],
+            'med_gastro_rle': rle_payload['med_gastro_rle'],
+            'med_gastro_lle': lle_payload['med_gastro_lle'],
+            'tib_anterior_lle': lle_payload['tib_anterior_lle'],
+            'tib_anterior_rle': rle_payload['tib_anterior_rle'],
+            'lat_gastro_lle': lle_payload['lat_gastro_lle'],
+            'lat_gastro_rle': rle_payload['lat_gastro_rle'],
+        }
+        res = requests.post('%s/session/' % API_BASE_URL, data=payload,
+                            headers=headers)
+        if res.ok:
+            return redirect(url_for('trainer'))
+    return render_template('upload_session.html', profiles=athlete_profiles)
 
 
 if __name__ == '__main__':
