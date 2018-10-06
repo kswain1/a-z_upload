@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block title %}Upload Session CSV data{% endblock %}
+{% block content %}
+<h1 style="align-center" align="center">Upload Sesison CSV data</h1>
+{% if error %}
+<div class="alert alert-danger" role="alert">
+    {{ error }}
+</div>
+{% endif %}
+<form action="" method="post" enctype="multipart/form-data">
+    <div class="form-group">
+        <label for="player">Athlete Profile</label>
+        <select class="form-control" id="athlete_profile"
+                name="athlete_profile">
+            {% for profile in profiles %}
+            <option value="{{ profile.id }}">{{ profile.player_name }}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="data-lle">Left leg data</label>
+        <input type="file" class="form-control" id="data-lle" name="data-lle">
+    </div>
+    <div>
+        <label for="data-rle">Right leg data</label>
+        <input type="file" class="form-control" id="data-rle" name="data-rle">
+    </div>
+    <button type="submit" class="btn btn-primary">Upload</button>
+</form>
+{% endblock %}
