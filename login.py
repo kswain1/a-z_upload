@@ -4,6 +4,7 @@ from flask import (
 import requests
 import os
 from werkzeug.utils import secure_filename
+from parser import HomerTechniqueCSVReader as reader
 
 UPLOAD_FOLDER = '~/'
 ALLOWED_EXTENSIONS = set(['txt', 'csv', 'xlsx'])
@@ -90,16 +91,6 @@ def sessions():
         headers = {
             'Authorization': 'Token %s' % session['access_token'],
         }
-        ## Added file implementation for collecting data
-        if 'file' not in request.files or 'file-2' not in request.files:
-            flash("no file uploaded")
-            return (redirect(request.url))
-        file = request.files['file-1']
-        file_two = request.files['file-2']
-        if file.filename == '':
-            flash("no file selected")
-            return (redirect(request.url))
-
         res = requests.post('%s/session/' % API_BASE_URL, data=payload,
                             headers=headers)
         if res.ok:
@@ -108,6 +99,13 @@ def sessions():
             error = 'Error creating session, code: %s' % res.status_code
     return render_template('session.html', data=payload,
                            athlete_profiles=athlete_profiles, error=error)
+
+@app.route('/dashboard', methods=['GET','POST'])
+def dashboard():
+    # player_session = requests.get('%s/api/session')
+    import player_data as s
+    player_data = s.player_athlete()
+    return render_template('dashboard.html', player_session=player_data)
 
 
 #setting up to make sure that the user has an active session before they enter this session
@@ -146,12 +144,17 @@ def upload_file():
         if file.filename == '':
             flash('No selected file')
             return redirect(request.url)
+        if 'csv' not in file.filename:
+            flash('Only CSV Files ')
+            return redirect(request.url)
         if file and allowed_file(file.filename):
             filename = secure_filename(file.filename)
             # s= requests.post("https://a-zapi.heorkuapp.com/api/hello-viewset/",data=filename)
             # print(s.status_code)
-            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-            return redirect(url_for('upload_file',
+            file.save(os.path.join('uploads/', filename))
+            s = reader.read_csv(os.path.join('uploads',filename))
+            payload = reader.neuro_sum(s)
+            return redirect(url_for('upload',
                                         filename=filename))
     return '''
     <!doctype html>

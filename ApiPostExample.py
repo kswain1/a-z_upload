@@ -8,36 +8,15 @@ print(r.text)
 r = requests.get("https://a-zapi.herokuapp.com/api/profile")
 print(r.status_code, "if data was a success via python code")
 
-#create login form
+
 login = {"username":"kehlin@xplosionlive.com",
 			"password":"Awesome1"}
 b = requests.post("https://a-zapi.herokuapp.com/login/",data=login)
-print(b.text)
-token = b.json()['token']
-token = "Token " + token
+token_data = b.json()['token']
 
+headers = dict(Authorization="token "+token_data)
 
-#create player form
-header_two = dict(Authorization =token)
-player_name = "Zack Cross"
-team_name = 1
-user_age = 18
-payload_player = {'player_name':player_name, 'team_name':team_name,'user_age':user_age}
-d = requests.post("https://a-zapi.herokuapp.com/player/", data=payload_player, headers=header_two)
-print(d.status_code)
-print(d.text)
-
-
-#Create Session Form
-header = dict(Authorization="Token d3fd16e25de98308c111af5013faf465bce4e494")
-payload_2 = {'player_profile': 4, 'peroneals_rle':None,'peroneals_lle':None,'med_gasto_rle':None,
-             'med_gastro_lle':None, 'tib_anterior_lle':None,'tib_anterior_rle':None, 'lat_gastro_lle':None,
-              'lat_gastro_rle':None, 'assessment':None, 'treatment':None }
-
-c = requests.post("https://a-zapi.herokuapp.com/session/", data=payload_2, headers=header)
-print(c.status_code)
-print (c.content)
-
+c = requests.post("https://a-zapi.herokuapp.com/medsession/", data=payload, headers=header)
 
  # "user_age": 12,
  # "tib_anterior_lle": "sdfksdfs",

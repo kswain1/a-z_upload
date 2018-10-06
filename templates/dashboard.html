@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block title %}Dashboard{% endblock %}
+{% block content %}
+    <style type="{{ url_for('static', filename='css/pdf-view.css') }}"> </style>
+    <div class="page">
+        <div class="subpage">
+            <div class="row gs-header gs-text-header">
+                <h1> Athlete Injury Risk Report</h1>
+                     {% if error %}
+                    <div class="alert alert-danger" role="alert">
+                     {{ error }}
+                     </div>
+                    {% endif %}
+            </div>
+            <div class="row">
+                <div class="six columns ">
+                    <h6 class="gs-header gs-text-header padded">Medical History</h6>
+                    <img src="http://gdurl.com/JFia" height="150" width="150" alt="player">
+                    <p> name: </p>
+                    <p>age: </p>
+                    <p>team: </p>
+                </div>
+                <div class="six columns ">
+                    <h6 class="gs-header gs-text-header padded">Injury Risk Potential</h6>
+                    <img src="http://gdurl.com/JFia" height="150" width="150" alt="player">
+                    <p> name: </p>
+                    <p>age: </p>
+                    <p>team: </p>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

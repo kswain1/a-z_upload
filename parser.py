@@ -78,17 +78,15 @@ class HomerTechniqueCSVReader:
         self.lat_gastro_rle = []
         self.lat_gastro_lle = []
 
-    def read_csv(contents,filename):
-        content_type, content_string = contents.split(',') #splits the content type from the content code
-        df = None
-        decoded_value = base64.b64decode(content_string)
+    def read_csv(filename):
+        # content_type, content_string = contents.split(',') #splits the content type from the content code
+        # df = None
+        # decoded_value = base64.b64decode(content_string)
         try:
-            if 'csv' in filename:
-                # Assumes the user uploaded a csv
-                df = pd.read_csv(io.StringIO(decoded_value.decode('utf-8')))
+            df = pd.read_csv(filename)
         except Exception as e:
             print(e)
-            return html.Div(['There was an error processing your file'])
+            return 'There was an error processing your file %s' % e
 
         # gets to data row
         emg_data = df[9:]
