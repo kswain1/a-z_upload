@@ -97,7 +97,7 @@ demo = {
           fill: true,
           backgroundColor: gradientFill,
           borderWidth: 2,
-          data: [542, 480, 430, 550, 530, 453, 380, 434, 568, 610, 700, 630]
+          data: [542, 480, 430, 550, 530, 453, 380, 434, 568, 610, 700, 800]
         }]
       },
       options: gradientChartOptionsConfiguration
@@ -209,7 +209,7 @@ demo = {
       }
     };
 
-    var ctx = document.getElementById('bigDashboardChart').getContext("2d");
+    var ctx = document.getElementById('bigDashboardChart').getContext("3d");
 
     var gradientStroke = ctx.createLinearGradient(500, 0, 100, 0);
     gradientStroke.addColorStop(0, '#80b6f4');
@@ -220,7 +220,7 @@ demo = {
     gradientFill.addColorStop(1, "rgba(255, 255, 255, 0.24)");
 
     var myChart = new Chart(ctx, {
-      type: 'line',
+      type: 'bar',
       data: {
         labels: ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"],
         datasets: [{
@@ -237,7 +237,7 @@ demo = {
           fill: true,
           backgroundColor: gradientFill,
           borderWidth: 2,
-          data: [50, 150, 100, 190, 130, 90, 150, 160, 120, 140, 190, 95]
+          data: [90, 150, 100, 190, 130, 90, 150, 160, 120, 140, 190, 95]
         }]
       },
       options: {

@@ -66,11 +66,14 @@ def players():
     return render_template('player.html', data=data, teams=teams, error=error)
 
 
-@app.route('/sessionsummary/<player_name>', methods=['GET', ])
-def sessionsummary(player):
-    print(player)
-    requests.get()
-    return 'Session Summary'
+@app.route('/sessionsummary/<player_id>', methods=['GET', ])
+def sessionsummary(player_id):
+    s = requests.get('%s/session/?search=%s' % (API_BASE_URL,player_id))
+    if s.ok:
+        session = s.json()
+    else:
+        return(s.text)
+    return render_template('dashboard.html',data=session)
 
 
 @app.route('/session', methods=['GET', 'POST'])
