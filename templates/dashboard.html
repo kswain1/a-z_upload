@@ -51,7 +51,7 @@
                 </a>
               </li>
               <li>
-                <a href="./user.html">
+                <a href="{{ url_for('playerprofile') }}">
                   <i class="now-ui-icons users_single-02"></i>
                   <p>User Profile</p>
                 </a>
@@ -439,31 +439,40 @@
             gradientFill.addColorStop(1, "rgba(255, 255, 255, 0.24)");
 
             var myChart = new Chart(ctx, {
-              type: 'bar',
+              type: 'line',
               data: {
-                labels: ["Risk Areas"],
-                datasets: [
+                labels: ["Anterior Direction", "Post Medial Direction", "Post Lateral Direction", "Composite Score",],
+                datasets: [{
+                  label: "Data",
+                  borderColor: "#fd7e14",
+                  pointBorderColor: chartColor,
+                  pointBackgroundColor: "#1e3d60",
+                  pointHoverBackgroundColor: "#1e3d60",
+                  pointHoverBorderColor: chartColor,
+                  pointBorderWidth: 1,
+                  pointHoverRadius: 7,
+                  pointHoverBorderWidth: 2,
+                  pointRadius: 5,
+                  fill: true,
+                  backgroundColor: gradientFill,
+                  borderWidth: 2,
+                  data: [56, 94, 94, 80.36,]
+                },
                 {
-                  label: "Low",
-                  // borderColor: chartColor,
-                  // pointBorderColor: chartColor,
-                  // pointBackgroundColor: "#1e3d60",
-                  // pointHoverBackgroundColor: "#1e3d60",
-                  // pointHoverBorderColor: chartColor,
-                  // pointBorderWidth: 1,
-                  // pointHoverRadius: 7,
-                  // pointHoverBorderWidth: 2,
-                  // pointRadius: 5,
-                  // fill: true,
-                  // backgroundColor: gradientFill,
-                  // borderWidth: 2,
-                  "data": [{{ data.tib_anterior_rle[0] }}],
-                   "backgroundColor":'#EBCCD1' , //red
-                  },
-                  {
-                    "label": "Medium",
-                    "data": [{{ data.tib_anterior_rle[1] }}],
-                     "backgroundColor":'#FAEBCC' , //yellow
+                label: "Left Leg",
+                borderColor: "#90EE90",
+                 pointBorderColor: chartColor,
+                  pointBackgroundColor: "#1e3d60",
+                  pointHoverBackgroundColor: "#1e3d60",
+                  pointHoverBorderColor: chartColor,
+                  pointBorderWidth: 1,
+                  pointHoverRadius: 7,
+                  pointHoverBorderWidth: 2,
+                  pointRadius: 5,
+                  fill: true,
+                  backgroundColor: gradientFill,
+                  borderWidth: 2,
+                data: [69, 47, 92, 79.41]
                 }]
               },
               options: {
@@ -493,14 +502,12 @@
                 },
                 scales: {
                   yAxes: [{
-                    stacked: true,
                     ticks: {
                       fontColor: "rgba(255,255,255,0.4)",
                       fontStyle: "bold",
                       beginAtZero: true,
                       maxTicksLimit: 5,
-                      padding: 10,
-
+                      padding: 10
                     },
                     gridLines: {
                       drawTicks: true,
@@ -512,7 +519,6 @@
 
                   }],
                   xAxes: [{
-                    stacked: true,
                     gridLines: {
                       zeroLineColor: "transparent",
                       display: false,

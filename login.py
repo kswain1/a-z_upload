@@ -40,6 +40,9 @@ def trainer():
         return redirect(url_for('login'))
     return render_template('trainer.html')
 
+@app.route('/playerprofile', methods=['GET','POST'])
+def playerprofile():
+    return render_template('user.html')
 
 @app.route('/player', methods=['GET', 'POST'])
 def players():
