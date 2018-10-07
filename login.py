@@ -9,8 +9,8 @@ import json
 
 UPLOAD_FOLDER = '~/'
 ALLOWED_EXTENSIONS = set(['txt', 'csv', 'xlsx'])
-#API_BASE_URL = 'https://a-zapi.herokuapp.com'
-API_BASE_URL = 'http://localhost:8000'
+API_BASE_URL = 'https://a-zapi.herokuapp.com'
+#API_BASE_URL = 'http://localhost:8000'
 
 app = Flask(__name__)
 app.secret_key = 'precious'
@@ -66,8 +66,10 @@ def players():
     return render_template('player.html', data=data, teams=teams, error=error)
 
 
-@app.route('/sessionsummary', methods=['GET', ])
-def sessionsummary():
+@app.route('/sessionsummary/<player_name>', methods=['GET', ])
+def sessionsummary(player):
+    print(player)
+    requests.get()
     return 'Session Summary'
 
 
@@ -207,4 +209,4 @@ def upload_session():
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(port='8080',debug=True)
