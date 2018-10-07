@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+{% block title %}Create Session{% endblock %}
+{% block content %}
+    <h1 style="align-center" align="center">Create Session</h1>
+    {% if error %}
+        <div class="alert alert-danger" role="alert">
+            {{ error }}
+        </div>
+    {% endif %}
+    <form action="" method="post">
+        <div class="form-group">
+            <label for="player">Athlete Profile</label>
+            <select class="form-control" id="athlete_profile"
+            name="athlete_profile">
+            {% for profile in athlete_profiles %}
+                <option value="{{ profile.id }}">{{ profile.player_name }}</option>
+            {% endfor %}
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="peroneals_rle">Peroneals RLE</label>
+            <input type="text" class="form-control" id="tperoneals_rle" name="tperoneals_rle"
+            placeholder="Enter value" value="{{ data.peroneals_rle }}">
+        </div>
+        <div class="form-group">
+            <label for="peroneals_lle">Peroneals LLE</label>
+            <input type="text" class="form-control" id="peroneals_lle"
+            name="peroneals_lle"
+            placeholder="Enter value" value="{{ data.peroneals_lle }}">
+        </div>
+        <div class="form-group">
+            <label for="med_gastro_rle">Med Gastro RLE</label>
+            <input type="text" class="form-control" id="med_gastro_rle"
+            name="med_gastro_rle"
+            placeholder="Enter value" value="{{ data.med_gastro_rle }}">
+        </div>
+        <div class="form-group">
+            <label for="med_gastro_lle">Med Gastro LLE</label>
+            <input type="text" class="form-control" id="med_gastro_lle"
+            name="med_gastro_lle"
+            placeholder="Enter value" value="{{ data.med_gastro_lle }}">
+        </div>
+        <div class="form-group">
+            <label for="tib_anterior_rle">Tib Anterior RLE</label>
+            <input type="text" class="form-control" id="tib_anterior_rle"
+            name="tib_anterior_rle"
+            placeholder="Enter value" value="{{ data.tib_anterior_rle }}">
+        </div>
+        <div class="form-group">
+            <label for="tib_anterior_lle">Tib Anterior LLE</label>
+            <input type="text" class="form-control" id="tib_anterior_lle"
+            name="tib_anterior_lle"
+            placeholder="Enter value" value="{{ data.tib_anterior_lle }}">
+        </div>
+        <div class="form-group">
+            <label for="lat_gastro_rle">Lat Gastro RLE</label>
+            <input type="text" class="form-control" id="lat_gastro_rle"
+            name="lat_gastro_rle"
+            placeholder="Enter value" value="{{ data.lat_gastro_rle }}">
+        </div>
+        <div class="form-group">
+            <label for="lat_gastro_lle">Lat Gastro LLE</label>
+            <input type="text" class="form-control" id="lat_gastro_lle"
+            name="lat_gastro_lle"
+            placeholder="Enter value" value="{{ data.lat_gastro_lle }}">
+        </div>
+        <div class="form-group">
+            <label for="assessment">Assessment</label>
+            <textarea class="form-control" id="Assessment"
+            name="assessment" placeholder="Enter value">{{ data.assessment }}</textarea>
+        </div>
+        <div class="form-group">
+            <label for="treatment">Treatment</label>
+            <textarea class="form-control" id="" name="treatment"
+            placeholder="Enter value">{{ data.peroneals_rle }}</textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Create</button>
+    </form>
+{% endblock %}
+

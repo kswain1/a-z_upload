@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block title %}Create Session{% endblock %}
+{% block content %}
+    <h1 style="align-center" align="center">Create Session</h1>
+    {% if error %}
+        <div class="alert alert-danger" role="alert">
+            {{ error }}
+        </div>
+    {% endif %}
+    <form action="" method="post">
+        <div class="form-group">
+            <label for="player">Athlete Profile</label>
+            <select class="form-control" id="athlete_profile"
+            name="athlete_profile">
+            {% for profile in athlete_profiles %}
+                <option value="{{ profile.id }}">{{ profile.player_name }}</option>
+            {% endfor %}
+            </select>
+        </div>
+        <div class="input-group">
+             <label class="input-group-btn">
+                    <span class="btn btn-primary">
+                        Left leg upload&hellip; <input type="file" style="display: none;" multiple>
+                    </span>
+             </label>
+                <input type="text" class="form-control" readonly>
+        </div>
+        <div class="form-group">
+            <label class="input-group-btn">Upload Right Leg</label>
+            <input type="file", name="file", class="form-control",>
+        </div>
+        <div class="form-group">
+            <label class="input-group-btn">Upload Left Leg</label>
+            <input type="file", name="file-2", class="form-control",>
+        </div>
+    </form>
+{% endblock %}
+

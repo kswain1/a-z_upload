@@ -1,9 +1,15 @@
-<html>
-	<a href="https://www.w3schools.com">Visit W3Schools.com!</a>
-	<a class="typeform-share button" href="https://kehlinswain.typeform.com/to/AR8Im3" data-mode="popup" style="display:inline-block;text-decoration:none;background-color:#267DDD;color:white;cursor:pointer;font-family:Helvetica,Arial,sans-serif;font-size:20px;line-height:50px;text-align:center;margin:0;height:50px;padding:0px 33px;border-radius:25px;max-width:100%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-weight:bold;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;" target="_blank">Launch me
- 	</a> 
-
-	<script> (function() { var qs,js,q,s,d=document, gi=d.getElementById, ce=d.createElement, gt=d.getElementsByTagName, id="typef_orm_share", b="https://embed.typeform.com/"; if(!gi.call(d,id)){ js=ce.call(d,"script"); js.id=id; js.src=b+"embed.js"; q=gt.call(d,"script")[0]; q.parentNode.insertBefore(js,q) } })() 
-	</script>
-</html>
-
+{% extends "base.html" %}
+{% block title %}Trainer Page{% endblock %}
+{% block content %}
+    <h1 style="align-center" align="center">Welcome Trainer!</h1>
+    <div class="list-group">
+        <a href="{{ url_for('players') }}" class="list-group-item
+        list-group-item-action">Create Player</a>
+        <a href="{{ url_for('sessions') }}" class="list-group-item
+        list-group-item-action">Create Session</a>
+        <a href="{{ url_for('athletes') }}" class="list-group-item
+        list-group-item-action">List Players</a>
+        <a href="{{ url_for('upload_session') }}" class="list-group-item
+        list-group-item-action">Create Session via CSV</a>
+    </div>
+{% endblock %}

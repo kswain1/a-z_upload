@@ -78,17 +78,15 @@ class HomerTechniqueCSVReader:
         self.lat_gastro_rle = []
         self.lat_gastro_lle = []
 
-    def read_csv(contents,filename):
-        content_type, content_string = contents.split(',') #splits the content type from the content code
-        df = None
-        decoded_value = base64.b64decode(content_string)
+    def read_csv(filename):
+        # content_type, content_string = contents.split(',') #splits the content type from the content code
+        # df = None
+        # decoded_value = base64.b64decode(content_string)
         try:
-            if 'csv' in filename:
-                # Assumes the user uploaded a csv
-                df = pd.read_csv(io.StringIO(decoded_value.decode('utf-8')))
+            df = pd.read_csv(filename)
         except Exception as e:
             print(e)
-            return html.Div(['There was an error processing your file'])
+            return 'There was an error processing your file %s' % e
 
         # gets to data row
         emg_data = df[9:]
@@ -98,7 +96,7 @@ class HomerTechniqueCSVReader:
         emg_data = emg_data.drop(emg_data.columns[-1], axis=1)
 
         # setting columns labels
-        right_leg = ['time','tib_anterior_rle','peroneals_rle','med_gasto_rle','lat_gastro_rle']
+        right_leg = ['time','tib_anterior_rle','peroneals_rle','med_gastro_rle','lat_gastro_rle']
         left_leg = ['time','tib_anterior_lle','peroneals_lle','med_gastro_lle','lat_gastro_lle']
 
         if 'LT' in emg_data.iloc[0][2]:
@@ -114,9 +112,6 @@ class HomerTechniqueCSVReader:
         # functinos is for converting nureomuscular averages based on the three different angles
         """The three different areas bad > 66, 66 > ok > 33 good > 33"""
         #use a counter for each metric, then divide the counter by a 100
-        ok_counter = 0
-        good_counter = 0
-        bad_counter = 0
         payload_left = dict(tib_anterior_lle=[],peroneals_lle=[],med_gastro_lle=[],lat_gastro_lle=[])
         payload_right = dict(tib_anterior_rle=[],peroneals_rle=[],med_gastro_rle=[],lat_gastro_rle=[])
         # do it for one row, then create an iteration to go through all of the columns in the data frame
@@ -128,12 +123,14 @@ class HomerTechniqueCSVReader:
 
         #drop the time columns
         sum = sum.drop(columns=['time',])
-        if 'le' in sum._info_axis._values[1]:
+        if 'lle' in sum._info_axis._values[1]:
             for i in payload_left:
                 payload_left[i] = list(sum[i])
+            return payload_left
         else:
             for i in payload_right:
                 payload_right[i] = list(sum[i])
+            return payload_right
         payload = payload_left
         payload.update(payload_right)
 

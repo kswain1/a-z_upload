@@ -10,6 +10,9 @@ import pandas as pd
 import os
 import requests
 
+dash1 = dash.Dash(__name__, server = server, url_base_pathname='/dashboard/' )
+server = dash1.server
+
 # read data for tables (one df per table)
 df_fund_facts = pd.read_csv('https://plot.ly/~bdun9/2754.csv')
 df_price_perf = pd.read_csv('https://plot.ly/~bdun9/2756.csv')
@@ -138,25 +141,18 @@ noPage = html.Div([  # 404
     ], className="no-page")
 
 
-def myLayout():
-    layout = html.Div([
-        dcc.Location(id='url', refresh=False),
-        dcc.Upload(id='upload-data'),
-         html.Div(id='output-data-upload'),
-         html.Div(id='page-content'),
-         ])
 
 # Describe the layout, or the UI, of the app
-# app.layout = html.Div([
-#     dcc.Location(id='url', refresh=False),
-#     dcc.Upload(id='upload-data'),
-#     html.Div(id='output-data-upload'),
-#     html.Div(id='page-content'),
-# ])
+dash1.layout = html.Div([
+    dcc.Location(id='url', refresh=False),
+    dcc.Upload(id='upload-data'),
+    html.Div(id='output-data-upload'),
+    html.Div(id='page-content'),
+])
 
   
 # Update page
-@app.callback(dash.dependencies.Output('page-content', 'children'),
+@dash1.callback(dash.dependencies.Output('page-content', 'children'),
               [dash.dependencies.Input('url', 'pathname')])
 def display_page(pathname):
     if pathname == '/' or pathname == '/overview':
@@ -179,7 +175,7 @@ def display_page(pathname):
 from parser import parser_csv
 
 #upload data 
-@app.callback(Output('output-data-upload', 'children'),
+@dash1.callback(Output('output-data-upload', 'children'),
               [Input('upload-data', 'contents'),
               Input('upload-data', 'filename'),
               Input('upload-data','last_modified')])
@@ -201,12 +197,14 @@ external_css = ["https://cdnjs.cloudflare.com/ajax/libs/normalize/7.0.0/normaliz
                 "https://codepen.io/chriddyp/pen/bWLwgP.css",]
 
 for css in external_css:
-    app.css.append_css({"external_url": css})
+    dash1.css.append_css({"external_url": css})
 
 external_js = ["https://code.jquery.com/jquery-3.2.1.min.js",
                "https://codepen.io/bcd/pen/YaXojL.js"]
 
 for js in external_js:
-    app.scripts.append_script({"external_url": js})
+    dash1.scripts.append_script({"external_url": js})
 
 
+if __name__ == '__main__':
+    app.run_server(debug=True)
