@@ -70,10 +70,21 @@ def players():
 def sessionsummary(player_id):
     s = requests.get('%s/session/?search=%s' % (API_BASE_URL,player_id))
     if s.ok:
-        session = s.json()
+        session = s.json()[0]
+        print(s.json())
+        jsonDec = json.decoder.JSONDecoder()
+        for i in session:
+            if i != 'trainer_profile' and i != 'player_profile' and i != 'created_on' and i != 'assessment' and i != 'treatment':
+                # session[i] = jsonDec.decode(session[i])
+                session[i] = [float(item) for item in eval(session[i])]
+                # for item in eval(session[i]):
+                #     temp = []
+                #     temp.append(float(item))
+                # session[i] = temp
     else:
         return(s.text)
-    return render_template('dashboard.html',data=session)
+    player = requests.get('%s/player/%s' % (API_BASE_URL, player_id))
+    return render_template('dashboard.html',data=session, player=player.json())
 
 
 @app.route('/session', methods=['GET', 'POST'])
