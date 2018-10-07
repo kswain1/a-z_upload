@@ -20,7 +20,7 @@
             {% for player in data %}
                 <tr class="align-middle">
                     <td><img src="{{ url_for('static', filename='placeholder.png') }}" alt="Profile image" height="50" width="50"></td>
-                    <td><a href="{{ url_for('sessionsummary') }}">{{
+                    <td><a href="{{ url_for('sessionsummary', player_name=player.player_name) }}">{{
                     player.player_name }}</a></td>
                     <td>{{ player.team.team_name }}</td>
                     <td>0</td>
