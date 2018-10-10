@@ -1,4 +1,4 @@
-type: 'bar',
+       type: 'bar',
               data: {
                 labels: ["Risk Areas"],
                 datasets: [

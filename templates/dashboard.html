@@ -133,7 +133,7 @@
                         <div class="card card-chart">
                           <div class="card-header">
                             <h5 class="card-category">Muscular Fatigue Score</h5>
-                            <h4 class="card-title">Peroneals Left Leg</h4>
+                            <h4 class="card-title">Left Leg</h4>
                             <div class="dropdown">
                               <button type="button" class="btn btn-round btn-default dropdown-toggle btn-simple btn-icon no-caret" data-toggle="dropdown">
                                 <i class="now-ui-icons loader_gear"></i>
@@ -162,7 +162,7 @@
                     <div class="card card-chart">
                         <div class="card-header">
                             <h5 class="card-category">Muscle Fatigue Score</h5>
-                            <h4 class="card-title">Left Leg</h4>
+                            <h4 class="card-title">Right Leg</h4>
                             <div class="dropdown">
                               <button type="button" class="btn btn-round btn-default dropdown-toggle btn-simple btn-icon no-caret" data-toggle="dropdown">
                                 <i class="now-ui-icons loader_gear"></i>
@@ -179,7 +179,6 @@
                             <div class="chart-body">
                                 <canvas id="lineChartExampleWithNumbersAndGrid"></canvas>
                             </div>
-
                         </div>
                         <div class="card-footer">
                             <div class="stats">
@@ -188,9 +187,67 @@
                         </div>
                     </div>
                 </div>
-                    <div>
-                    </div>
                 </div>
+                <div class="row">
+                    <div class = "col-lg-6 col-md-6">
+                    <div class="card card-chart">
+                        <div class="card-header">
+                            <h5 class="card-category">Muscle Fatigue Score</h5>
+                            <h4 class="card-title">Right Leg</h4>
+                            <div class="dropdown">
+                              <button type="button" class="btn btn-round btn-default dropdown-toggle btn-simple btn-icon no-caret" data-toggle="dropdown">
+                                <i class="now-ui-icons loader_gear"></i>
+                              </button>
+                              <div class="dropdown-menu dropdown-menu-right">
+                                <a class="dropdown-item" href="#">Print</a>
+                                <a class="dropdown-item" href="#">Send</a>
+                                <a class="dropdown-item" href="#">Enlarge</a>
+                                <a class="dropdown-item text-danger" href="#">Remove Data</a>
+                              </div>
+                             </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="chart-body">
+                                <canvas id="StackedChart"></canvas>
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <div class="stats">
+                                <i class="now-ui-icons arrows-1_refresh-69"></i> Just Updated
+                            </div>
+                        </div>
+                         </div>
+                     </div>
+                    <div class = "col-lg-6 col-md-6" >
+                        <div class="card card-chart">
+                        <div class="card-header">
+                            <h5 class="card-category">Muscle Fatigue Score</h5>
+                            <h4 class="card-title">Left Leg</h4>
+                            <div class="dropdown">
+                              <button type="button" class="btn btn-round btn-default dropdown-toggle btn-simple btn-icon no-caret" data-toggle="dropdown">
+                                <i class="now-ui-icons loader_gear"></i>
+                              </button>
+                              <div class="dropdown-menu dropdown-menu-right">
+                                <a class="dropdown-item" href="#">Print</a>
+                                <a class="dropdown-item" href="#">Send</a>
+                                <a class="dropdown-item" href="#">Enlarge</a>
+                                <a class="dropdown-item text-danger" href="#">Remove Data</a>
+                              </div>
+                             </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="chart-body">
+                                <canvas id="StackedChartTwo"></canvas>
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <div class="stats">
+                                <i class="now-ui-icons arrows-1_refresh-69"></i> Just Updated
+                            </div>
+                        </div>
+                         </div>
+
+                    </div>
             </div>
         </div>
     </div>
@@ -238,7 +295,7 @@
             gradientChartOptionsConfiguration = {
               maintainAspectRatio: false,
               legend: {
-                display: false
+                display: true
               },
               tooltips: {
                 bodySpacing: 4,
@@ -255,7 +312,7 @@
                   display: 0,
                   gridLines: 0,
                   ticks: {
-                    display: false
+                    display: true
                   },
                   gridLines: {
                     zeroLineColor: "transparent",
@@ -268,7 +325,7 @@
                   display: 0,
                   gridLines: 0,
                   ticks: {
-                    display: false
+                    display: true
                   },
                   gridLines: {
                     zeroLineColor: "transparent",
@@ -402,9 +459,11 @@
                   gridLines: {
                     zeroLineColor: "transparent",
                     drawBorder: false
-                  }
+                  },
+                  stacked: true,
                 }],
                 xAxes: [{
+                  stacked: true,
                   display: 0,
                   gridLines: 0,
                   ticks: {
@@ -428,6 +487,153 @@
               }
             };
 
+            //stacked bar chart builder
+            var ctx = document.getElementById('StackedChart').getContext("2d");
+            var gradientStroke = ctx.createLinearGradient(500, 0, 100, 0);
+            gradientStroke.addColorStop(0, '#80b6f4');
+            gradientStroke.addColorStop(1, chartColor);
+
+            var gradientFill = ctx.createLinearGradient(0, 200, 0, 50);
+            gradientFill.addColorStop(0, "rgba(128, 182, 244, 0)");
+            gradientFill.addColorStop(1, "rgba(255, 255, 255, 0.24)");
+
+            var StackedBar = new Chart(ctx, {
+                type: 'bar',
+              data: {
+                labels: ["Tib Anterior"," Peroneals", "Med Gastro", "Lat Gastro"],
+                datasets: [
+                {
+                  label: "Bad",
+                  borderColor: "#d00c0c",
+                  pointBorderColor: chartColor,
+                  pointBackgroundColor: "#1e3d60",
+                  pointHoverBackgroundColor: "#1e3d60",
+                  pointHoverBorderColor: chartColor,
+                  pointBorderWidth: 1,
+                  pointHoverRadius: 7,
+                  pointHoverBorderWidth: 2,
+                  pointRadius: 5,
+                  fill: true,
+                  backgroundColor: gradientFill,
+                  borderWidth: 2,
+                  data:[ {{ data.tib_anterior_rle[0] }}, {{ data.peroneals_rle[0] }}, {{ data.med_gastro_rle[0] }},
+                            {{ data.lat_gastro_rle[0] }} ],
+                   //"backgroundColor":'#EBCCD1' , //red
+                  },
+                  {
+                    label: "Ok",
+                    borderColor: "#fd7e14",
+                    pointBorderColor: chartColor,
+                    pointBackgroundColor: "#1e3d60",
+                    pointHoverBackgroundColor: "#1e3d60",
+                    pointHoverBorderColor: chartColor,
+                    pointBorderWidth: 1,
+                    pointHoverRadius: 7,
+                    pointHoverBorderWidth: 2,
+                    pointRadius: 5,
+                    fill: true,
+                    backgroundColor: gradientFill,
+                    borderWidth: 2,
+                    data: [ {{ data.tib_anterior_rle[1] }}, {{ data.peroneals_rle[1] }}, {{ data.med_gastro_rle[1] }},
+                            {{ data.lat_gastro_rle[1] }} ],
+                },
+                {
+                  label: "Good",
+                  borderColor: "#20df20",
+                  pointBorderColor: chartColor,
+                  pointBackgroundColor: "#1e3d60",
+                  pointHoverBackgroundColor: "#1e3d60",
+                  pointHoverBorderColor: chartColor,
+                  pointBorderWidth: 1,
+                  pointHoverRadius: 7,
+                  pointHoverBorderWidth: 2,
+                  pointRadius: 5,
+                  fill: true,
+                  backgroundColor: gradientFill,
+                  borderWidth: 2,
+                  data: [{{ data.tib_anterior_rle[2] }}, {{ data.peroneals_rle[2] }}, {{ data.med_gastro_rle[2] }},
+                            {{ data.lat_gastro_rle[2] }}],
+                }
+                ]
+              },
+              options: gradientChartOptionsConfigurationWithNumbersAndGrid,
+
+            });
+
+            //stacked bar chart builder for second aleg
+            var ctx = document.getElementById('StackedChartTwo').getContext("2d");
+            var gradientStroke = ctx.createLinearGradient(500, 0, 100, 0);
+            gradientStroke.addColorStop(0, '#80b6f4');
+            gradientStroke.addColorStop(1, chartColor);
+
+            var gradientFill = ctx.createLinearGradient(0, 200, 0, 50);
+            gradientFill.addColorStop(0, "rgba(128, 182, 244, 0)");
+            gradientFill.addColorStop(1, "rgba(255, 255, 255, 0.24)");
+
+            var StackedBar = new Chart(ctx, {
+                type: 'bar',
+              data: {
+                labels: ["Tib Anterior"," Peroneals", "Med Gastro", "Lat Gastro"],
+                datasets: [
+                {
+                  label: "Bad",
+                  labelColor: "Green",
+                  borderColor: "#fd7e14",
+                  pointBorderColor: chartColor,
+                  pointBackgroundColor: "#1e3d60",
+                  pointHoverBackgroundColor: "#1e3d60",
+                  pointHoverBorderColor: chartColor,
+                  pointBorderWidth: 1,
+                  pointHoverRadius: 7,
+                  pointHoverBorderWidth: 2,
+                  pointRadius: 5,
+                  fill: true,
+                  backgroundColor: "red",
+                  borderWidth: 2,
+                  data:[ {{ data.tib_anterior_rle[0] }}, {{ data.peroneals_rle[0] }}, {{ data.med_gastro_rle[0] }},
+                            {{ data.lat_gastro_rle[0] }} ],
+                   //"backgroundColor":'#EBCCD1' , //red
+                  },
+                  {
+                    label: "Ok",
+                    borderColor: "#fd7e14",
+                    pointBorderColor: chartColor,
+                    pointBackgroundColor: "#1e3d60",
+                    pointHoverBackgroundColor: "#1e3d60",
+                    pointHoverBorderColor: chartColor,
+                    pointBorderWidth: 1,
+                    pointHoverRadius: 7,
+                    pointHoverBorderWidth: 2,
+                    pointRadius: 5,
+                    fill: true,
+                    backgroundColor: "yellow",
+                    borderWidth: 2,
+                    data: [ {{ data.tib_anterior_rle[1] }}, {{ data.peroneals_rle[1] }}, {{ data.med_gastro_rle[1] }},
+                            {{ data.lat_gastro_rle[1] }} ],
+                },
+                {
+                  label: "Good",
+                  borderColor: "#20df20",
+                  pointBorderColor: chartColor,
+                  pointBackgroundColor: "#1e3d60",
+                  pointHoverBackgroundColor: "#1e3d60",
+                  pointHoverBorderColor: chartColor,
+                  pointBorderWidth: 1,
+                  pointHoverRadius: 7,
+                  pointHoverBorderWidth: 2,
+                  pointRadius: 5,
+                  fill: true,
+                  backgroundColor: "green",
+                  borderWidth: 2,
+                  data: [{{ data.tib_anterior_rle[2] }}, {{ data.peroneals_rle[2] }}, {{ data.med_gastro_rle[2] }},
+                            {{ data.lat_gastro_rle[2] }}],
+                }
+                ]
+              },
+              options:  gradientChartOptionsConfigurationWithNumbersAndGrid,
+            });
+
+
             var ctx = document.getElementById('bigDashboardChart').getContext("2d");
 
             var gradientStroke = ctx.createLinearGradient(500, 0, 100, 0);
@@ -442,7 +648,7 @@
               type: 'line',
               data: {
                 labels: ["Anterior Direction", "Post Medial Direction", "Post Lateral Direction", "Composite Score",],
-                datasets: [{
+                 datasets: [{
                   label: "Data",
                   borderColor: "#fd7e14",
                   pointBorderColor: chartColor,
@@ -547,11 +753,15 @@
             gradientFill.addColorStop(0, "rgba(128, 182, 244, 0)");
             gradientFill.addColorStop(1, "rgba(249, 99, 59, 0.40)");
 
+            gradientFillTwo = ctx.createLinearGradient(0, 300, 0, 50);
+            gradientFill.addColorStop(0, "rgba(128, 200, 244, 0)");
+            gradientFill.addColorStop(1, "rgba(249, 99, 59, 0.40)");
+
             myChart = new Chart(ctx, {
-              type: 'line',
+              type: 'bar',
               responsive: true,
               data: {
-                labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+                labels: ["Peroneal Left Leg", "Feb", "Mar",],
                 datasets: [{
                   label: "Active Users",
                   borderColor: "#f96332",
@@ -564,10 +774,64 @@
                   fill: true,
                   backgroundColor: gradientFill,
                   borderWidth: 2,
-                  data: [542, 480, 430, 550, 530, 453, 380, 434, 568, 610, 700, 630]
+                  data: [542, 480, 430, 550,]
+                },
+                {
+                  label: "Left Leg",
+                  borderColor: "#90EE90",
+                  pointBorderColor: chartColor,
+                  pointBackgroundColor: "#1e3d60",
+                  pointHoverBackgroundColor: "#1e3d60",
+                  pointHoverBorderColor: chartColor,
+                  pointBorderWidth: 1,
+                  pointHoverRadius: 7,
+                  pointHoverBorderWidth: 2,
+                  pointRadius: 5,
+                  fill: true,
+                  backgroundColor: gradientFill,
+                  borderWidth: 2,
+                  data: [69, 47, 92, 79.41]
                 }]
               },
-              options: gradientChartOptionsConfiguration
+              options: gradientChartOptionsConfiguration,
+              legend: {
+                  position: "bottom",
+                  fillStyle: "#FFF",
+                  display: true,
+                },
+                scales: {
+                    yAxes: [{
+                        stacked: true,
+                        ticks: {
+                          fontColor: "rgba(255,255,255,0.4)",
+                          fontStyle: "bold",
+                          beginAtZero: true,
+                          maxTicksLimit: 5,
+                          padding: 10
+                        },
+                        gridLines: {
+                          drawTicks: true,
+                          drawBorder: false,
+                          display: true,
+                          color: "rgba(255,255,255,0.1)",
+                          zeroLineColor: "transparent"
+                        }
+
+                      }],
+                      xAxes: [{
+                        stacked: true,
+                        gridLines: {
+                          zeroLineColor: "transparent",
+                          display: false,
+
+                        },
+                        ticks: {
+                          padding: 10,
+                          fontColor: "rgba(255,255,0,0.4)",
+                          fontStyle: "bold"
+                        }
+                      }]
+                }
             });
 
 
@@ -604,80 +868,6 @@
               options: gradientChartOptionsConfigurationWithNumbersAndGrid
             });
 
-            var e = document.getElementById("barChartSimpleGradientsNumbers").getContext("2d");
-
-            gradientFill = ctx.createLinearGradient(0, 170, 0, 50);
-            gradientFill.addColorStop(0, "rgba(128, 182, 244, 0)");
-            gradientFill.addColorStop(1, hexToRGB('#2CA8FF', 0.6));
-
-            var a = {
-              type: "bar",
-              data: {
-                labels: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
-                datasets: [{
-                  label: "Active Countries",
-                  backgroundColor: gradientFill,
-                  borderColor: "#2CA8FF",
-                  pointBorderColor: "#FFF",
-                  pointBackgroundColor: "#2CA8FF",
-                  pointBorderWidth: 2,
-                  pointHoverRadius: 4,
-                  pointHoverBorderWidth: 1,
-                  pointRadius: 4,
-                  fill: true,
-                  borderWidth: 1,
-                  data: [80, 99, 86, 96, 123, 85, 100, 75, 88, 90, 123, 155]
-                }]
-              },
-              options: {
-                maintainAspectRatio: false,
-                legend: {
-                  display: false
-                },
-                tooltips: {
-                  bodySpacing: 4,
-                  mode: "nearest",
-                  intersect: 0,
-                  position: "nearest",
-                  xPadding: 10,
-                  yPadding: 10,
-                  caretPadding: 10
-                },
-                responsive: 1,
-                scales: {
-                  yAxes: [{
-                    gridLines: 0,
-                    gridLines: {
-                      zeroLineColor: "transparent",
-                      drawBorder: false
-                    }
-                  }],
-                  xAxes: [{
-                    display: 0,
-                    gridLines: 0,
-                    ticks: {
-                      display: false
-                    },
-                    gridLines: {
-                      zeroLineColor: "transparent",
-                      drawTicks: false,
-                      display: false,
-                      drawBorder: false
-                    }
-                  }]
-                },
-                layout: {
-                  padding: {
-                    left: 0,
-                    right: 0,
-                    top: 15,
-                    bottom: 15
-                  }
-                }
-              }
-            };
-
-            var viewsChart = new Chart(e, a);
           },
 
           initGoogleMaps: function() {
