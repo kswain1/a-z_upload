@@ -6,13 +6,66 @@
     <title>Report</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/pdf-view.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/column-view.css')}}">
 </head>
 <body>
-    <div class="row gs-header gs-text-header">
-        <div class="twelve columns padded">
-            <h5>  Athlete Risk Report</h5>
+<div class="page">
+    <div class="subpage">
+        <div class="row gs-header gs-text-header">
+            <div class="twelve columns padded">
+                <h5>  Athlete Risk Report</h5>
+            </div>
+        </div>
+        <div class="row">
+            <a href="/overview" class="tab first"> Overview</a>
+            <a href="/compostiescore" class="tab">Composite Score</a>
+            <a href="/ViewPlayers" class="tab">View Players</a>
+            <a href="" class="tab">Create Player</a>
+        </div>
+        <!--Row 3-->
+        <div class="row">
+            <div class="six columns">
+                <h6 class="gs-header gs-text-header padded"> Medical History</h6>
+                <img src="{{ url_for('static', filename='placeholder.png') }}" alt="Profile image" height="100" width="100">
+                <h7 align="center"> Player Name</h7>
+                <h7 align="center"> Age</h7>
+            </div>
+            <div class="six columns">
+                <h6 class="gs-header gs-text-header padded"> Injury Risk Score</h6>
+                <h1 class="padded" align="center"> 5 </h1>
+            </div>
+        </div>
+        <!--Row 4-->
+        <div class="row">
+            <div class="six columns">
+                <h6 class="gs-header gs-text-header padded"> Right Lower Extremity</h6>
+                <img src="{{ url_for('static', filename='placeholder.png') }}" alt="Profile image" height="100" width="100">
+                <h7 align="center"> Player Name</h7>
+                <h7 align="center"> Age</h7>
+            </div>
+            <div class="six columns">
+                <h6 class="gs-header gs-text-header padded"> Left Lower Extremity</h6>
+                <h1 class="padded" align="center"> 5 </h1>
+            </div>
+        </div>
+        <!--Row 5-->
+        <div class="row">
+            <div class="six columns">
+                <h6 class="gs-header gs-text-header padded">Assessment </h6>
+                <img src="{{ url_for('static', filename='placeholder.png') }}" alt="Profile image" height="100" width="100">
+                <h7 align="center"> Player Name</h7>
+                <h7 align="center"> Age</h7>
+            </div>
+            <div class="six columns">
+                <h6 class="gs-header gs-text-header padded"> Treatment</h6>
+                <h1 class="padded" align="center"> 5 </h1>
+            </div>
         </div>
     </div>
+</div>
 </body>
+<footer>
+
+</footer>
 </html>
 {% endblock %}
