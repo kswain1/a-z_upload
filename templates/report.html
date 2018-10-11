@@ -39,13 +39,11 @@
         <div class="row">
             <div class="six columns">
                 <h6 class="gs-header gs-text-header padded"> Right Lower Extremity</h6>
-                <img src="{{ url_for('static', filename='placeholder.png') }}" alt="Profile image" height="100" width="100">
-                <h7 align="center"> Player Name</h7>
-                <h7 align="center"> Age</h7>
+                <canvas id="myChart2"></canvas>
             </div>
             <div class="six columns">
                 <h6 class="gs-header gs-text-header padded"> Left Lower Extremity</h6>
-                <h1 class="padded" align="center"> 5 </h1>
+                <canvas id="myChart"></canvas>
             </div>
         </div>
         <!--Row 5-->
@@ -65,6 +63,110 @@
 </div>
 </body>
 <footer>
+    <script src= "{{url_for('static',filename='js/plugins/chartjs.min.js') }}"> </script>
+    <script type="text/javascript">
+    var ctx = document.getElementById("myChart").getContext('2d');
+    var myChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+        labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
+        datasets: [{
+            label: '# of Votes',
+            data: [12, 19, 3, 5, 2, 3],
+            backgroundColor: [
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(54, 162, 235, 0.2)',
+                'rgba(255, 206, 86, 0.2)',
+                'rgba(75, 192, 192, 0.2)',
+                'rgba(153, 102, 255, 0.2)',
+                'rgba(255, 159, 64, 0.2)'
+            ],
+            borderColor: [
+                'rgba(255,99,132,1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(255, 159, 64, 1)'
+            ],
+            borderWidth: 1
+        },
+        {
+           label: 'Peroneals',
+            data: [12, 20, 15, 10, 5, 16],
+            backgroundColor: [
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(54, 162, 235, 0.2)',
+                'rgba(255, 206, 86, 0.2)',
+                'rgba(75, 192, 192, 0.2)',
+                'rgba(153, 102, 255, 0.2)',
+                'rgba(255, 159, 64, 0.2)'
+            ],
+            borderColor: [
+                'rgba(255,99,132,1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(255, 159, 64, 1)'
+            ],
+            borderWidth: 1
+        },]
+    },
+        options: {
+            scales: {
+                yAxes: [{
+                    stacked:true,
+                    ticks: {
+                        beginAtZero:true
+                    }
+                }],
+                xAxes: [{
+                    stacked:true,
+                }]
+            }
+        }
+        });
+    </script>
+    <script>
+         var ctx = document.getElementById("myChart2").getContext('2d');
+    var myChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+        labels: ["Peroneals","Med Gastro","Lat Gastro","Tib Anterior"],
+        datasets: [{
+            label: '# of Votes',
+            data: [12, 19, 2, 3],
+            backgroundColor: [
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(54, 162, 235, 0.2)',
+                'rgba(255, 206, 86, 0.2)',
+                'rgba(75, 192, 192, 0.2)',
+                'rgba(153, 102, 255, 0.2)',
+                'rgba(255, 159, 64, 0.2)'
+            ],
+            borderColor: [
+                'rgba(255,99,132,1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(255, 159, 64, 1)'
+            ],
+            borderWidth: 1
+        }]
+    },
+        options: {
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero:true
+                    }
+                }]
+            }
+        }
+        });
+    </script>
 
 </footer>
 </html>
