@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+{% block content %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Report</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/pdf-view.css') }}">
+</head>
+<body>
+    <div class="row gs-header gs-text-header">
+        <div class="twelve columns padded">
+            <h5>  Athlete Risk Report</h5>
+        </div>
+    </div>
+</body>
+</html>
+{% endblock %}

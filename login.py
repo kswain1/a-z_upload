@@ -89,6 +89,10 @@ def sessionsummary(player_id):
     player = requests.get('%s/player/%s' % (API_BASE_URL, player_id))
     return render_template('dashboard.html',data=session, player=player.json())
 
+@app.route('/reportsummary/', methods=['GET'])
+def reportsummmary():
+    return render_template('report.html')
+
 
 @app.route('/session', methods=['GET', 'POST'])
 def sessions():
