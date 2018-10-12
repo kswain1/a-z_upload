@@ -27,8 +27,8 @@
             <div class="six columns">
                 <h6 class="gs-header gs-text-header padded"> Medical History</h6>
                 <img src="{{ url_for('static', filename='placeholder.png') }}" alt="Profile image" height="100" width="100">
-                <h7 align="center"> Player Name</h7>
-                <h7 align="center"> Age</h7>
+                <h7 align="center"> {{player.player_name}}</h7>
+                <h7 align="center"> {{player.user_age}}</h7>
             </div>
             <div class="six columns">
                 <h6 class="gs-header gs-text-header padded"> Injury Risk Score</h6>
@@ -118,7 +118,7 @@
         var layout = {
             barmode: 'stack',
             title: 'NeuroScore',
-            yaxis: {title: 'Nueormuscular'}
+            yaxis: {title: 'Nueromuscular'}
 
         };
 
