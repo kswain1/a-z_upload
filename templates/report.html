@@ -68,23 +68,27 @@
     <script>
         var trace1 = {
         x: ['Peroneals', 'Tib Anterior', 'Lat Gastro', 'Med Gastro'],
-        y: [20, 14, 23, 25],
+        y: [{{data.peroneals_rle[2]}}, {{data.tib_anterior_rle[2]}}, {{data.lat_gastro_rle[2]}}, {{data.med_gastro_rle[2]}}],
         name: 'Good',
-        type: 'bar'
+        type: 'bar',
+        marker :{ color:'rgba(0,128,0,0.6)',}
         };
 
         var trace2 = {
         x: ['Peroneals', 'Tib Anterior', 'Lat Gastro', 'Med Gastro'],
-        y: [10, 15, 30, 38],
+        y: [{{data.peroneals_rle[1]}}, {{data.tib_anterior_rle[1]}}, {{data.lat_gastro_rle[1]}}, {{data.med_gastro_rle[1]}}],
         name: 'Ok',
-        type: 'bar'
+        type: 'bar',
+        marker : {color: 'rgba(255,255,0,0.6)'}
+
         };
 
         var trace3 = {
         x: ['Peroneals', 'Tib Anterior', 'Lat Gastro', 'Med Gastro'],
-        y: [10, 15, 30, 40],
+        y: [{{data.peroneals_rle[0]}}, {{data.tib_anterior_rle[0]}}, {{data.lat_gastro_rle[0]}}, {{data.med_gastro_rle[0]}}],
         name: 'Ok',
-        type: 'bar'
+        type: 'bar',
+        marker : {color: 'rgba(255,0,0,0.6)'}
         };
 
         var data = [trace1, trace2, trace3];
@@ -95,23 +99,26 @@
     <script>
         var trace1 = {
         x: ['Peroneals', 'Tib Anterior', 'Lat Gastro', 'Med Gastro'],
-        y: [20, 14, 23, 25],
+        y: [{{data.peroneals_lle[2]}}, {{data.tib_anterior_lle[2]}}, {{data.lat_gastro_lle[2]}}, {{data.med_gastro_lle[2]}}],
         name: 'Good',
-        type: 'bar'
+        type: 'bar',
+        marker :{ color:'rgba(0,128,0,0.6)',}
         };
 
         var trace2 = {
         x: ['Peroneals', 'Tib Anterior', 'Lat Gastro', 'Med Gastro'],
-        y: [10, 15, 30, 38],
+        y: [{{data.peroneals_lle[1]}}, {{data.tib_anterior_lle[1]}}, {{data.lat_gastro_lle[1]}}, {{data.med_gastro_lle[1]}}],
         name: 'Ok',
-        type: 'bar'
+        type: 'bar',
+        marker : {color: 'rgba(255,255,0,0.6)'}
         };
 
         var trace3 = {
         x: ['Peroneals', 'Tib Anterior', 'Lat Gastro', 'Med Gastro'],
-        y: [10, 15, 30, 40],
+        y: [{{data.peroneals_lle[0]}}, {{data.tib_anterior_lle[0]}}, {{data.lat_gastro_lle[0]}}, {{data.med_gastro_lle[0]}}],
         name: 'Bad',
-        type: 'bar'
+        type: 'bar',
+        marker : {color: 'rgba(255,0,0,0.6)'}
         };
 
         var data = [trace1, trace2, trace3];
@@ -123,131 +130,6 @@
         };
 
         Plotly.newPlot('LeftLowerExtremity', data, layout);
-    </script>
-    <script type="text/javascript">
-    var ctx = document.getElementById("myChart").getContext('2d');
-    var myChart = new Chart(ctx, {
-    type: 'bar',
-    data: {
-        labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
-        datasets: [{
-            label: 'Good',
-            data: [12, 19, 3, 5, 2, 3],
-            backgroundColor: [
-                'rgba(255, 99, 132, 0.2)',
-                'rgba(54, 162, 235, 0.2)',
-                'rgba(255, 206, 86, 0.2)',
-                'rgba(75, 192, 192, 0.2)',
-                'rgba(153, 102, 255, 0.2)',
-                'rgba(255, 159, 64, 0.2)'
-            ],
-            borderColor: [
-                'rgba(255,99,132,1)',
-                'rgba(54, 162, 235, 1)',
-                'rgba(255, 206, 86, 1)',
-                'rgba(75, 192, 192, 1)',
-                'rgba(153, 102, 255, 1)',
-                'rgba(255, 159, 64, 1)'
-            ],
-            borderWidth: 1
-        },
-        {
-           label: 'OK',
-            data: [12, 20, 15, 10, 5, 16],
-            backgroundColor: [
-                'rgba(255, 99, 132, 0.2)',
-                'rgba(54, 162, 235, 0.2)',
-                'rgba(255, 206, 86, 0.2)',
-                'rgba(75, 192, 192, 0.2)',
-                'rgba(153, 102, 255, 0.2)',
-                'rgba(255, 159, 64, 0.2)'
-            ],
-            borderColor: [
-                'rgba(255,99,132,1)',
-                'rgba(54, 162, 235, 1)',
-                'rgba(255, 206, 86, 1)',
-                'rgba(75, 192, 192, 1)',
-                'rgba(153, 102, 255, 1)',
-                'rgba(255, 159, 64, 1)'
-            ],
-            borderWidth: 1
-        },
-        {
-           label: 'Bad',
-            data: [12, 20, 15, 10, 5, 16],
-            backgroundColor: [
-                'rgba(255, 99, 132, 0.2)',
-                'rgba(54, 162, 235, 0.2)',
-                'rgba(255, 206, 86, 0.2)',
-                'rgba(75, 192, 192, 0.2)',
-                'rgba(153, 102, 255, 0.2)',
-                'rgba(255, 159, 64, 0.2)'
-            ],
-            borderColor: [
-                'rgba(255,99,132,1)',
-                'rgba(54, 162, 235, 1)',
-                'rgba(255, 206, 86, 1)',
-                'rgba(75, 192, 192, 1)',
-                'rgba(153, 102, 255, 1)',
-                'rgba(255, 159, 64, 1)'
-            ],
-            borderWidth: 1
-        },
-        ]
-    },
-        options: {
-            scales: {
-                yAxes: [{
-                    stacked:true,
-                    ticks: {
-                        beginAtZero:true
-                    }
-                }],
-                xAxes: [{
-                    stacked:true,
-                }]
-            }
-        }
-        });
-    </script>
-    <script>
-         var ctx = document.getElementById("myChart2").getContext('2d');
-    var myChart = new Chart(ctx, {
-    type: 'bar',
-    data: {
-        labels: ["Peroneals","Med Gastro","Lat Gastro","Tib Anterior"],
-        datasets: [{
-            label: '# of Votes',
-            data: [12, 19, 2, 3],
-            backgroundColor: [
-                'rgba(255, 99, 132, 0.2)',
-                'rgba(54, 162, 235, 0.2)',
-                'rgba(255, 206, 86, 0.2)',
-                'rgba(75, 192, 192, 0.2)',
-                'rgba(153, 102, 255, 0.2)',
-                'rgba(255, 159, 64, 0.2)'
-            ],
-            borderColor: [
-                'rgba(255,99,132,1)',
-                'rgba(54, 162, 235, 1)',
-                'rgba(255, 206, 86, 1)',
-                'rgba(75, 192, 192, 1)',
-                'rgba(153, 102, 255, 1)',
-                'rgba(255, 159, 64, 1)'
-            ],
-            borderWidth: 1
-        }]
-    },
-        options: {
-            scales: {
-                yAxes: [{
-                    ticks: {
-                        beginAtZero:true
-                    }
-                }]
-            }
-        }
-        });
     </script>
 
 </footer>
