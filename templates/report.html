@@ -18,7 +18,7 @@
         </div>
         <div class="row">
             <a href="/overview" class="tab first"> Overview</a>
-            <a href="/compostiescore" class="tab">Composite Score</a>
+            <a href="{{ url_for('composite/{{player}}')}}" class="tab">Composite Score</a>
             <a href="/ViewPlayers" class="tab">View Players</a>
             <a href="" class="tab">Create Player</a>
         </div>
@@ -50,13 +50,20 @@
         <div class="row">
             <div class="six columns">
                 <h6 class="gs-header gs-text-header padded">Assessment </h6>
-                <!--<div id="PlotlyCharts">-->
+                <form action="" method="post">
+                <textarea rows="4" cols="80" class="form-control" placeholder="Here can be your description"
+                          data-gramm="true" data-txt_gramm_id="2312b9e1-3cda-b15c-deaa-8041554e2abc"
+                          data-gramm_id="2312b9e1-3cda-b15c-deaa-8041554e2abc" spellcheck="false" data-gramm_editor="true"
+                          id="Assessment"
+                          style="z-index: auto; position: relative; line-height: 23.9988px;
+                          font-size: 11.9994px; transition: none 0s ease 0s; background: transparent !important;">{{update.assessment}}</textarea>
+                <button type="submit">Create</button>
+                </form>
 
-                <!--</div>-->
             </div>
             <div class="six columns">
                 <h6 class="gs-header gs-text-header padded"> Treatment</h6>
-                <h1 class="padded" align="center"> 5 </h1>
+                <textarea rows="4" cols="80" class="form-control" placeholder="Treatment description here" value="Treatment" data-gramm="true" data-txt_gramm_id="2312b9e1-3cda-b15c-deaa-8041554e2abc" data-gramm_id="2312b9e1-3cda-b15c-deaa-8041554e2abc" spellcheck="false" data-gramm_editor="true" style="z-index: auto; position: relative; line-height: 23.9988px; font-size: 11.9994px; transition: none 0s ease 0s; background: transparent !important;"></textarea>
             </div>
         </div>
     </div>
