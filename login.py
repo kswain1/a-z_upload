@@ -123,6 +123,45 @@ def composite(player_id):
     s = requests.get('%s/session/?search=%s' % (API_BASE_URL, player_id))
     return render_template('composite.html', player=player_id)
 
+@app.route('/updatesession/<player_id>', methods=['GET','POST'])
+def update_session(player_id):
+    error = ""
+    headers = {
+        'Authorization': 'Token %s' % session['access_token'],
+    }
+
+    player_session = requests.get('%s/session/?search=%s' % (API_BASE_URL, player_id), headers=headers)
+
+    player_session = player_session.json()[-1]
+    print(player_session)
+    if request.method == ' POST':
+        payload = {
+            'player_profile': request.form.get('athlete_profile', ''),
+            'peroneals_rle': request.form.get('peroneals_rle', ''),
+            'peroneals_lle': request.form.get('peroneals_lle', ''),
+            'med_gastro_rle': request.form.get('med_gastro_rle', ''),
+            'med_gastro_lle': request.form.get('med_gastro_lle', ''),
+            'tib_anterior_lle': request.form.get('tib_anterior_lle', ''),
+            'tib_anterior_rle': request.form.get('tib_anterior_rle', ''),
+            'lat_gastro_lle': request.form.get('lat_gastro_lle', ''),
+            'lat_gastro_rle': request.form.get('lat_gastro_rle', ''),
+            'assessment': request.form.get('assessment', ''),
+            'treatment': request.form.get('treatment', ''),
+        }
+        session_id = request.form.get('session_id', '')
+
+
+        res = requests.put('%s/session/%s' % (API_BASE_URL, session_id), data=payload,
+                              headers=headers)
+
+        if res.ok:
+            return redirect(url_for('trainer'))
+        else:
+            error = 'Error creating session, code: %s' % res.status_code
+
+    return render_template('asessment.html',data=player_session, error=error)
+
+
 @app.route('/session', methods=['GET', 'POST'])
 def sessions():
     if 'username' not in session:
@@ -161,6 +200,7 @@ def sessions():
         ## end of get players session
         res = requests.post('%s/session/%s' % API_BASE_URL, data=payload,
                             headers=headers)
+        print(res)
         if res.ok:
             return redirect(url_for('trainer'))
         else:
