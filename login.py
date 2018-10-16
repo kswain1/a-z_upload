@@ -137,6 +137,7 @@ def createcomposite():
     s = requests.get('%s/composite/' % API_BASE_URL)
     payload = {
         'player_profile': request.form.get('athlete_profile', ''),
+        'risk_area':request.form.get('injuries',),
         'post_medial_direction_rle': request.form.get('peroneals_rle', ''),
         'post_medial_direction_lle': request.form.get('peroneals_lle', ''),
         'ant_direction_rle': request.form.get('med_gastro_rle', ''),
@@ -159,9 +160,10 @@ def createcomposite():
         else:
             error = 'Error creating session, code: %s' % res.status_code
     res = requests.get('%s/api/player/' % API_BASE_URL, headers=headers)
+    injuries = requests.get('%s/api/injury' % API_BASE_URL, headers=headers).json()
     athlete_profiles = res.json()
     print(athlete_profiles)
-    return render_template('createcomposite.html', error=error, data=payload, athletes_profiles=athlete_profiles)
+    return render_template('createcomposite.html', error=error, data=payload, athletes_profiles=athlete_profiles, injuries=injuries)
 
 @app.route('/updatesession/<player_id>', methods=['GET','POST'])
 def update_session(player_id):
