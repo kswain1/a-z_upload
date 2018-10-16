@@ -18,40 +18,62 @@
             </div>
         </div>
         <div class="row">
-            <a href="/overview" class="tab first"> Overview</a>
+            <a href="{{url_for('trainer')}}" class="tab first"> Overview</a>
             <a href="/compostiescore" class="tab">Composite Score</a>
             <a href="/ViewPlayers" class="tab">View Players</a>
             <a href="" class="tab">Create Player</a>
         </div>
         <!--Row 3-->
         <div class="row">
-            <div class="twelve columns">
+            <div class="twelve columns align-middle" align="center">
                 <table class="table">
                 <thead>
             <tr>
-                <th scope="col">Image</th>
-                <th scope="col">Name</th>
-                <th scope="col">Team</th>
-                <th scope="col">Injury risk</th>
+                <th scope="col">Baseline</th>
+                <th scope="col">Length</th>
+                <th scope="col">Anterior Direction</th>
+                <th scope="col">Posteromedial Direction</th>
+                <th scope="col">Posterolateral Direction</th>
+                <th scope="col">Composite Scores</th>
             </tr>
-            </thead>
+                </thead>
+                    <tbody>
+                     <tr class="align-middle">
+                         <td>Left Leg</td>
+                         <td>108 cm</td>
+                         <td>85</td>
+                         <td>86</td>
+                         <td>89</td>
+                         <td>75</td>
+                     </tr>
+                    <tr class="align-middle">
+                         <td>Right Leg</td>
+                        <td>107 cm</td>
+                         <td>85</td>
+                         <td>86</td>
+                         <td>89</td>
+                         <td>75</td>
+                     </tr>
+
+                 </tbody>
+
                 </table>
             </div>
 
             </div>
-        </div>
         <!--Row 4-->
         <div class="row">
             <div class="six columns">
-                <h6 class="gs-header gs-text-header padded"> Right Lower Extremity</h6>
+                <h6 class="gs-header gs-text-header padded"> High Risk Area</h6>
+
                 <!--<div id="PlotlyCharts"></div>-->
             </div>
             <div class="six columns">
-                <h6 class="gs-header gs-text-header padded"> Left Lower Extremity</h6>
+                <h6 class="gs-header gs-text-header padded"> Break Down</h6>
                  <!--<div id="LeftLowerExtremity"></div>-->
             </div>
         </div>
-        <!--Row 5-->
+         <!--Row 5-->
         <div class="row">
             <div class="six columns">
                 <h6 class="gs-header gs-text-header padded">Assessment </h6>
@@ -70,6 +92,7 @@
                 <h6 class="gs-header gs-text-header padded"> Treatment</h6>
                 <textarea rows="4" cols="80" class="form-control" placeholder="Treatment description here" value="Treatment" data-gramm="true" data-txt_gramm_id="2312b9e1-3cda-b15c-deaa-8041554e2abc" data-gramm_id="2312b9e1-3cda-b15c-deaa-8041554e2abc" spellcheck="false" data-gramm_editor="true" style="z-index: auto; position: relative; line-height: 23.9988px; font-size: 11.9994px; transition: none 0s ease 0s; background: transparent !important;"></textarea>
             </div>
+        </div>
         </div>
     </div>
 </div>

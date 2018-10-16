@@ -9,6 +9,11 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/column-view.css')}}">
 </head>
 <body>
+ {% if error %}
+        <div class="alert alert-danger" role="alert">
+            {{ error }}
+        </div>
+    {% endif %}
 <div class="page">
     <div class="subpage">
         <div class="row gs-header gs-text-header">
@@ -18,7 +23,7 @@
         </div>
         <div class="row">
             <a href="/overview" class="tab first"> Overview</a>
-            <a href="{{ url_for('composite/{{player}}')}}" class="tab">Composite Score</a>
+            <a href="/composite" class="tab">Composite Score</a>
             <a href="/ViewPlayers" class="tab">View Players</a>
             <a href="" class="tab">Create Player</a>
         </div>
@@ -32,7 +37,7 @@
             </div>
             <div class="six columns">
                 <h6 class="gs-header gs-text-header padded"> Injury Risk Score</h6>
-                <h1 class="padded" align="center"> 5 </h1>
+                <div id="circularGaugeContainer" style="height:200px;margin:0 auto"></div>
             </div>
         </div>
         <!--Row 4-->
@@ -72,6 +77,13 @@
 <footer>
     <script src= "{{url_for('static',filename='js/plugins/chartjs.min.js') }}"> </script>
     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script type="text/javascript" src="https://ajax.aspnetcdn.com/ajax/globalize/0.1.1/globalize.min.js"></script>
+    <script type="text/javascript" src="https://cdn3.devexpress.com/jslib/13.2.9/js/dx.chartjs.js"></script>
+
+
+
+    <!--Right Leg Script Data-->
     <script>
         var trace1 = {
         x: ['Peroneals', 'Tib Anterior', 'Lat Gastro', 'Med Gastro'],
@@ -103,6 +115,7 @@
 
         Plotly.newPlot('PlotlyCharts', data, layout);
     </script>
+    <!--Left leg javascript-->
     <script>
         var trace1 = {
         x: ['Peroneals', 'Tib Anterior', 'Lat Gastro', 'Med Gastro'],
@@ -138,6 +151,49 @@
 
         Plotly.newPlot('LeftLowerExtremity', data, layout);
     </script>
+    <!--Injury Risk Report Javascript-->
+    <script>
+        $("#circularGaugeContainer").dxCircularGauge({
+          rangeContainer: {
+            offset: .5,
+            ranges: [
+              {startValue:0, endValue:3, color:'#FF0000'},
+              { startValue: 3, endValue: 4, color: '#f0ff00' },
+              { startValue: 4, endValue: 5, color: '#2DD700' }
+            ]
+          },
+          scale: {
+            startValue: 0,  endValue: 5,
+            majorTick: { tickInterval: .5 },
+            label: {
+
+            }
+          },
+          title: {
+            text: 'Injury Risk Potential',
+            subtitle: 'test',
+            position: 'top-center'
+          },
+          tooltip: {
+                enabled: true,
+                customizeText: function (arg) {
+                    return 'Current ' + arg.valueText;
+                }
+            },
+          subvalueIndicator: {
+            type: 'textCloud',
+            format: 'thousands',
+            text: {
+              customizeText: function (arg) {
+                        return 'Goal ' + arg.valueText;
+              }
+            }
+          },
+          value: 2,
+          subvalues: [3]
+        });
+    </script>
+
 
 </footer>
 </html>
