@@ -10,7 +10,7 @@ import json
 UPLOAD_FOLDER = '~/'
 ALLOWED_EXTENSIONS = set(['txt', 'csv', 'xlsx'])
 API_BASE_URL = 'https://a-zapi.herokuapp.com'
-# API_BASE_URL = 'http://localhost:8000'
+#API_BASE_URL = 'http://localhost:8000'
 
 
 app = Flask(__name__)
@@ -172,6 +172,17 @@ def createcomposite():
     print(athlete_profiles)
     return render_template('createcomposite.html', error=error, data=payload, athletes_profiles=athlete_profiles,
                            injuries=injuries)
+@app.route('/playersessions/<player_id>', methods=['GET'])
+def player_sessions(player_id):
+    error = ""
+    headers = {
+        'Authorization': 'Token %s' % session['access_token'],
+    }
+
+    sessions = requests.get('%s/session/?search=%s' % (API_BASE_URL, player_id), headers=headers)
+    sessions = sessions.json()
+    return render_template("playersessions.html", sessions=sessions)
+
 
 
 @app.route('/updatesession/<player_id>', methods=['GET', 'POST'])
@@ -182,12 +193,13 @@ def update_session(player_id):
     }
 
     player_session = requests.get('%s/session/?search=%s' % (API_BASE_URL, player_id), headers=headers)
-
     player_session = player_session.json()[-1]
+
+    player = requests.get('%s/player/%s' % (API_BASE_URL, player_session['player_profile']))
     print(player_session)
-    if request.method == ' POST':
+    if request.method == 'POST':
         payload = {
-            'player_profile': request.form.get('athlete_profile', ''),
+            'player_profile': player_id,
             'peroneals_rle': request.form.get('peroneals_rle', ''),
             'peroneals_lle': request.form.get('peroneals_lle', ''),
             'med_gastro_rle': request.form.get('med_gastro_rle', ''),
@@ -201,7 +213,7 @@ def update_session(player_id):
         }
         session_id = request.form.get('session_id', '')
 
-        res = requests.put('%s/session/%s' % (API_BASE_URL, session_id), data=payload,
+        res = requests.put('%s/session/%s/' % (API_BASE_URL, session_id), data=payload,
                            headers=headers)
 
         if res.ok:
@@ -210,7 +222,7 @@ def update_session(player_id):
             error = 'Error creating session, code: %s' % res.status_code
             print(error)
 
-    return render_template('asessment.html', data=player_session, error=error)
+    return render_template('asessment.html', data=player_session, player=player.json(), error=error)
 
 
 @app.route('/session', methods=['GET', 'POST'])
