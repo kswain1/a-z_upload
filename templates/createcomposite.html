@@ -16,7 +16,14 @@
             {% endfor %}
             </select>
         </div>
-
+        <div class="form-group">
+            <label for="injuries">High Risk Area</label>
+            <select class="form-control" id="injuries" name="injuries">
+                {%for injury in injuries%}
+                    <option value="{{injury.id}}">{{injury.name}}</option>
+                {% endfor %}
+            </select>
+        </div>
         <div class="form-group">
             <label for="post_medial_direction_rle">Posteromedial Direction RLE</label>
             <input type="text" class="form-control" id="post_medial_direction_rle" name="post_medial_direction_rle"
