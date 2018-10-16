@@ -128,8 +128,13 @@ def summary(player_id):
 
 @app.route('/composite/<player_id>', methods=['GET', 'POST'])
 def composite(player_id):
-    s = requests.get('%s/session/?search=%s' % (API_BASE_URL, player_id))
-    return render_template('composite.html', player=player_id)
+    s = requests.get('%s/composite/?player_profile=%s' % (API_BASE_URL, player_id))
+    composite = s.json()[-1]
+    injury = requests.get('%s/injury/%s' % (API_BASE_URL, composite['risk_area'])).json()
+
+
+
+    return render_template('composite.html', player=player_id, composite=composite, injury=injury)
 
 
 @app.route('/createcomposite', methods=['GET', 'POST'])
@@ -141,25 +146,26 @@ def createcomposite():
         'Authorization': 'Token %s' % session['access_token'],
     }
 
-    s = requests.get('%s/composite/' % API_BASE_URL)
     payload = {
         'player_profile': request.form.get('athlete_profile', ''),
         'risk_area': request.form.get('injuries', ),
-        'post_medial_direction_rle': request.form.get('peroneals_rle', ''),
-        'post_medial_direction_lle': request.form.get('peroneals_lle', ''),
-        'ant_direction_rle': request.form.get('med_gastro_rle', ''),
-        'ant_direction_lle': request.form.get('med_gastro_lle', ''),
-        'post_lateral_direction_rle': request.form.get('tib_anterior_lle', ''),
-        'post_lateral_direction_lle': request.form.get('tib_anterior_rle', ''),
-        'left_leg_length': request.form.get('lat_gastro_lle', ''),
-        'right_leg_length': request.form.get('lat_gastro_rle', ''),
-        'composite_score_rle': request.form.get(''),
-        'composite_score_lle': request.form.get(''),
+        'post_medial_direction_rle': request.form.get('post_medial_direction_rle', ''),
+        'post_medial_direction_lle': request.form.get('post_medial_direction_lle', ''),
+        'ant_direction_rle': request.form.get('ant_direction_rle', ''),
+        'ant_direction_lle': request.form.get('ant_direction_lle', ''),
+        'post_lateral_direction_rle': request.form.get('post_lateral_direction_rle', ''),
+        'post_lateral_direction_lle': request.form.get('post_lateral_direction_lle', ''),
+        'left_leg_length': request.form.get('left_leg_length', ''),
+        'right_leg_length': request.form.get('right_leg_length', ''),
+        'composite_score_rle': request.form.get('composite_score_rle', ''),
+        'composite_score_lle': request.form.get('composite_score_lle', ''),
         'assessment': request.form.get('assessment', ''),
         'treatment': request.form.get('treatment', ''),
     }
+    s = requests.get('%s/composite/' % API_BASE_URL)
     session_id = request.form.get('session_id', '')
     if request.method == 'POST':
+
         res = requests.post('%s/composite/' % API_BASE_URL, data=payload,
                             headers=headers)
         if res.ok:

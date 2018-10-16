@@ -24,13 +24,25 @@
                 {% endfor %}
             </select>
         </div>
+
         <div class="form-group">
-            <label for="post_medial_direction_rle">Posteromedial Direction RLE</label>
-            <input type="text" class="form-control" id="post_medial_direction_rle" name="post_medial_direction_rle"
-            placeholder="Enter value" value="{{ data.post_medial_direction_rle }}">
+            <label for="left_leg_length">Left Leg Length</label>
+            <input type="text" class="form-control" id="left_leg_length" name="left_leg_length"
+            placeholder="Enter value" value="{{ data.left_leg_length}}">
         </div>
         <div class="form-group">
-            <label for="post_medial_direction_lle">Peroneals LLE</label>
+            <label for="right_leg_length">right_leg_length</label>
+            <input type="text" class="form-control" id="right_leg_length" name="right_leg_length"
+            placeholder="Enter value" value="{{ data.right_leg_length }}">
+        </div>
+        <div class="form-group">
+            <label for="post_medial_direction_rle">Posteromedial Direction RLE</label>
+            <input type="text" class="form-control" id="post_medial_direction_rle"
+            name="post_medial_direction_rle"
+            placeholder="Enter value" value="{{ data.postmedial_direction_rle}}">
+        </div>
+        <div class="form-group">
+            <label for="post_medial_direction_lle">Posteromedial Direction LLE</label>
             <input type="text" class="form-control" id="post_medial_direction_lle"
             name="post_medial_direction_lle"
             placeholder="Enter value" value="{{ data.postmedial_direction_lle}}">
@@ -38,13 +50,13 @@
         <div class="form-group">
             <label for="ant_direction_rle">Anterior Direction Right Leg</label>
             <input type="text" class="form-control" id="ant_direction_rle"
-            name="med_gastro_rle"
+            name="ant_direction_rle"
             placeholder="Enter value" value="{{ data.ant_direction_rle}}">
         </div>
         <div class="form-group">
             <label for="ant_direction_lle">Anterior Direction Left Leg</label>
             <input type="text" class="form-control" id="ant_direction_lle"
-            name="med_gastro_lle"
+            name="ant_direction_lle"
             placeholder="Enter value" value="{{ data.ant_direction_lle}}">
         </div>
         <div class="form-group">

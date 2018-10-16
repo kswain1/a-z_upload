@@ -5,8 +5,8 @@
     <meta charset="UTF-8">
     <title>Report</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/pdf-view.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/column-view.css')}}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/pdf-view.css') }}">
 </head>
 <body>
  {% if error %}
@@ -30,10 +30,20 @@
         <!--Row 3-->
         <div class="row">
             <div class="six columns">
-                <h6 class="gs-header gs-text-header padded"> Medical History</h6>
-                <img src="{{ url_for('static', filename='placeholder.png') }}" alt="Profile image" height="100" width="100">
-                <h7 align="center"> {{player.player_name}}</h7>
-                <h7 align="center"> {{player.user_age}}</h7>
+                    <h6 class="gs-header gs-text-header padded"> Medical History</h6>
+                <div class="row">
+                    <div class="five columns">
+                        <img src="{{ url_for('static', filename='placeholder.png') }}" alt="Profile image" height="100" width="100">
+                    </div>
+                    <div class="two columns padded ">
+                        <strong>Name</strong><p> </p><p>Age</p><p>Position</p><p>Current Injury</p><p>Previous Injury</p>
+                    </div>
+                    <div class="five columns padded ">
+                        <strong>{{player.player_name}}</strong><p> </p><p>{{player.user_age}}</p><p>Center</p><p>None</p><br><p class="two columns">Right Hamstring</p>
+                    </div>
+
+                <!--<h7 align="center"> {{player.player_name}}</h7>-->
+                </div>   <!--<h7 align="center"> {{player.user_age}}</h7>-->
             </div>
             <div class="six columns">
                 <h6 class="gs-header gs-text-header padded"> Injury Risk Score</h6>
@@ -44,11 +54,11 @@
         <div class="row">
             <div class="six columns">
                 <h6 class="gs-header gs-text-header padded"> Right Lower Extremity</h6>
-                <div id="PlotlyCharts"></div>
+                <div id="PlotlyCharts" style="height:300px"></div>
             </div>
             <div class="six columns">
                 <h6 class="gs-header gs-text-header padded"> Left Lower Extremity</h6>
-                <div id="LeftLowerExtremity"></div>
+                <div id="LeftLowerExtremity" style="height:300px" ></div>
             </div>
         </div>
         <!--Row 5-->
