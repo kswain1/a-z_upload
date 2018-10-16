@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block title %}Player Sessions{% endblock %}
+{% block content %}
+<h1 style="align-center" align="center">Player Sessions</h1>
+    {% if error %}
+        <div class="alert alert-danger" role="alert">
+            {{ error }}
+        </div>
+    {% endif %}
+    <table class="table">
+        <thead>
+            <th scope="col">Session</th>
+            <th scope="col">Date</th>
+            <th scope="col">Update Session</th>
+        </thead>
+        <tbody>
+            {% for session in sessions %}
+                <tr class="align-middle">
+                    <td>{{session.id}}</td>
+                    <td>{{session.created_on}}</td>
+                    <td><a href="{{ url_for('update_session', player_id=session.player_profile) }}">Update</a></td>
+            {% endfor %}
+                </tr>
+        </tbody>
+    </table>
+
+
+
+{% endblock %}

@@ -7,16 +7,11 @@
             {{ error }}
         </div>
     {% endif %}
-    <form action="" method="post">
+    <form action="" method="POST">
         <input type="hidden" id="session_id" name="session_id" value="{{data.id}}">
         <div class="form-group">
             <label for="player">Athlete Profile</label>
-            <select class="form-control" id="athlete_profile"
-            name="athlete_profile">
-            {% for profile in athlete_profiles %}
-                <option value="{{ profile.id }}">{{ profile.player_name }}</option>
-            {% endfor %}
-            </select>
+            <label>{{player.player_name}}</label>
         </div>
 
         <div class="form-group">
