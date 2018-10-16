@@ -40,6 +40,9 @@ def trainer():
         return redirect(url_for('login'))
     return render_template('trainer.html')
 
+@app.route('/playerprofile', methods=['GET','POST'])
+def playerprofile():
+    return render_template('user.html')
 
 @app.route('/player', methods=['GET', 'POST'])
 def players():
@@ -66,9 +69,97 @@ def players():
     return render_template('player.html', data=data, teams=teams, error=error)
 
 
-@app.route('/sessionsummary', methods=['GET', ])
-def sessionsummary():
-    return 'Session Summary'
+@app.route('/sessionsummary/<player_id>', methods=['GET', ])
+def sessionsummary(player_id):
+    s = requests.get('%s/session/?search=%s' % (API_BASE_URL,player_id))
+    if s.ok:
+        session = s.json()[0]
+        print(s.json())
+        jsonDec = json.decoder.JSONDecoder()
+        for i in session:
+            if i != 'trainer_profile' and i != 'player_profile' and i != 'created_on' and i != 'assessment' and i != 'treatment':
+                # session[i] = jsonDec.decode(session[i])
+                session[i] = [float(item) for item in eval(session[i])]
+                # for item in eval(session[i]):
+                #     temp = []
+                #     temp.append(float(item))
+                # session[i] = temp
+    else:
+        return(s.text)
+    player = requests.get('%s/player/%s' % (API_BASE_URL, player_id))
+    return render_template('dashboard.html',data=session, player=player.json())
+
+@app.route('/reportsummary/<player_id>', methods=['GET','POST'])
+def reportsummmary(player_id):
+    s = requests.get('%s/session/?search=%s' % (API_BASE_URL, player_id))
+    if s.ok:
+        session = s.json()[0]
+        print(s.json())
+        jsonDec = json.decoder.JSONDecoder()
+
+        for i in session:
+            if i != 'trainer_profile' and i != 'player_profile' and i != 'created_on' and i != 'assessment' and i != 'treatment':
+                # session[i] = jsonDec.decode(session[i])
+                session[i] = [float(item) for item in eval(session[i])]
+                # for item in eval(session[i]):
+                #     temp = []
+                #     temp.append(float(item))
+                # session[i] = temp
+    else:
+        return (s.text)
+    update = request.form.get('assessment')
+    if request.method == 'POST':
+        data = request
+        print(request.form.get('assessment',''))
+        print(update)
+
+    print(update)
+    player = requests.get('%s/player/%s' % (API_BASE_URL, player_id))
+
+    return render_template('report.html', data=session, player=player.json(), update = update)
+
+@app.route('/composite/<player_id>', methods=['GET','POST'])
+def composite(player_id):
+    s = requests.get('%s/session/?search=%s' % (API_BASE_URL, player_id))
+    return render_template('composite.html', player=player_id)
+
+@app.route('/updatesession/<player_id>', methods=['GET','POST'])
+def update_session(player_id):
+    error = ""
+    headers = {
+        'Authorization': 'Token %s' % session['access_token'],
+    }
+
+    player_session = requests.get('%s/session/?search=%s' % (API_BASE_URL, player_id), headers=headers)
+
+    player_session = player_session.json()[-1]
+    print(player_session)
+    if request.method == ' POST':
+        payload = {
+            'player_profile': request.form.get('athlete_profile', ''),
+            'peroneals_rle': request.form.get('peroneals_rle', ''),
+            'peroneals_lle': request.form.get('peroneals_lle', ''),
+            'med_gastro_rle': request.form.get('med_gastro_rle', ''),
+            'med_gastro_lle': request.form.get('med_gastro_lle', ''),
+            'tib_anterior_lle': request.form.get('tib_anterior_lle', ''),
+            'tib_anterior_rle': request.form.get('tib_anterior_rle', ''),
+            'lat_gastro_lle': request.form.get('lat_gastro_lle', ''),
+            'lat_gastro_rle': request.form.get('lat_gastro_rle', ''),
+            'assessment': request.form.get('assessment', ''),
+            'treatment': request.form.get('treatment', ''),
+        }
+        session_id = request.form.get('session_id', '')
+
+
+        res = requests.put('%s/session/%s' % (API_BASE_URL, session_id), data=payload,
+                              headers=headers)
+
+        if res.ok:
+            return redirect(url_for('trainer'))
+        else:
+            error = 'Error creating session, code: %s' % res.status_code
+
+    return render_template('asessment.html',data=player_session, error=error)
 
 
 @app.route('/session', methods=['GET', 'POST'])
@@ -98,8 +189,18 @@ def sessions():
         headers = {
             'Authorization': 'Token %s' % session['access_token'],
         }
-        res = requests.post('%s/session/' % API_BASE_URL, data=payload,
+        ## This function below is used to update the assessment and treatment data of the athlete
+        player_session = requests.get('%s/session/?search=%s' % (API_BASE_URL,payload['player_profile']))
+        index = player_session.json().__len__() - 1
+        k = player_session.json()[index]
+        k['assessment'] = payload['assessment']
+        k['treatment'] = payload['treatment']
+        update_req = requests.put('%s/session/?search=%s' % (API_BASE_URL,payload['player_profile'] ), data=payload, headers=headers)
+
+        ## end of get players session
+        res = requests.post('%s/session/%s' % API_BASE_URL, data=payload,
                             headers=headers)
+        print(res)
         if res.ok:
             return redirect(url_for('trainer'))
         else:
@@ -207,4 +308,4 @@ def upload_session():
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(port='8080',debug=True)

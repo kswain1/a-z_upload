@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+{% block content %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Report</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/pdf-view.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/column-view.css')}}">
+</head>
+<body>
+ {% if error %}
+        <div class="alert alert-danger" role="alert">
+            {{ error }}
+        </div>
+    {% endif %}
+<div class="page">
+    <div class="subpage">
+        <div class="row gs-header gs-text-header">
+            <div class="twelve columns padded">
+                <h5>  Athlete Risk Report</h5>
+            </div>
+        </div>
+        <div class="row">
+            <a href="/overview" class="tab first"> Overview</a>
+            <a href="/composite" class="tab">Composite Score</a>
+            <a href="/ViewPlayers" class="tab">View Players</a>
+            <a href="" class="tab">Create Player</a>
+        </div>
+        <!--Row 3-->
+        <div class="row">
+            <div class="six columns">
+                <h6 class="gs-header gs-text-header padded"> Medical History</h6>
+                <img src="{{ url_for('static', filename='placeholder.png') }}" alt="Profile image" height="100" width="100">
+                <h7 align="center"> {{player.player_name}}</h7>
+                <h7 align="center"> {{player.user_age}}</h7>
+            </div>
+            <div class="six columns">
+                <h6 class="gs-header gs-text-header padded"> Injury Risk Score</h6>
+                <div id="circularGaugeContainer" style="height:200px;margin:0 auto"></div>
+            </div>
+        </div>
+        <!--Row 4-->
+        <div class="row">
+            <div class="six columns">
+                <h6 class="gs-header gs-text-header padded"> Right Lower Extremity</h6>
+                <div id="PlotlyCharts"></div>
+            </div>
+            <div class="six columns">
+                <h6 class="gs-header gs-text-header padded"> Left Lower Extremity</h6>
+                <div id="LeftLowerExtremity"></div>
+            </div>
+        </div>
+        <!--Row 5-->
+        <div class="row">
+            <div class="six columns">
+                <h6 class="gs-header gs-text-header padded">Assessment </h6>
+                <form action="" method="post">
+                <textarea rows="4" cols="80" class="form-control" placeholder="Here can be your description"
+                          data-gramm="true" data-txt_gramm_id="2312b9e1-3cda-b15c-deaa-8041554e2abc"
+                          data-gramm_id="2312b9e1-3cda-b15c-deaa-8041554e2abc" spellcheck="false" data-gramm_editor="true"
+                          id="Assessment"
+                          style="z-index: auto; position: relative; line-height: 23.9988px;
+                          font-size: 11.9994px; transition: none 0s ease 0s; background: transparent !important;">{{update.assessment}}</textarea>
+                <button type="submit">Create</button>
+                </form>
+
+            </div>
+            <div class="six columns">
+                <h6 class="gs-header gs-text-header padded"> Treatment</h6>
+                <textarea rows="4" cols="80" class="form-control" placeholder="Treatment description here" value="Treatment" data-gramm="true" data-txt_gramm_id="2312b9e1-3cda-b15c-deaa-8041554e2abc" data-gramm_id="2312b9e1-3cda-b15c-deaa-8041554e2abc" spellcheck="false" data-gramm_editor="true" style="z-index: auto; position: relative; line-height: 23.9988px; font-size: 11.9994px; transition: none 0s ease 0s; background: transparent !important;"></textarea>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+<footer>
+    <script src= "{{url_for('static',filename='js/plugins/chartjs.min.js') }}"> </script>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script type="text/javascript" src="https://ajax.aspnetcdn.com/ajax/globalize/0.1.1/globalize.min.js"></script>
+    <script type="text/javascript" src="https://cdn3.devexpress.com/jslib/13.2.9/js/dx.chartjs.js"></script>
+
+
+
+    <!--Right Leg Script Data-->
+    <script>
+        var trace1 = {
+        x: ['Peroneals', 'Tib Anterior', 'Lat Gastro', 'Med Gastro'],
+        y: [{{data.peroneals_rle[2]}}, {{data.tib_anterior_rle[2]}}, {{data.lat_gastro_rle[2]}}, {{data.med_gastro_rle[2]}}],
+        name: 'Good',
+        type: 'bar',
+        marker :{ color:'rgba(0,128,0,0.6)',}
+        };
+
+        var trace2 = {
+        x: ['Peroneals', 'Tib Anterior', 'Lat Gastro', 'Med Gastro'],
+        y: [{{data.peroneals_rle[1]}}, {{data.tib_anterior_rle[1]}}, {{data.lat_gastro_rle[1]}}, {{data.med_gastro_rle[1]}}],
+        name: 'Ok',
+        type: 'bar',
+        marker : {color: 'rgba(255,255,0,0.6)'}
+
+        };
+
+        var trace3 = {
+        x: ['Peroneals', 'Tib Anterior', 'Lat Gastro', 'Med Gastro'],
+        y: [{{data.peroneals_rle[0]}}, {{data.tib_anterior_rle[0]}}, {{data.lat_gastro_rle[0]}}, {{data.med_gastro_rle[0]}}],
+        name: 'Ok',
+        type: 'bar',
+        marker : {color: 'rgba(255,0,0,0.6)'}
+        };
+
+        var data = [trace1, trace2, trace3];
+        var layout = {barmode: 'stack'};
+
+        Plotly.newPlot('PlotlyCharts', data, layout);
+    </script>
+    <!--Left leg javascript-->
+    <script>
+        var trace1 = {
+        x: ['Peroneals', 'Tib Anterior', 'Lat Gastro', 'Med Gastro'],
+        y: [{{data.peroneals_lle[2]}}, {{data.tib_anterior_lle[2]}}, {{data.lat_gastro_lle[2]}}, {{data.med_gastro_lle[2]}}],
+        name: 'Good',
+        type: 'bar',
+        marker :{ color:'rgba(0,128,0,0.6)',}
+        };
+
+        var trace2 = {
+        x: ['Peroneals', 'Tib Anterior', 'Lat Gastro', 'Med Gastro'],
+        y: [{{data.peroneals_lle[1]}}, {{data.tib_anterior_lle[1]}}, {{data.lat_gastro_lle[1]}}, {{data.med_gastro_lle[1]}}],
+        name: 'Ok',
+        type: 'bar',
+        marker : {color: 'rgba(255,255,0,0.6)'}
+        };
+
+        var trace3 = {
+        x: ['Peroneals', 'Tib Anterior', 'Lat Gastro', 'Med Gastro'],
+        y: [{{data.peroneals_lle[0]}}, {{data.tib_anterior_lle[0]}}, {{data.lat_gastro_lle[0]}}, {{data.med_gastro_lle[0]}}],
+        name: 'Bad',
+        type: 'bar',
+        marker : {color: 'rgba(255,0,0,0.6)'}
+        };
+
+        var data = [trace1, trace2, trace3];
+        var layout = {
+            barmode: 'stack',
+            title: 'NeuroScore',
+            yaxis: {title: 'Nueromuscular'}
+
+        };
+
+        Plotly.newPlot('LeftLowerExtremity', data, layout);
+    </script>
+    <!--Injury Risk Report Javascript-->
+    <script>
+        $("#circularGaugeContainer").dxCircularGauge({
+          rangeContainer: {
+            offset: .5,
+            ranges: [
+              {startValue:0, endValue:3, color:'#FF0000'},
+              { startValue: 3, endValue: 4, color: '#f0ff00' },
+              { startValue: 4, endValue: 5, color: '#2DD700' }
+            ]
+          },
+          scale: {
+            startValue: 0,  endValue: 5,
+            majorTick: { tickInterval: .5 },
+            label: {
+
+            }
+          },
+          title: {
+            text: 'Injury Risk Potential',
+            subtitle: 'test',
+            position: 'top-center'
+          },
+          tooltip: {
+                enabled: true,
+                customizeText: function (arg) {
+                    return 'Current ' + arg.valueText;
+                }
+            },
+          subvalueIndicator: {
+            type: 'textCloud',
+            format: 'thousands',
+            text: {
+              customizeText: function (arg) {
+                        return 'Goal ' + arg.valueText;
+              }
+            }
+          },
+          value: 2,
+          subvalues: [3]
+        });
+    </script>
+
+
+</footer>
+</html>
+{% endblock %}
