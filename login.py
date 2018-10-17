@@ -10,7 +10,7 @@ import json
 UPLOAD_FOLDER = '~/'
 ALLOWED_EXTENSIONS = set(['txt', 'csv', 'xlsx'])
 API_BASE_URL = 'https://a-zapi.herokuapp.com'
-#API_BASE_URL = 'http://localhost:8000'
+# API_BASE_URL = 'http://localhost:8000'
 
 
 app = Flask(__name__)
@@ -55,7 +55,7 @@ def players():
     error = ''
     data = {
         'player_name': request.form.get('player', ''),
-        'team': request.form.get('team',''),
+        'team': request.form.get('team', ''),
         'team_id': request.form.get('team', ''),
         'user_age': request.form.get('age', ''),
     }
@@ -91,15 +91,16 @@ def sessionsummary(player_id):
                 #     temp.append(float(item))
                 # session[i] = temp
     else:
-        return (s.text)
+        error = 'Error creating session, code: %s' % s.status_code
+        return error
     player = requests.get('%s/player/%s' % (API_BASE_URL, player_id))
     return render_template('dashboard.html', data=session, player=player.json(), error=error)
-
 
 
 @app.route('/summary/<player_id>', methods=['GET', ])
 def summary(player_id):
     s = requests.get('%s/session/?search=%s' % (API_BASE_URL, player_id))
+    error = ''
     if s.ok:
         session = s.json()[0]
         print(s.json())
@@ -114,7 +115,8 @@ def summary(player_id):
                 #     temp.append(float(item))
                 # session[i] = temp
     else:
-        return (s.text)
+        error = 'Error creating session, code: %s' % s.status_code
+        return error
     update = request.form.get('assessment')
     if request.method == 'POST':
         data = request
@@ -132,8 +134,6 @@ def composite(player_id):
     s = requests.get('%s/composite/?player_profile=%s' % (API_BASE_URL, player_id))
     composite = s.json()[-1]
     injury = requests.get('%s/injury/%s' % (API_BASE_URL, composite['risk_area'])).json()
-
-
 
     return render_template('composite.html', player=player_id, composite=composite, injury=injury)
 
@@ -179,6 +179,8 @@ def createcomposite():
     print(athlete_profiles)
     return render_template('createcomposite.html', error=error, data=payload, athletes_profiles=athlete_profiles,
                            injuries=injuries)
+
+
 @app.route('/playersessions/<player_id>', methods=['GET'])
 def player_sessions(player_id):
     error = ""
@@ -189,7 +191,6 @@ def player_sessions(player_id):
     sessions = requests.get('%s/session/?search=%s' % (API_BASE_URL, player_id), headers=headers)
     sessions = sessions.json()
     return render_template("playersessions.html", sessions=sessions)
-
 
 
 @app.route('/updatesession/<player_id>', methods=['GET', 'POST'])
