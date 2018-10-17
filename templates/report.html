@@ -24,8 +24,8 @@
         <div class="row">
             <a href="" class="tab first"> Overview</a>
             <a href="{{url_for( 'composite', player_id=player.id  )}}" class="tab">Composite Score</a>
-            <a href="/ViewPlayers" class="tab">View Players</a>
-            <a href="" class="tab">Create Player</a>
+            <a href="{{url_for('athletes')}}" class="tab">View Players</a>
+            <a href="{{ url_for('trainer') }}" class="tab">Create Player</a>
         </div>
         <!--Row 3-->
         <div class="row">
@@ -33,7 +33,7 @@
                     <h6 class="gs-header gs-text-header padded"> Medical History</h6>
                 <div class="row">
                     <div class="five columns">
-                        <img src="{{ url_for('static', filename='placeholder.png') }}" alt="Profile image" height="100" width="100">
+                        <img src="{{ url_for('static', filename='placeholder.png') }}" alt="Profile image" height="150" width="150">
                     </div>
                     <div class="two columns padded ">
                         <strong>Name</strong><p> </p><p>Age</p><p>Position</p><p>Current Injury</p><p>Previous Injury</p>
@@ -65,16 +65,12 @@
         <div class="row">
             <div class="six columns">
                 <h6 class="gs-header gs-text-header padded">Assessment </h6>
-                <form action="" method="post">
                 <textarea rows="4" cols="80" class="form-control" placeholder="Here can be your description"
                           data-gramm="true" data-txt_gramm_id="2312b9e1-3cda-b15c-deaa-8041554e2abc"
                           data-gramm_id="2312b9e1-3cda-b15c-deaa-8041554e2abc" spellcheck="false" data-gramm_editor="true"
                           id="Assessment"
                           style="z-index: auto; position: relative; line-height: 23.9988px;
                           font-size: 11.9994px; transition: none 0s ease 0s; background: transparent !important;">{{update.assessment}}</textarea>
-                <button type="submit">Create</button>
-                </form>
-
             </div>
             <div class="six columns">
                 <h6 class="gs-header gs-text-header padded"> Treatment</h6>
@@ -90,8 +86,6 @@
      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
     <script type="text/javascript" src="https://ajax.aspnetcdn.com/ajax/globalize/0.1.1/globalize.min.js"></script>
     <script type="text/javascript" src="https://cdn3.devexpress.com/jslib/13.2.9/js/dx.chartjs.js"></script>
-
-
 
     <!--Right Leg Script Data-->
     <script>
@@ -121,7 +115,12 @@
         };
 
         var data = [trace1, trace2, trace3];
-        var layout = {barmode: 'stack'};
+        var layout = {
+            barmode: 'stack',
+            title: 'NeuroScore',
+            yaxis: {title: 'Muscle Fatigue Duration'},
+            xaxis: {title: 'Muscle Groups'},
+        };
 
         Plotly.newPlot('PlotlyCharts', data, layout);
     </script>
@@ -155,7 +154,8 @@
         var layout = {
             barmode: 'stack',
             title: 'NeuroScore',
-            yaxis: {title: 'Nueromuscular'}
+            yaxis: {title: 'Muscle Fatigue Duration'},
+            xaxis: {title: 'Muscle Groups'},
 
         };
 

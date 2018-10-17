@@ -12,7 +12,7 @@
             <tr>
                 <th scope="col">Image</th>
                 <th scope="col">Name</th>
-                <th scope="col">Team</th>
+                <!--<th scope="col">Team</th>-->
                 <th scope="col">Sessions</th>
                 <th scope="col">Injury risk</th>
             </tr>
@@ -24,7 +24,7 @@
                     <td><a href="{{ url_for('summary', player_id=player.id )}}">{{
                     player.player_name }}</a></td>
 
-                    <td>{{ player.team.team_name }}</td>
+                    <!--<td>{{ player.team.team_name }}</td>-->
                     <td><a href="{{ url_for('player_sessions', player_id=player.id) }}">sessions</a></td>
                     <td>0</td>
                 </tr>

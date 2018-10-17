@@ -55,6 +55,7 @@ def players():
     error = ''
     data = {
         'player_name': request.form.get('player', ''),
+        'team': request.form.get('team',''),
         'team_id': request.form.get('team', ''),
         'user_age': request.form.get('age', ''),
     }
@@ -295,12 +296,15 @@ def athletes():
         'Authorization': 'Token %s' % session['access_token']
     }
     res = requests.get('%s/player/' % API_BASE_URL, headers=headers)
+
     if res.ok:
         athlete_profiles = res.json()
         error = ''
+
     else:
         error = 'Error fetching athletes, code: %s' % res.status_code
         athlete_profiles = []
+
     return render_template('athlete_profiles.html', data=athlete_profiles,
                            error=error)
 
