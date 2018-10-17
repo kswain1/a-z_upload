@@ -6,6 +6,7 @@ import os
 from werkzeug.utils import secure_filename
 from parser import HomerTechniqueCSVReader as reader
 import json
+import pandas as pd
 
 UPLOAD_FOLDER = '~/'
 ALLOWED_EXTENSIONS = set(['txt', 'csv', 'xlsx'])
@@ -41,11 +42,6 @@ def trainer():
     if 'username' not in session:
         return redirect(url_for('login'))
     return render_template('trainer.html')
-
-
-@app.route('/playerprofile', methods=['GET', 'POST'])
-def playerprofile():
-    return render_template('user.html')
 
 
 @app.route('/player', methods=['GET', 'POST'])
@@ -309,16 +305,6 @@ def athletes():
     return render_template('athlete_profiles.html', data=athlete_profiles,
                            error=error)
 
-
-# @app.before_request
-# def before_request():
-#     g.user = None
-#     if 'user' in session:
-#         return session['user']
-#
-#     return 'Not logged in!'
-
-
 def allowed_file(filename):
     return '.' in filename and \
            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
@@ -379,7 +365,75 @@ def upload_session():
         s = payload
         if res.ok:
             return redirect(url_for('trainer'))
+        else:
+            error = "error uploading to the backend"
+            return render_template('upload_session.html', error=error)
     return render_template('upload_session.html', profiles=athlete_profiles)
+
+@app.route('/upload-composite', methods=['GET', 'POST'])
+def upload_composite():
+    if 'username' not in session:
+        return redirect(url_for('login'))
+    error = ''
+    headers = {
+        'Authorization': 'Token %s' % session['access_token']
+    }
+    data = {'assessment': '',
+            'treatment': ''}
+    res = requests.get('%s/api/player/' % API_BASE_URL, headers=headers)
+    athlete_profiles = res.json()
+    if request.method == 'POST':
+        # if request.files.__len__() >= 1:
+        #     composite_file = request.files[0]
+        # else: #if no files are selected the error is handled here
+        #     error = 'No File selected'
+        #     return render_template('upload_composite.html', error=error)
+        composite_file = request.files['file']
+        if composite_file.filename == '':
+            error = 'No file selected'
+            return render_template('upload_composite.html', error=error)
+        if 'csv' not in composite_file.filename:
+            error = 'I only accept CSV files, Try Again ;)'
+            return render_template('upload_composite.html', error=error)
+
+        composite_filename = secure_filename(composite_file.filename)
+        composite_file.save(os.path.join('uploads', composite_filename))
+
+        #parser data goes here
+        composite_data = pd.read_csv(os.path.join('uploads',composite_filename))
+
+
+        payload = {
+            'player_profile': request.form.get('athlete_profile', ''),
+            'risk_area': "1",
+            'left_leg_length': float(composite_data['left_leg_length']),
+            'right_leg_length': float(composite_data['right_leg_length']),
+            'post_medial_direction_rle': float(composite_data['post_medial_direction_rle']),
+            'post_medial_direction_lle': float(composite_data['post_medial_direction_lle']),
+            'ant_direction_rle': float(composite_data['ant_direction_rle']),
+            'ant_direction_lle': float(composite_data['ant_direction_lle']),
+            'post_lateral_direction_lle': float(composite_data['post_lateral_direction_lle']),
+            'post_lateral_direction_rle': float(composite_data['post_lateral_direction_rle']),
+            'composite_score_lle': float(composite_data['composite_score_lle']),
+            'composite_score_rle': float(composite_data['composite_score_rle']),
+            'assessment': request.form.get('assessment',''),
+            'treatment': request.form.get('treatment','')
+        }
+        res = requests.post('%s/composite/' % API_BASE_URL, data=payload, headers=headers)
+
+        if res.ok:
+            return render_template('trainer.html')
+        else:
+            error = 'Error sending data to the database'
+            return render_template('upload_composite.html', error=error)
+
+    return render_template('upload_composite.html', profiles=athlete_profiles, data=data)
+
+
+
+@app.route('/playerprofile', methods=['GET', 'POST'])
+def playerprofile():
+    return render_template('user.html')
 
 
 if __name__ == '__main__':
