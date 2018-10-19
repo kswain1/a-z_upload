@@ -26,6 +26,16 @@
         <label for="data-rle">Right leg data</label>
         <input type="file" class="form-control" id="data-rle" name="data-rle">
     </div>
+     <div class="form-group">
+            <label for="assessment">Assessment</label>
+            <textarea class="form-control" id="Assessment"
+            name="assessment" placeholder="Enter value">{{ data.assessment }}</textarea>
+    </div>
+    <div class="form-group">
+            <label for="treatment">Treatment</label>
+            <textarea class="form-control" id="treatment"
+            name="treatment" placeholder="Enter value">{{ data.treatment }}</textarea>
+    </div>
     <button type="submit" class="btn btn-primary">Upload</button>
 </form>
 {% endblock %}

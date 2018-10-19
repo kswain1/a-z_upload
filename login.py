@@ -318,7 +318,8 @@ def upload_session():
     headers = {
         'Authorization': 'Token %s' % session['access_token']
     }
-    res = requests.get('%s/api/player/' % API_BASE_URL, headers=headers)
+
+    res = requests.get('%s/api/player/' % API_BASE_URL, headers=headers,)
     athlete_profiles = res.json()
     if request.method == 'POST':
         # check if the post request has the file change
@@ -358,17 +359,24 @@ def upload_session():
             'tib_anterior_rle': json.dumps(rle_payload['tib_anterior_rle']),
             'lat_gastro_lle': json.dumps(lle_payload['lat_gastro_lle']),
             'lat_gastro_rle': json.dumps(rle_payload['lat_gastro_rle']),
+            'assessment': request.form.get('assessment',''),
+            'treatment':request.form.get('treatment', '')
+
         }
 
         res = requests.post('%s/session/' % API_BASE_URL, data=payload,
-                            headers=headers)
+                            headers=headers,)
         s = payload
         if res.ok:
             return redirect(url_for('trainer'))
         else:
             error = "error uploading to the backend"
             return render_template('upload_session.html', error=error)
-    return render_template('upload_session.html', profiles=athlete_profiles)
+
+    data = {'assessment': '',
+            'treatment': ''}
+
+    return render_template('upload_session.html', profiles=athlete_profiles, data=data)
 
 @app.route('/upload-composite', methods=['GET', 'POST'])
 def upload_composite():
