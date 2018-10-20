@@ -98,8 +98,10 @@ def summary(player_id):
     s = requests.get('%s/session/?search=%s' % (API_BASE_URL, player_id))
     error = ''
     if s.ok:
-        session = s.json()[0]
-        print(s.json())
+        #changed session data into a different format
+        #session = s.json()[0]
+        session = s.json()[-1]
+        print(session)
         jsonDec = json.decoder.JSONDecoder()
 
         for i in session:
@@ -111,18 +113,12 @@ def summary(player_id):
                 #     temp.append(float(item))
                 # session[i] = temp
     else:
-        error = 'Error creating session, code: %s' % s.status_code
-        return error
-    update = request.form.get('assessment')
-    if request.method == 'POST':
-        data = request
-        print(request.form.get('assessment', ''))
-        print(update)
+        error = 'Error connecting to database session, code: %s' % s.status_code
+        return render_template('report.html', error=error)
 
-    print(update)
     player = requests.get('%s/player/%s' % (API_BASE_URL, player_id))
 
-    return render_template('report.html', data=session, player=player.json(), update=update)
+    return render_template('report.html', data=session, player=player.json(),)
 
 
 @app.route('/composite/<player_id>', methods=['GET', 'POST'])
@@ -175,6 +171,9 @@ def createcomposite():
     print(athlete_profiles)
     return render_template('createcomposite.html', error=error, data=payload, athletes_profiles=athlete_profiles,
                            injuries=injuries)
+
+#TODO app.route playercomposite
+#TODO app.route('updatecomposite<player_id)>',methods=['GET'])
 
 
 @app.route('/playersessions/<player_id>', methods=['GET'])
