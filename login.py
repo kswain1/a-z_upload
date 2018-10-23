@@ -398,10 +398,10 @@ def upload_composite():
         composite_file = request.files['file']
         if composite_file.filename == '':
             error = 'No file selected'
-            return render_template('upload_composite.html', error=error)
+            return render_template('upload_composite.html', error=error, data=data, profiles=athlete_profiles)
         if 'csv' not in composite_file.filename:
             error = 'I only accept CSV files, Try Again ;)'
-            return render_template('upload_composite.html', error=error)
+            return render_template('upload_composite.html', error=error, data=data, profiles=athlete_profiles)
 
         composite_filename = secure_filename(composite_file.filename)
         composite_file.save(os.path.join('uploads', composite_filename))
@@ -429,12 +429,12 @@ def upload_composite():
         res = requests.post('%s/composite/' % API_BASE_URL, data=payload, headers=headers)
 
         if res.ok:
-            return render_template('trainer.html')
+            return redirect('trainer')
         else:
             error = 'Error sending data to the database'
-            return render_template('upload_composite.html', error=error)
 
-    return render_template('upload_composite.html', profiles=athlete_profiles, data=data)
+
+    return render_template('upload_composite.html', profiles=athlete_profiles, data=data, error=error)
 
 
 
