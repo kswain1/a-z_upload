@@ -104,12 +104,12 @@
         var trace3 = {
         x: ['Peroneals', 'Tib Anterior', 'Lat Gastro', 'Med Gastro'],
         y: [{{data.peroneals_rle[0]}}, {{data.tib_anterior_rle[0]}}, {{data.lat_gastro_rle[0]}}, {{data.med_gastro_rle[0]}}],
-        name: 'Ok',
+        name: 'Bad',
         type: 'bar',
         marker : {color: 'rgba(255,0,0,0.6)'}
         };
 
-        var data = [trace1, trace2, trace3];
+        var data = [trace3, trace2, trace1];
         var layout = {
             barmode: 'stack',
             title: 'NeuroScore',
@@ -145,7 +145,7 @@
         marker : {color: 'rgba(255,0,0,0.6)'}
         };
 
-        var data = [trace1, trace2, trace3];
+        var data = [trace3, trace2, trace1];
         var layout = {
             barmode: 'stack',
             title: 'NeuroScore',
