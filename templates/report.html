@@ -162,14 +162,13 @@
           rangeContainer: {
             offset: .5,
             ranges: [
-              {startValue:0, endValue:3, color:'#FF0000'},
-              { startValue: 3, endValue: 4, color: '#f0ff00' },
-              { startValue: 4, endValue: 5, color: '#2DD700' }
+              {startValue:0, endValue:89.6, color:'#FF0000'},
+              { startValue: 89.6, endValue: 100, color: '#2DD700' }
             ]
           },
           scale: {
-            startValue: 0,  endValue: 5,
-            majorTick: { tickInterval: .5 },
+            startValue: 0,  endValue: 100,
+            majorTick: { tickInterval: 20 },
             label: {
 
             }
@@ -194,8 +193,8 @@
               }
             }
           },
-          value: 2,
-          subvalues: [3]
+          value: {{composite}},
+          subvalues: [89.6]
         });
     </script>
 

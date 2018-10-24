@@ -96,6 +96,9 @@ def sessionsummary(player_id):
 @app.route('/summary/<player_id>', methods=['GET', ])
 def summary(player_id):
     s = requests.get('%s/session/?search=%s' % (API_BASE_URL, player_id))
+    composite = requests.get('%s/composite/?search=%s' %(API_BASE_URL, player_id)).json()
+    #TODO create better logic for figuring whether or not to choose right or left leg. In this exp
+    composite = composite[0]['composite_score_rle']
     error = ''
     if s.ok:
         #changed session data into a different format
@@ -118,7 +121,7 @@ def summary(player_id):
 
     player = requests.get('%s/player/%s' % (API_BASE_URL, player_id))
 
-    return render_template('report.html', data=session, player=player.json(),)
+    return render_template('report.html', data=session, player=player.json(), composite=composite)
 
 
 @app.route('/composite/<player_id>', methods=['GET', 'POST'])
