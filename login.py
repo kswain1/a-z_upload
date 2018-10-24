@@ -188,6 +188,14 @@ def player_sessions(player_id):
     return render_template("playersessions.html", sessions=sessions)
 
 
+@app.route('/update_composite/<player_id>', methods=['GET','POST'])
+def update_composite(player_id):
+    error= ""
+    headers = {
+        'Authorization': 'Token %s' % session['access_token']
+    }
+    player_composite = request.get('%s/createcomposite/?player_profile')
+
 @app.route('/updatesession/<player_id>', methods=['GET', 'POST'])
 def update_session(player_id):
     error = ""
@@ -431,6 +439,7 @@ def upload_composite():
         if res.ok:
             return redirect('trainer')
         else:
+            print(res.text)
             error = 'Error sending data to the database'
 
 
