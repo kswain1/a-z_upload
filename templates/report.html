@@ -52,6 +52,40 @@
         </div>
         <!--Row 4-->
         <div class="row">
+            <div class="twelve columns" align="center">
+                <h6 class="gs-header gs-text-header padded" style="align:center">High Risk Area </h6>
+                <div id="muscleCarousel" class="carousel slide" data-ride="carousel">
+                    {% if injured_muscles.__len__() == 1 %}
+                      <h5>{{injured_muscles[0]['name']}}</h5>
+                      <img src="{{ injured_muscles[0]['url'] }}" height="150" width="150">
+                    {% else %}
+                    <ol class="carousel-indicators" style="">
+                        {% for item in range(injured_muscles.__len__()) %}
+                            {% if item == 1 %}
+                                <li data-target="#muscleCarousel" data-slide-to="{{item}}" class="active"></li>
+                            {% else %}
+                                <li data-target="#muscleCarousel" data-slide-to="{{item}}"></li>
+                            {% endif %}
+                        {% endfor %}
+                    </ol>
+                     <div class="carousel-inner">
+                     {% for item in range(injured_muscles.__len__()) %}
+                            {% if item == 1 %}
+                                <div class="carousel-item active">
+                                {% else %}
+                                <div class="carousel-item">
+                             {% endif %}
+                                    <h5>{{ injured_muscles[item]['name'] }}</h5>
+                            <img src="{{injured_muscles[item]['url']}}" height="150" width="250">
+                                </div>
+                     {% endfor %}
+                     </div>
+                         {% endif %}
+            </div>
+                </div>
+        </div>
+        <!--Row 5-->
+        <div class="row">
             <div class="six columns">
                 <h6 class="gs-header gs-text-header padded"> Right Lower Extremity</h6>
                 <div id="PlotlyCharts" style="height:300px"></div>
@@ -61,17 +95,7 @@
                 <div id="LeftLowerExtremity" style="height:300px" ></div>
             </div>
         </div>
-        <!--Row 5-->
-        <div class="row">
-            <div class="six columns">
-                <h6 class="gs-header gs-text-header padded">Assessment </h6>
-                <p>{{data.assessment}}</p>
-            </div>
-            <div class="six columns">
-                <h6 class="gs-header gs-text-header padded"> Treatment</h6>
-                <p>{{data.treatment}}</p>
-            </div>
-        </div>
+
     </div>
 </div>
 </body>
@@ -81,6 +105,7 @@
      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
     <script type="text/javascript" src="https://ajax.aspnetcdn.com/ajax/globalize/0.1.1/globalize.min.js"></script>
     <script type="text/javascript" src="https://cdn3.devexpress.com/jslib/13.2.9/js/dx.chartjs.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-beta/js/bootstrap.min.js"></script>
 
     <!--Right Leg Script Data-->
     <script>

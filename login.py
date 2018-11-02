@@ -120,13 +120,43 @@ def summary(player_id):
         return render_template('report.html', error=error)
 
     player = requests.get('%s/player/%s' % (API_BASE_URL, player_id))
+    injury = requests.get('%s/injury/' % (API_BASE_URL)).json()
 
-    return render_template('report.html', data=session, player=player.json(), composite=composite)
+    #predicts when muscle is injuried
+    muscle_groups = {'peroneals_rle':False,'peroneals_lle':False,'med_gastro_lle':False,'med_gastro_rle':False,
+                     'tib_anterior_lle':False,'tib_anterior_rle':False,'lat_gastro_lle':False,'lat_gastro_rle':False}
+
+    ##TODO remove hardcoding and have this section udpate the id based on the name the injury
+    # for i in range(injury):
+    #     if muscle_groups[i] in injury[i]['name']
+
+    muscle_types = {'peroneals_rle':0,'peroneals_lle':1,'lat_gastro_rle':2, 'lat_gastro_lle':3,
+                    'med_gastro_rle':4,'med_gastro_lle':5,'tib_anterior_rle':6,'tib_anterior_lle':7}
+
+    injured_muscles_list = []
+    injured_muscle = {'name':'','url':''}
+
+    for session_data in session:
+        for muscle in muscle_groups:
+            if session_data == muscle and session[muscle][0] >= 50:
+                muscle_groups[muscle] = True
+                index = muscle_types[muscle]
+                muscle_name = injury[index]['name']
+                muscle_url = injury[index]['url']
+                injured_muscle['name'] = muscle_name
+                injured_muscle['url'] = muscle_url
+                injured_muscles_list.append(injured_muscle)
+    #Tags the muscles that are injured (in the future create left leg and right leg muscle to reduce the amount iteration
+
+
+
+
+    return render_template('report.html', data=session, player=player.json(), composite=composite, injured_muscles=injured_muscles_list)
 
 
 @app.route('/composite/<player_id>', methods=['GET', 'POST'])
 def composite(player_id):
-    s = requests.get('%s/composite/?player_profile=%s' % (API_BASE_URL, player_id))
+    s = requests.get('%s/composite/?search=%s' % (API_BASE_URL, player_id))
     composite = s.json()[-1]
     injury = requests.get('%s/injury/%s' % (API_BASE_URL, composite['risk_area'])).json()
 
