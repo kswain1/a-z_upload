@@ -10,8 +10,8 @@ import pandas as pd
 
 UPLOAD_FOLDER = '~/'
 ALLOWED_EXTENSIONS = set(['txt', 'csv', 'xlsx'])
-#API_BASE_URL = 'https://a-zapi.herokuapp.com'
-API_BASE_URL = 'http://localhost:8000'
+API_BASE_URL = 'https://a-zapi.herokuapp.com'
+#API_BASE_URL = 'http://localhost:8000'
 
 
 app = Flask(__name__)
@@ -205,7 +205,20 @@ def createcomposite():
                            injuries=injuries)
 
 #TODO app.route playercomposite
-#TODO app.route('updatecomposite<player_id)>',methods=['GET'])
+@app.route('/compositesessions/<player_id>', methods=['GET'])
+def composite_sessions(player_id):
+    error=""
+    if 'username' not in session:
+        return redirect(url_for('login'))
+    headers = {
+        'Authorization': 'Token %s' % session['access_token'],
+    }
+
+    #collect all of the composite sessions for this player
+    sessions = requests.get('%s/composite/?search=%s' %(API_BASE_URL,player_id))
+    sessions = sessions.json()
+
+    return render_template("playercomposites.html", sessions=sessions)
 
 
 @app.route('/playersessions/<player_id>', methods=['GET'])
@@ -219,7 +232,7 @@ def player_sessions(player_id):
     sessions = sessions.json()
     return render_template("playersessions.html", sessions=sessions)
 
-
+#TODO app.route('updatecomposite<player_id)>',methods=['GET'])
 @app.route('/update_composite/<player_id>', methods=['GET','POST'])
 def update_composite(player_id):
     error= ""
