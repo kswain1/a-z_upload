@@ -39,7 +39,7 @@
                         <strong>Name</strong><p> </p><p>Age</p><p>Position</p><p>Current Injury</p><p>Previous Injury</p>
                     </div>
                     <div class="five columns padded ">
-                        <strong>{{player.player_name}}</strong><p> </p><p>{{player.user_age}}</p><p>Center</p><p>None</p><br><p class="two columns">Right Hamstring</p>
+                        <strong>{{player.player_name}}</strong><p> </p><p>{{player.user_age}}</p><p>Center</p><p>None</p><br><p class="two columns">Medial Gastro</p>
                     </div>
 
                 <!--<h7 align="center"> {{player.player_name}}</h7>-->
@@ -52,6 +52,40 @@
         </div>
         <!--Row 4-->
         <div class="row">
+            <div class="twelve columns" align="center">
+                <h6 class="gs-header gs-text-header padded" style="align:center">High Risk Area </h6>
+                <div id="muscleCarousel" class="carousel slide" data-ride="carousel">
+                    {% if injured_muscles.__len__() == 1 %}
+                      <h5>{{injured_muscles[0]['name']}}</h5>
+                      <img src="{{ injured_muscles[0]['url'] }}" height="150" width="150">
+                    {% else %}
+                    <ol class="carousel-indicators" style="">
+                        {% for item in range(injured_muscles.__len__()) %}
+                            {% if item == 1 %}
+                                <li data-target="#muscleCarousel" data-slide-to="{{item}}" class="active"></li>
+                            {% else %}
+                                <li data-target="#muscleCarousel" data-slide-to="{{item}}"></li>
+                            {% endif %}
+                        {% endfor %}
+                    </ol>
+                     <div class="carousel-inner">
+                     {% for item in range(injured_muscles.__len__()) %}
+                            {% if item == 1 %}
+                                <div class="carousel-item active">
+                                {% else %}
+                                <div class="carousel-item">
+                             {% endif %}
+                                    <h5>{{ injured_muscles[item]['name'] }}</h5>
+                            <img src="{{injured_muscles[item]['url']}}" height="150" width="150">
+                                </div>
+                     {% endfor %}
+                     </div>
+                         {% endif %}
+            </div>
+                </div>
+        </div>
+        <!--Row 5-->
+        <div class="row">
             <div class="six columns">
                 <h6 class="gs-header gs-text-header padded"> Right Lower Extremity</h6>
                 <div id="PlotlyCharts" style="height:300px"></div>
@@ -61,17 +95,7 @@
                 <div id="LeftLowerExtremity" style="height:300px" ></div>
             </div>
         </div>
-        <!--Row 5-->
-        <div class="row">
-            <div class="six columns">
-                <h6 class="gs-header gs-text-header padded">Assessment </h6>
-                <p>{{data.assessment}}</p>
-            </div>
-            <div class="six columns">
-                <h6 class="gs-header gs-text-header padded"> Treatment</h6>
-                <p>{{data.treatment}}</p>
-            </div>
-        </div>
+
     </div>
 </div>
 </body>
@@ -81,6 +105,7 @@
      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
     <script type="text/javascript" src="https://ajax.aspnetcdn.com/ajax/globalize/0.1.1/globalize.min.js"></script>
     <script type="text/javascript" src="https://cdn3.devexpress.com/jslib/13.2.9/js/dx.chartjs.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-beta/js/bootstrap.min.js"></script>
 
     <!--Right Leg Script Data-->
     <script>
@@ -104,12 +129,12 @@
         var trace3 = {
         x: ['Peroneals', 'Tib Anterior', 'Lat Gastro', 'Med Gastro'],
         y: [{{data.peroneals_rle[0]}}, {{data.tib_anterior_rle[0]}}, {{data.lat_gastro_rle[0]}}, {{data.med_gastro_rle[0]}}],
-        name: 'Ok',
+        name: 'Bad',
         type: 'bar',
         marker : {color: 'rgba(255,0,0,0.6)'}
         };
 
-        var data = [trace1, trace2, trace3];
+        var data = [trace3, trace2, trace1];
         var layout = {
             barmode: 'stack',
             title: 'NeuroScore',
@@ -145,7 +170,7 @@
         marker : {color: 'rgba(255,0,0,0.6)'}
         };
 
-        var data = [trace1, trace2, trace3];
+        var data = [trace3, trace2, trace1];
         var layout = {
             barmode: 'stack',
             title: 'NeuroScore',
@@ -162,14 +187,13 @@
           rangeContainer: {
             offset: .5,
             ranges: [
-              {startValue:0, endValue:3, color:'#FF0000'},
-              { startValue: 3, endValue: 4, color: '#f0ff00' },
-              { startValue: 4, endValue: 5, color: '#2DD700' }
+              {startValue:0, endValue:89.6, color:'#FF0000'},
+              { startValue: 89.6, endValue: 100, color: '#2DD700' }
             ]
           },
           scale: {
-            startValue: 0,  endValue: 5,
-            majorTick: { tickInterval: .5 },
+            startValue: 0,  endValue: 100,
+            majorTick: { tickInterval: 20 },
             label: {
 
             }
@@ -194,8 +218,8 @@
               }
             }
           },
-          value: 2,
-          subvalues: [3]
+          value: {{composite}},
+          subvalues: [89.6]
         });
     </script>
 

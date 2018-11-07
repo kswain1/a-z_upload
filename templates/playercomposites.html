@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block title %}Player Composite{% endblock %}
+{% block content %}
+ <h1 align="center">Player Composite Scores</h1>
+    {% if error %}
+        <div class="alert alert-danger"> {{error}}</div>
+    {% endif %}
+    <table class="table">
+        <thead>
+            <th scope="col">Session</th>
+            <th scope="col">Date</th>
+            <th scope="col">Update Composite Score</th>
+        </thead>
+         <tbody>
+            {% for session in sessions %}
+                <tr class="align-middle">
+                    <td>{{session.id}}</td>
+                    <td>{{session.created_on}}</td>
+                    <td><a href="{{ url_for('update_session', player_id=session.player_profile) }}">Update</a></td>
+            {% endfor %}
+                </tr>
+        </tbody>
+    </table>
+{% endblock %}

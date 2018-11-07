@@ -96,6 +96,9 @@ def sessionsummary(player_id):
 @app.route('/summary/<player_id>', methods=['GET', ])
 def summary(player_id):
     s = requests.get('%s/session/?search=%s' % (API_BASE_URL, player_id))
+    composite = requests.get('%s/composite/?search=%s' %(API_BASE_URL, player_id)).json()
+    #TODO create better logic for figuring whether or not to choose right or left leg. In this exp
+    composite = composite[0]['composite_score_rle']
     error = ''
     if s.ok:
         #changed session data into a different format
@@ -117,13 +120,42 @@ def summary(player_id):
         return render_template('report.html', error=error)
 
     player = requests.get('%s/player/%s' % (API_BASE_URL, player_id))
+    injury = requests.get('%s/injury/' % (API_BASE_URL)).json()
 
-    return render_template('report.html', data=session, player=player.json(),)
+    #predicts when muscle is injuried
+    muscle_groups = {'peroneals_rle':False,'peroneals_lle':False,'med_gastro_lle':False,'med_gastro_rle':False,
+                     'tib_anterior_lle':False,'tib_anterior_rle':False,'lat_gastro_lle':False,'lat_gastro_rle':False}
+
+    ##TODO remove hardcoding and have this section udpate the id based on the name the injury
+    # for i in range(injury):
+    #     if muscle_groups[i] in injury[i]['name']
+
+    muscle_types = {'peroneals_rle':0,'peroneals_lle':1,'lat_gastro_rle':2, 'lat_gastro_lle':3,
+                    'med_gastro_rle':4,'med_gastro_lle':5,'tib_anterior_rle':6,'tib_anterior_lle':7}
+
+    injured_muscles_list = []
+    injured_muscle = {'name':'','url':''}
+
+    #TODO figure out how to show multiple muscles getting trapped in global reference frame
+    for session_data in session:
+        for muscle in muscle_groups:
+            if session_data == muscle and session[muscle][0] >= 50:
+                muscle_groups[muscle] = True
+                index = muscle_types[muscle]
+                muscle_name = injury[index]['name']
+                muscle_url = injury[index]['url']
+                injured_muscle['name'] = muscle_name
+                injured_muscle['url'] = muscle_url
+                injured_muscles_list.append(injured_muscle)
+    #Tags the muscles that are injured (in the future create left leg and right leg muscle to reduce the amount iteration
+
+
+    return render_template('report.html', data=session, player=player.json(), composite=composite, injured_muscles=injured_muscles_list)
 
 
 @app.route('/composite/<player_id>', methods=['GET', 'POST'])
 def composite(player_id):
-    s = requests.get('%s/composite/?player_profile=%s' % (API_BASE_URL, player_id))
+    s = requests.get('%s/composite/?search=%s' % (API_BASE_URL, player_id))
     composite = s.json()[-1]
     injury = requests.get('%s/injury/%s' % (API_BASE_URL, composite['risk_area'])).json()
 
@@ -173,7 +205,20 @@ def createcomposite():
                            injuries=injuries)
 
 #TODO app.route playercomposite
-#TODO app.route('updatecomposite<player_id)>',methods=['GET'])
+@app.route('/compositesessions/<player_id>', methods=['GET'])
+def composite_sessions(player_id):
+    error=""
+    if 'username' not in session:
+        return redirect(url_for('login'))
+    headers = {
+        'Authorization': 'Token %s' % session['access_token'],
+    }
+
+    #collect all of the composite sessions for this player
+    sessions = requests.get('%s/composite/?search=%s' %(API_BASE_URL,player_id))
+    sessions = sessions.json()
+
+    return render_template("playercomposites.html", sessions=sessions)
 
 
 @app.route('/playersessions/<player_id>', methods=['GET'])
@@ -187,6 +232,14 @@ def player_sessions(player_id):
     sessions = sessions.json()
     return render_template("playersessions.html", sessions=sessions)
 
+#TODO app.route('updatecomposite<player_id)>',methods=['GET'])
+@app.route('/update_composite/<player_id>', methods=['GET','POST'])
+def update_composite(player_id):
+    error= ""
+    headers = {
+        'Authorization': 'Token %s' % session['access_token']
+    }
+    player_composite = request.get('%s/createcomposite/?player_profile')
 
 @app.route('/updatesession/<player_id>', methods=['GET', 'POST'])
 def update_session(player_id):
@@ -228,54 +281,6 @@ def update_session(player_id):
     return render_template('asessment.html', data=player_session, player=player.json(), error=error)
 
 
-@app.route('/session', methods=['GET', 'POST'])
-def sessions():
-    if 'username' not in session:
-        return redirect(url_for('login'))
-    error = ''
-    payload = {
-        'player_profile': request.form.get('athlete_profile', ''),
-        'peroneals_rle': request.form.get('peroneals_rle', ''),
-        'peroneals_lle': request.form.get('peroneals_lle', ''),
-        'med_gastro_rle': request.form.get('med_gastro_rle', ''),
-        'med_gastro_lle': request.form.get('med_gastro_lle', ''),
-        'tib_anterior_lle': request.form.get('tib_anterior_lle', ''),
-        'tib_anterior_rle': request.form.get('tib_anterior_rle', ''),
-        'lat_gastro_lle': request.form.get('lat_gastro_lle', ''),
-        'lat_gastro_rle': request.form.get('lat_gastro_rle', ''),
-        'assessment': request.form.get('assessment', ''),
-        'treatment': request.form.get('treatment', ''),
-    }
-    headers = {
-        'Authorization': 'Token %s' % session['access_token'],
-    }
-    res = requests.get('%s/api/player/' % API_BASE_URL, headers=headers)
-    athlete_profiles = res.json()
-    if request.method == 'POST':
-        headers = {
-            'Authorization': 'Token %s' % session['access_token'],
-        }
-        ## This function below is used to update the assessment and treatment data of the athlete
-        player_session = requests.get('%s/session/?search=%s' % (API_BASE_URL, payload['player_profile']))
-        index = player_session.json().__len__() - 1
-        k = player_session.json()[index]
-        k['assessment'] = payload['assessment']
-        k['treatment'] = payload['treatment']
-        update_req = requests.put('%s/session/?search=%s' % (API_BASE_URL, payload['player_profile']), data=payload,
-                                  headers=headers)
-
-        ## end of get players session
-        res = requests.post('%s/session/%s' % API_BASE_URL, data=payload,
-                            headers=headers)
-        print(res)
-        if res.ok:
-            return redirect(url_for('trainer'))
-        else:
-            error = 'Error creating session, code: %s' % res.status_code
-    return render_template('session.html', data=payload,
-                           athlete_profiles=athlete_profiles, error=error)
-
-
 @app.route('/dashboard', methods=['GET', 'POST'])
 def dashboard():
     # player_session = requests.get('%s/api/session')
@@ -308,6 +313,55 @@ def allowed_file(filename):
     return '.' in filename and \
            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
+
+@app.route('/session', methods=['GET', 'POST'])
+def sessions():
+    if 'username' not in session:
+        return redirect(url_for('login'))
+    error = ''
+
+    headers = {
+        'Authorization': 'Token %s' % session['access_token'],
+    }
+    res = requests.get('%s/api/player/' % API_BASE_URL, headers=headers)
+    athlete_profiles = res.json()
+    if request.method == 'POST':
+        #save file with request.file (you have to use the assign file name here that was created in the html
+        muscle_file = request.files['file']
+        if 'csv' not in muscle_file.filename:
+            error = 'I only accept CSV files please try again'
+            return render_template('session.html', error=error)
+        muscle_filename = secure_filename(muscle_file.filename)
+
+        #save file name to our directory
+        #TODO have a deletion method for unused files
+        muscle_file.save(os.path.join('uploads',muscle_filename))
+
+        #Parser file goes here for parsing csv file
+        s = reader.read_csv_two(os.path.join('uploads',muscle_filename))
+        s = reader.neuro_sum_two(s)
+
+        payload = {
+            'player_profile': request.form.get('athlete_profile', ''),
+            'peroneals_rle': json.dumps(s['peroneals_rle']),
+            'peroneals_lle': [0,0,0],
+            'med_gastro_rle': json.dumps(s['med_gastro_rle']),
+            'med_gastro_lle': [0,0,0],
+            'tib_anterior_rle': json.dumps(s['tib_anterior_rle']),
+            'tib_anterior_lle': [0,0,0],
+            'lat_gastro_rle': json.dumps(s['lat_gastro_rle']),
+            'lat_gastro_lle': [0,0,0],
+            'assessment': request.form.get('assessment', ''),
+            'treatment': request.form.get('treatment', ''),
+        }
+
+        res = requests.post('%s/session/' % (API_BASE_URL), data=payload, headers=headers)
+        if res.ok:
+            return redirect(url_for('trainer'))
+        else:
+            error = 'Error creating session, code: %s' % res.status_code
+    return render_template('upload_research.html', data=payload,
+                           athlete_profiles=athlete_profiles, error=error)
 
 @app.route('/upload-session', methods=['GET', 'POST'])
 def upload_session():
@@ -431,6 +485,7 @@ def upload_composite():
         if res.ok:
             return redirect('trainer')
         else:
+            print(res.text)
             error = 'Error sending data to the database'
 
 
