@@ -69,6 +69,16 @@ def players():
             error = 'Error creating player, code: %s' % res.status_code
     return render_template('player.html', data=data, teams=teams, error=error)
 
+@app.route('/apdf', methods=['GET','POST'])
+def apdf():
+    if 'username' not in session:
+        return redirect(url_for('login'))
+    error = ''
+    headers = {
+        'Authorization': 'Token %s' % session['access_token'],
+    }
+    return render_template('apdf.html')
+
 
 @app.route('/sessionsummary/<player_id>', methods=['GET', ])
 def sessionsummary(player_id):
