@@ -360,7 +360,9 @@ def sessions():
             return redirect(url_for('trainer'))
         else:
             error = 'Error creating session, code: %s' % res.status_code
-    return render_template('upload_research.html', data=payload,
+    data = {'assessment':'', 'treatment':''}
+
+    return render_template('upload_research.html', data=data,
                            athlete_profiles=athlete_profiles, error=error)
 
 @app.route('/upload-session', methods=['GET', 'POST'])
@@ -425,7 +427,6 @@ def upload_session():
         else:
             error = "error uploading to the backend"
             return render_template('upload_session.html', error=error)
-
     data = {'assessment': '',
             'treatment': ''}
 
