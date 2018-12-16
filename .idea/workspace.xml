@@ -4,8 +4,9 @@
     <option name="SCOPE_TYPE" value="3" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="508a29d6-1eac-432e-80ef-18c79d713cca" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    <list default="true" id="508a29d6-1eac-432e-80ef-18c79d713cca" name="Default" comment="merged apdf document">
+      <change beforePath="$PROJECT_DIR$/login.py" beforeDir="false" afterPath="$PROJECT_DIR$/login.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/parser.py" beforeDir="false" afterPath="$PROJECT_DIR$/parser.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/apdf.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/apdf.html" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -59,7 +60,7 @@
       <file leaf-file-name="parser.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/parser.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="378">
+            <state relative-caret-position="468">
               <caret line="191" column="104" selection-start-line="191" selection-start-column="104" selection-end-line="191" selection-end-column="104" />
             </state>
           </provider>
@@ -83,11 +84,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="apdf.html" pinned="false" current-in-tab="false">
+      <file leaf-file-name="apdf.html" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/templates/apdf.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="345">
-              <caret line="30" column="9" selection-start-line="30" selection-start-column="9" selection-end-line="30" selection-end-column="9" />
+            <state relative-caret-position="343">
+              <caret line="59" selection-start-line="59" selection-end-line="59" />
             </state>
           </provider>
         </entry>
@@ -101,11 +102,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="login.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="login.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/login.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="141">
-              <caret line="227" column="39" selection-start-line="227" selection-start-column="29" selection-end-line="227" selection-end-column="39" />
+              <caret line="227" column="39" selection-start-line="227" selection-start-column="39" selection-end-line="227" selection-end-column="39" />
               <folding>
                 <element signature="e#0#98#0" expanded="true" />
               </folding>
@@ -384,7 +385,14 @@
       <option name="project" value="LOCAL" />
       <updated>1538443729665</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="merged apdf document">
+      <created>1544921167356</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1544921167357</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TodoView" selected-index="1">
@@ -406,7 +414,7 @@
       <window_info anchor="bottom" id="Event Log" order="7" sideWeight="0.50069445" side_tool="true" weight="0.32960895" />
       <window_info anchor="bottom" id="Run" order="2" weight="0.3553616" />
       <window_info active="true" anchor="bottom" id="Version Control" order="7" visible="true" weight="0.32917705" />
-      <window_info anchor="bottom" id="Python Console" order="7" weight="0.32803467" />
+      <window_info anchor="bottom" id="Python Console" order="7" weight="0.32793018" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info anchor="bottom" id="Terminal" order="7" weight="0.3117207" />
       <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.49930555" weight="0.2788321" />
@@ -485,7 +493,8 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Added Upload CSV data into website session" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added Upload CSV data into website session" />
+    <MESSAGE value="merged apdf document" />
+    <option name="LAST_COMMIT_MESSAGE" value="merged apdf document" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -881,16 +890,9 @@ data.filename</expression-string>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/templates/apdf.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="345">
-          <caret line="30" column="9" selection-start-line="30" selection-start-column="9" selection-end-line="30" selection-end-column="9" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/parser.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="378">
+        <state relative-caret-position="468">
           <caret line="191" column="104" selection-start-line="191" selection-start-column="104" selection-end-line="191" selection-end-column="104" />
         </state>
       </provider>
@@ -912,10 +914,17 @@ data.filename</expression-string>
     <entry file="file://$PROJECT_DIR$/login.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="141">
-          <caret line="227" column="39" selection-start-line="227" selection-start-column="29" selection-end-line="227" selection-end-column="39" />
+          <caret line="227" column="39" selection-start-line="227" selection-start-column="39" selection-end-line="227" selection-end-column="39" />
           <folding>
             <element signature="e#0#98#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/apdf.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="343">
+          <caret line="59" selection-start-line="59" selection-end-line="59" />
         </state>
       </provider>
     </entry>
