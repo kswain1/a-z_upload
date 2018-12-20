@@ -10,8 +10,8 @@ import pandas as pd
 
 UPLOAD_FOLDER = '~/'
 ALLOWED_EXTENSIONS = set(['txt', 'csv', 'xlsx'])
-API_BASE_URL = 'https://a-zapi.herokuapp.com'
-#API_BASE_URL = 'http://localhost:8000'
+#API_BASE_URL = 'https://a-zapi.herokuapp.com'
+API_BASE_URL = 'http://localhost:8000'
 
 
 app = Flask(__name__)
@@ -408,9 +408,12 @@ def upload_session():
         lle_file.save(os.path.join('uploads', lle_filename))
         rle_file.save(os.path.join('uploads', rle_filename))
 
+        #Create two payloads
         s = reader.read_csv(os.path.join('uploads', lle_filename))
+        left_payload = reader.session_log(os.path.join('uploads', lle_filename))
         lle_payload = reader.neuro_sum(s)
         s = reader.read_csv(os.path.join('uploads', rle_filename))
+        right_payload = reader.session_log(os.path.join('uploads', rle_filename))
         rle_payload = reader.neuro_sum(s)
         payload = {
             'player_profile': request.form.get('athlete_profile', ''),
@@ -427,10 +430,25 @@ def upload_session():
 
         }
 
+        payload_two = {
+            'player_profile': request.form.get('athlete_profile',''),
+            'peroneals_rle': json.dumps(list(right_payload['peroneals_rle'])),
+            'peroneals_lle': json.dumps(list(left_payload['peroneals_lle'])),
+            'med_gastro_rle': json.dumps(list(right_payload['med_gastro_rle'])),
+            'med_gastro_lle': json.dumps(list(left_payload['med_gastro_lle'])),
+            'tib_anterior_rle': json.dumps(list(right_payload['tib_anterior_rle'])),
+            'tib_anterior_lle': json.dumps(list(left_payload['tib_anterior_lle'])),
+            'lat_gastro_rle': json.dumps(list(right_payload['lat_gastro_rle'])),
+            'lat_gastro_lle': json.dumps(list(left_payload['lat_gastro_lle'])),
+            'assessment': request.form.get('assessment',''),
+            'treatment': request.form.get('treatment', ''),
+        }
+
         res = requests.post('%s/session/' % API_BASE_URL, data=payload,
                             headers=headers,)
-        s = payload
-        if res.ok:
+        res_two = requests.post('%s/sessionlog/' % API_BASE_URL, data=payload_two, headers=headers)
+
+        if res.ok and res.ok:
             return redirect(url_for('trainer'))
         else:
             error = "error uploading to the backend"

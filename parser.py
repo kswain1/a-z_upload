@@ -109,6 +109,7 @@ class HomerTechniqueCSVReader:
 
         return emg_data
 
+
     def read_csv_two(filename):
         try:
             df = pd.read_csv(filename)
@@ -157,6 +158,47 @@ class HomerTechniqueCSVReader:
                 break
 
         return df
+
+    ## session log parser
+    def session_log(filename):
+            ## will parse the data of the session log coming into the session from the computer
+            try:
+                df = pd.read_csv(filename)
+            except Exception as e:
+                print(e)
+                return 'There was an error processing your file %s' % e
+
+            # gets to data row
+            emg_data = df[9:]
+
+            # removes unwanted columns
+            emg_data = emg_data.drop(columns=['Subject info', 'Project 1'])
+            emg_data = emg_data.drop(emg_data.columns[-1], axis=1)
+
+            # setting columns labels
+            right_leg = ['time', 'tib_anterior_rle', 'peroneals_rle', 'med_gastro_rle', 'lat_gastro_rle']
+            left_leg = ['time', 'tib_anterior_lle', 'peroneals_lle', 'med_gastro_lle', 'lat_gastro_lle']
+
+            if 'LT' in emg_data.iloc[0][2]:
+                emg_data = emg_data.set_axis(left_leg, axis='columns', inplace=False)
+            else:
+                emg_data = emg_data.set_axis(right_leg, axis='columns', inplace=False)
+
+            #resets the index row
+            emg_data = emg_data.reset_index(drop=True)
+
+            #start at the second row, and remove columns created by the csv document
+            emg_data = emg_data[1:]
+
+            # Drop sum of duration which breaks it into three areas
+            s = emg_data
+
+            s = s.fillna(value=0.0)
+            index_point = s[s['time'] == 'Sum of Duration, %'].index
+            index_point = index_point[0]
+            emg_data = emg_data[:index_point - 1]
+
+            return emg_data
 
     def neuro_sum(emg_data):
         # functinos is for converting nureomuscular averages based on the three different angles
