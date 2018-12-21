@@ -24,5 +24,7 @@ Jaylen James contribution.
 ## Defintion 
 - User is able to login into the profile
 - This user is connected to their organization, and players that they are keeping track off.
+- The login uses get function to retreive relevant athlete's data
+- the login uses post function to access key information of the user logining
 
 
