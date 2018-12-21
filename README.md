@@ -11,3 +11,9 @@ Jaylen James contribution.
 [Gastrocnemius]('https://www.docpods.com/Default.aspx?PageID=2526802&A=SearchResult&SearchID=9786305&ObjectID=2526802&ObjectType=1')
 
 ## Jaylen was here
+
+'''python
+  def foo
+    puts 'bar'
+  end
+'''
