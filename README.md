@@ -17,3 +17,12 @@ Jaylen James contribution.
     puts 'bar'
   end
 ```
+
+### Login 
+/login/
+
+## Defintion 
+- User is able to login into the profile
+- This user is connected to their organization, and players that they are keeping track off.
+
+
