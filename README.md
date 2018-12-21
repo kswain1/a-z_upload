@@ -12,8 +12,8 @@ Jaylen James contribution.
 
 ## Jaylen was here
 
-'''python
+```python
   def foo
     puts 'bar'
   end
-'''
+```
