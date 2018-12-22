@@ -29,6 +29,7 @@ Jaylen James contribution.
 
 ## Access the Trainer's Page
 - Get function is used to retrieve information about the trainer
+- If trainer is not available, user will be retunred to the login page
 
 
 
