@@ -22,18 +22,18 @@ Jaylen James contribution.
 /login/
 
 ## Defintion 
-- User is able to login into the profile
+- User is able to login into the profile.
 - This user is connected to their organization, and players that they are keeping track off. -> "Incorrect" - Kehlin
-- The login uses get function to retreive relevant athlete's data
-- the login uses post function to access key information of the user logining
+- The login uses get function to retreive relevant athlete's data.
+- the login uses post function to access key information of the user logining.
 
 ## Access the Trainer's Page
-- Get function is used to retrieve information about the trainer
-- If trainer is not available, user will be retunred to the login page
+- Get function is used to retrieve information about the trainer.
+- If trainer is not available, user will be retunred to the login page.
 
 
 ## Player
-- Returns the player's data including their name, the team they are on, their team id, and their age
+- Returns the player's data including their name, the team they are on, their team id, and their age.
 
 
 
