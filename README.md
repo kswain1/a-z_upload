@@ -23,8 +23,14 @@ Jaylen James contribution.
 
 ## Defintion 
 - User is able to login into the profile
-- This user is connected to their organization, and players that they are keeping track off.
+- This user is connected to their organization, and players that they are keeping track off. -> "Incorrect" - Kehlin
 - The login uses get function to retreive relevant athlete's data
 - the login uses post function to access key information of the user logining
+
+## Access the Trainer's Page
+- Get function is used to retrieve information about the trainer
+
+
+
 
 
