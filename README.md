@@ -17,6 +17,13 @@ Jaylen James contribution.
     puts 'bar'
   end
 ```
+# Common Sections to Include
+- Resource description
+- Endpoints and methods
+- Parameters
+- Request Example
+- Response Example and Schema
+
 
 ### Login 
 /login/
