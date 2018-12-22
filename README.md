@@ -32,6 +32,11 @@ Jaylen James contribution.
 - If trainer is not available, user will be retunred to the login page
 
 
+##Player
+- Returns the player's data including their name, the team they are on, their team id, and their age
+
+
+
 
 
 
