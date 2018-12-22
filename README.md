@@ -34,7 +34,7 @@ Jaylen James contribution.
 
 ## Player
 - Returns the player's data including their name, the team they are on, their team id, and their age.
-
+- POST: The same data can be posted or applied to the player's account.
 
 
 
