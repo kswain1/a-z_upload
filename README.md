@@ -43,7 +43,9 @@ Jaylen James contribution.
 - Returns the player's data including their name, the team they are on, their team id, and their age.
 - POST: The same data can be posted or applied to the player's account.
 
-
+## Session Summary
+- GET session information from a certain player
+- GET 
 
 
 
