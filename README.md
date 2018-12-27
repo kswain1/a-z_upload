@@ -45,7 +45,9 @@ Jaylen James contribution.
 
 ## Session Summary
 - GET session information from a certain player
-- GET 
+- A required parameter is the player ID
+
+
 
 
 
