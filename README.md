@@ -47,7 +47,7 @@ Jaylen James contribution.
 - GET session information from a certain player
 - A required parameter is the player ID
 
-
-
+## Player Summary
+- GET information regarding a player's likelihood for being injured
 
 
