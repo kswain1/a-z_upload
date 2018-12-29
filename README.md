@@ -50,4 +50,8 @@ Jaylen James contribution.
 ## Player Summary
 - GET information regarding a player's likelihood for being injured
 
+## Composite
+- GET a composite score for a certain player
+- Required parameter is the players ID number
 
+## 
