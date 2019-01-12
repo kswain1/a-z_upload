@@ -1,0 +1,41 @@
+.skills {
+  text-align: center;
+  padding-top: 15px;
+}
+
+.widgetHTML,
+.widgetCSS,
+.widgetWP,
+.widgetSEO {
+  text-align: left;
+  overflow: hidden;
+  width: 280px;
+  height: 210px;
+  display: inline-block;
+  position: relative;
+
+  canvas, .labels {
+    position: absolute;
+    text-align: center;
+    width: 280px;
+    height: 210px;
+  }
+
+  .labels {
+    color: #999999;
+    padding-top: 40px;
+    font-weight: 100;
+
+    h2 {
+      font-weight: 100;
+      font-size: 35px;
+      color: #000000;
+      margin-bottom: 0px;
+    }
+
+    span {
+      font-size: 19px;
+      font-family: 'OpenSansRegular';
+    }
+  }
+}

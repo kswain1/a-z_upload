@@ -15,6 +15,7 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/now-ui-dashboard.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/doughnut.css') }}">
 </head>
 <body class="">
     <div class="wrapper">
@@ -188,11 +189,300 @@
                         </div>
                     </div>
                 </div>
-                    <div>
+                    <div class="col-lg-12">
+                        <!-- Stats Row -->
+                            <div class="row">
+                                <div class="container">
+                                    <div class="row">
+                                        <div class="col-md-3 text-center">
+                                            <h2>Health Score</h2>
+                                            <canvas id="doughnut" width="120" height="120"></canvas>
+                                            <canvas id="skill1" width="120" height="120" class=""></canvas>
+                                            <p></p>
+                                        </div>
+                                        <div class="col-md-3 text-center">
+                                            <h2>Risk Average</h2>
+                                            <canvas id="doughnut2" width="120" height="120"></canvas>
+                                            <canvas id="skill2" width="120" height="120" class=""></canvas>
+                                            <p></p>
+                                        </div>
+                                        <div class="col-md-3 text-center">
+                                            <h2>Team Injuries</h2>
+                                            <canvas id="doughnut3" width="120" height="120"></canvas>
+                                            <canvas id="skill3" width="120" height="120" class=""></canvas>
+                                            <p></p>
+                                        </div>
+                                        <div class="col-md-3 text-center">
+                                            <h2>Risk Players</h2>
+                                            <canvas id="doughnut4" width="120" height="120"></canvas>
+                                            <canvas id="skill4" width="120" height="120" class=""></canvas>
+                                            <p></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        </div>
+                        <!--<div class="row">-->
+                            <!--<div class="col-md-12">-->
+                                <!--<div class="card card-stats">-->
+                                    <!--<div class="card-body">-->
+                                        <!--<div class="row">-->
+                                            <!--<div class="col-md-3">-->
+                                                <!--<div class="statistics">-->
+                                                    <!--<div class="info">-->
+                                                        <!--<div class="icon icon-primary">-->
+                                                            <!--<i class="now-ui-icons ui-2_chat-round"></i>-->
+                                                        <!--</div>-->
+                                                        <!--<h3 class="info-title">859</h3>-->
+                                                        <!--<h6 class="stats-title">Messages</h6>-->
+                                                    <!--</div>-->
+                                                <!--</div>-->
+                                            <!--</div>-->
+                                            <!--<div class="col-md-3">-->
+                                                <!--<div class="statistics">-->
+                                                    <!--<div class="info">-->
+                                                        <!--<div class="icon icon-success">-->
+                                                            <!--<i class="now-ui-icons business_money-coins"></i>-->
+                                                        <!--</div>-->
+                                                        <!--<h3 class="info-title"><small>$</small>3,521</h3>-->
+                                                        <!--<h6 class="stats-title">Today Revenue</h6>-->
+                                                    <!--</div>-->
+                                                <!--</div>-->
+                                            <!--</div>-->
+                                            <!--<div class="col-md-3">-->
+                                                <!--<div class="statistics">-->
+                                                    <!--<div class="info">-->
+                                                        <!--<div class="row">-->
+                                                            <!--<canvas id="doughnut" width="120" height="120" style="position:absolute"></canvas>-->
+                                                            <!--<canvas id="my_canvas" width="120" height="120" style="position:absolute"></canvas>-->
+                                                        <!--</div>-->
+                                                        <!--<h3 class="info-title">562</h3>-->
+                                                        <!--<h6 class="stats-title">Customers</h6>-->
+                                                    <!--</div>-->
+                                                <!--</div>-->
+                                            <!--</div>-->
+                                            <!--<div class="col-md-3">-->
+                                                <!--<div class="statistics">-->
+                                                    <!--<div class="info">-->
+                                                        <!--<div class="icon icon-danger">-->
+                                                            <!--<i class="now-ui-icons objects_support-17"></i>-->
+                                                        <!--</div>-->
+                                                        <!--<h3 class="info-title">353</h3>-->
+                                                        <!--<h6 class="stats-title">Support Requests</h6>-->
+                                                    <!--</div>-->
+                                                <!--</div>-->
+                                            <!--</div>-->
+                                        <!--</div>-->
+                                    <!--</div>-->
+                                <!--</div>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="col-md-12">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h4 class="card-title"> Players Risk Scores</h4>
+                                </div>
+                                <div class="card-body">
+                                    <div class="table-responsive">
+                                        <table class="table table-shopping">
+                                            <thead class="">
+                                            <th  class="text-center" >
+
+
+
+</th>
+                                            <th >
+                                                Area
+                                            </th>
+                                            <th >
+                                                Score
+                                            </th>
+                                            <th >
+                                                At Risk
+                                            </th>
+                                            <th  class="text-right" >
+                                                Price
+                                            </th>
+                                            <th  class="text-right" >
+                                                Qty
+                                            </th>
+                                            <th  class="text-right" >
+                                                Amount
+                                            </th>
+                                            </thead>
+                                            <tbody>
+                                            <tr>
+                                                <td>
+                        <div class="img-container">
+                            <img src="{{ url_for('static', filename='img/player/playerone.png') }}" alt="Profile image" height="100" width="50">
+                            <!--<img src="../assets/img/saint-laurent.jpg" alt="...">-->
+                        </div>
+                    </td>
+                    <td class="td-name">
+                        <a href="#jacket">Right Peroneals</a>
+                        <br /><small>James Jackson</small>
+                    </td>
+                    <td>
+                        79
+                    </td>
+                    <td>
+                        Yes
+                    </td>
+                    <td class="td-number">
+                        <small>€</small>3,390
+                    </td>
+                    <td class="td-number">
+                        1
+                    </td>
+                    <td class="td-number">
+                        <small>€</small>549
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="img-container">
+                            <img src="{{ url_for('static', filename='img/player/playertwo.png') }}" alt="Player Image" height="100" width="50">
+                            <!--<img src="../assets/img/balmain.jpg" alt="...">-->
+                        </div>
+                    </td>
+                    <td class="td-name">
+                        <a href="#pants">Hamstring</a>
+                        <br /><small>Willie Johnson</small>
+                    </td>
+                    <td>
+                        85
+                    </td>
+                    <td>
+                        Yes
+                    </td>
+                    <td class="td-number">
+                        <small>€</small>499
+                    </td>
+                    <td class="td-number">
+                        2
+                    </td>
+                    <td class="td-number">
+                        <small>€</small>998
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="img-container">
+                            <img src="{{ url_for('static', filename='img/player/playerthree.png') }}" alt="Player Image" height="100" width="50">
+                            <!--<img src="../assets/img/prada.jpg" alt="...">-->
+                        </div>
+                    </td>
+                    <td class="td-name">
+                        <a href="#nothing">Right Ankle</a>
+                        <br /><small>Joe William</small>
+                    </td>
+                    <td>
+                        89
+                    </td>
+                    <td>
+                        No
+                    </td>
+                    <td class="td-number">
+                        <small>€</small>200
+                    </td>
+                    <td class="td-number">
+                        1
+                    </td>
+                    <td class="td-number">
+                        <small>€</small>799
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="5">
+                    </td>
+                    <td class="td-total">
+                        Total
+                    </td>
+                    <td class="td-price">
+                        <small>€</small>2,346
+                    </td>
+                </tr>
+                        <div class="dataTables_paginate paging_full_numbers" id="datatable_paginate"><ul class="pagination"><li class="paginate_button page-item first disabled" id="datatable_first"><a href="#" aria-controls="datatable" data-dt-idx="0" tabindex="0" class="page-link">First</a></li><li class="paginate_button page-item previous disabled" id="datatable_previous"><a href="#" aria-controls="datatable" data-dt-idx="1" tabindex="0" class="page-link">Previous</a></li><li class="paginate_button page-item active"><a href="#" aria-controls="datatable" data-dt-idx="2" tabindex="0" class="page-link">1</a></li><li class="paginate_button page-item "><a href="#" aria-controls="datatable" data-dt-idx="3" tabindex="0" class="page-link">2</a></li><li class="paginate_button page-item "><a href="#" aria-controls="datatable" data-dt-idx="4" tabindex="0" class="page-link">3</a></li><li class="paginate_button page-item "><a href="#" aria-controls="datatable" data-dt-idx="5" tabindex="0" class="page-link">4</a></li><li class="paginate_button page-item "><a href="#" aria-controls="datatable" data-dt-idx="6" tabindex="0" class="page-link">5</a></li><li class="paginate_button page-item next" id="datatable_next"><a href="#" aria-controls="datatable" data-dt-idx="7" tabindex="0" class="page-link">Next</a></li><li class="paginate_button page-item last" id="datatable_last"><a href="#" aria-controls="datatable" data-dt-idx="8" tabindex="0" class="page-link">Last</a></li></ul></div>
+                </tbody>
+            </table>
+        </div>
+        <div class="dataTables_paginate paging_full_numbers" id="datatable_paginate"><ul class="pagination"><li class="paginate_button page-item first disabled" id="datatable_first"><a href="#" aria-controls="datatable" data-dt-idx="0" tabindex="0" class="page-link">First</a></li><li class="paginate_button page-item previous disabled" id="datatable_previous"><a href="#" aria-controls="datatable" data-dt-idx="1" tabindex="0" class="page-link">Previous</a></li><li class="paginate_button page-item active"><a href="#" aria-controls="datatable" data-dt-idx="2" tabindex="0" class="page-link">1</a></li><li class="paginate_button page-item "><a href="#" aria-controls="datatable" data-dt-idx="3" tabindex="0" class="page-link">2</a></li><li class="paginate_button page-item "><a href="#" aria-controls="datatable" data-dt-idx="4" tabindex="0" class="page-link">3</a></li><li class="paginate_button page-item "><a href="#" aria-controls="datatable" data-dt-idx="5" tabindex="0" class="page-link">4</a></li><li class="paginate_button page-item "><a href="#" aria-controls="datatable" data-dt-idx="6" tabindex="0" class="page-link">5</a></li><li class="paginate_button page-item next" id="datatable_next"><a href="#" aria-controls="datatable" data-dt-idx="7" tabindex="0" class="page-link">Next</a></li><li class="paginate_button page-item last" id="datatable_last"><a href="#" aria-controls="datatable" data-dt-idx="8" tabindex="0" class="page-link">Last</a></li></ul></div>
+
+                                </div>
+                                <div class="col-md-6">
+                        <div class="card card-user">
+                            <div class="image">
+                                <img src="{{ url_for('static', filename='img/player/basketballCourt.jpg') }}">
+                            </div>
+                                <!--<h4 class="card-title"> James Jackson</h4>-->
+                            <div class="card-body">
+                                <div class="author">
+                                    <a href="#">
+                                        <img class="avatar border-gray" src="{{ url_for('static', filename='img/player/playerone.png') }}" height="230">
+                                        <h5 class="title">James Jackson</h5>
+                                    </a>
+                                </div>
+                                <div class="col-md-6" style="display: block; margin-left: auto;margin-right: auto;width: 50%;">
+                                    <img src="{{ url_for('static', filename='img/player/fib.png') }}" height="220" >
+                                </div>
+                                <div>
+                                    <label> Right Peroneals</label>
+                                    <p class="description" style="color:black">
+                                        Peroneals are at risk of injury. Athlete should add eccentric calf raises to excerises protocol.
+                                        <br>
+                                        We also reccomend custom foot orthotics from foot care express.
+                                    </p>
+                                </div>
+
+
+                                <!--<img src="{{ url_for('static', filename='img/player/fib.png') }}" height="150" width="230">-->
+
+                            </div>
+                        </div>
+
+                    </div
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </div>
+                    <div class="col-md-6">
+                        <div class="card card-user">
+                            <div class="image">
+                                <img src="{{ url_for('static', filename='img/player/basketballCourt.jpg') }}">
+                            </div>
+                                <!--<h4 class="card-title"> James Jackson</h4>-->
+                            <div class="card-body">
+                                <div class="author">
+                                    <a href="#">
+                                        <img class="avatar border-gray" src="{{ url_for('static', filename='img/player/playerone.png') }}" height="230">
+                                        <h5 class="title">James Jackson</h5>
+                                    </a>
+                                </div>
+                                <div class="col-md-6" style="display: block; margin-left: auto;margin-right: auto;width: 50%;">
+                                    <img src="{{ url_for('static', filename='img/player/fib.png') }}" height="220" >
+                                </div>
+                                <div>
+                                    <label> Right Peroneals</label>
+                                    <p class="description" style="color:black">
+                                        Peroneals are at risk of injury. Athlete should add eccentric calf raises to excerises protocol.
+                                        <br>
+                                        We also reccomend custom foot orthotics from foot care express.
+                                    </p>
+                                </div>
+
+
+                                <!--<img src="{{ url_for('static', filename='img/player/fib.png') }}" height="150" width="230">-->
+
+                            </div>
+                        </div>
+
+                    </div>
+                    </div>
+                </div>
     </div>
 <!--   Core JS Files   -->
   <!--<script src="../assets/js/core/jquery.min.js"></script>-->
@@ -215,6 +505,8 @@
 
  <!-- Now Ui Dashboard DEMO methods, don't include it in your project! -->
     <!--<script src="{{url_for('static', filename='demo/demo.js')}}"></script>-->
+    <script src="{{ url_for('static', filename='js/doughnut.js') }}" type="text/javascript"></script>
+    <script src="{{ url_for('static', filename='js/doughnutTwo.js') }}" type="text/javascript"></script>
     <script>
        demo = {
           initPickColor: function() {
@@ -838,6 +1130,7 @@
     $(document).ready(function() {
       // Javascript method's body can be found in assets/js/demos.js
       demo.initDashboardPageCharts();
+
 
     });
   </script>
