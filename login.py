@@ -43,6 +43,9 @@ def trainer():
         return redirect(url_for('login'))
     return render_template('trainer.html')
 
+@app.route('/muscle', methods=['GET'])
+def muscle():
+    return render_template('muscle.html')
 
 @app.route('/player', methods=['GET', 'POST'])
 def players():
@@ -91,7 +94,8 @@ def sessionsummary(player_id):
         for i in session:
             if i != 'id' and i != 'trainer_profile' and i != 'player_profile' and i != 'created_on' and i != 'assessment' and i != 'treatment':
                 # session[i] = jsonDec.decode(session[i])
-                session[i] = [float(item) for item in eval(session[i])]
+                #session[i] = [float(item) for item in eval(session[i])]
+                session[i] = 1
                 # for item in eval(session[i]):
                 #     temp = []
                 #     temp.append(float(item))
