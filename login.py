@@ -10,9 +10,9 @@ import pandas as pd
 
 UPLOAD_FOLDER = '~/'
 ALLOWED_EXTENSIONS = set(['txt', 'csv', 'xlsx'])
-API_BASE_URL = 'https://a-zapi.herokuapp.com'
+API_BASE_URL = 'https://a-zapi-staging-new.herokuapp.com'
 #API_BASE_URL = 'http://localhost:8000'
-
+#API_BASE_URL = "https://a-zapi.herokuapp.com"
 
 app = Flask(__name__)
 app.secret_key = 'precious'
@@ -111,6 +111,7 @@ def sessionsummary(player_id):
 def summary(player_id):
     s = requests.get('%s/session/?search=%s' % (API_BASE_URL, player_id))
     composite = requests.get('%s/composite/?search=%s' %(API_BASE_URL, player_id)).json()
+    print("Hello this is your score", composite)
     #TODO create better logic for figuring whether or not to choose right or left leg. In this exp
     composite = composite[0]['composite_score_rle']
     error = ''
@@ -118,7 +119,7 @@ def summary(player_id):
         #changed session data into a different format
         #session = s.json()[0]
         session = s.json()[-1]
-        print(session)
+        print("HEllo we have made it here", session)
         jsonDec = json.decoder.JSONDecoder()
 
         for i in session:
