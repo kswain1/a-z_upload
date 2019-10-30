@@ -10,8 +10,9 @@ import pandas as pd
 
 UPLOAD_FOLDER = '~/'
 ALLOWED_EXTENSIONS = set(['txt', 'csv', 'xlsx'])
-API_BASE_URL = 'https://a-zapi.herokuapp.com'
+#API_BASE_URL = 'https://a-zapi.herokuapp.com'
 #API_BASE_URL = 'http://localhost:8000'
+API_BASE_URL = 'https://a-zapi-staging-new.herokuapp.com'
 
 
 app = Flask(__name__)
