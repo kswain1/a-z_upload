@@ -7,6 +7,7 @@ from werkzeug.utils import secure_filename
 from parser import HomerTechniqueCSVReader as reader
 import json
 import pandas as pd
+import network.hxdatabase 
 
 UPLOAD_FOLDER = '~/'
 ALLOWED_EXTENSIONS = set(['txt', 'csv', 'xlsx'])
@@ -299,7 +300,22 @@ def dashboard():
     # player_session = requests.get('%s/api/session')
     import player_data as s
     player_data = s.player_athlete()
-    return render_template('dashboard.html', player_session=player_data)
+    testResults = network.hxdatabase.readTestDocs()
+    comfort = []
+    htScore = []
+    endurance = []
+    productName = []
+    gamerTest = [1,2,3]
+    for docs in testResults: 
+        comfort.append(docs["comfort"])
+        endurance.append(docs["fatigue"])
+        htScore.append(docs["htScore"])
+        productName.append(docs["shoeName"])
+    productName[-1] = productName[-1] + ","
+    print(productName)
+    print(comfort)
+    return render_template('dashboard.html', player_session=player_data, comfort = comfort,
+     htScore = htScore, endurance = endurance, productName = productName, gamerTest = gamerTest)
 
 
 @app.route('/athletes', methods=['GET', ])
@@ -522,6 +538,51 @@ def upload_composite():
 
 
     return render_template('upload_composite.html', profiles=athlete_profiles, data=data, error=error)
+
+@app.route('/human', methods=['GET', 'POST'])
+def human_form():
+    # if 'username' not in session:
+    #     return redirect(url_for('login'))
+    # error = ''
+    # headers = {
+    #     'Authorization': 'Token %s' % session['access_token']
+    # }
+    data = {'assessment': '',
+            'treatment': ''}
+    # res = requests.get('%s/api/player/' % API_BASE_URL, headers=headers)
+    # athlete_profiles = res.json()
+    if request.method == 'POST':
+        return redirect('dashboard')
+        # if request.files.__len__() >= 1:
+        #     composite_file = request.files[0]
+        # else: #if no files are selected the error is handled here
+        #     error = 'No File selected'
+        #     return render_template('upload_composite.html', error=error)
+        # composite_file = request.files['file']
+        # if composite_file.filename == '':
+        #     error = 'No file selected'
+        #     return render_template('upload_composite.html', error=error, data=data, profiles=athlete_profiles)
+        # if 'csv' not in composite_file.filename:
+        #     error = 'I only accept CSV files, Try Again ;)'
+        #     return render_template('upload_composite.html', error=error, data=data, profiles=athlete_profiles)
+
+        # composite_filename = secure_filename(composite_file.filename)
+        # composite_file.save(os.path.join('uploads', composite_filename))
+
+        #parser data goes here
+        # composite_data = pd.read_csv(os.path.join('uploads',composite_filename))
+
+
+        # res = requests.post('%s/composite/' % API_BASE_URL, data=payload, headers=headers)
+
+        # if res.ok:
+        #     return redirect('dashboard')
+        # else:
+        #     print(res.text)
+        #     error = 'Error sending data to the database'
+
+
+    return render_template('human_upload.html')
 
 
 

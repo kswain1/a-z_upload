@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% block title %}Upload Test Data{% endblock %}
+{% block content %}
+
+<h1 style="align-center" align="center">Upload Test Data</h1>
+{% if error %}
+<div class="alert alert-danger" role="alert">
+    {{ error }}
+</div>
+{% endif %}
+<div class="col-lg-12">
+<form action="" method="post" enctype="multipart/form-data">
+    <!-- <div class="form-group">
+        <label for="player">Athlete Profile</label>
+        <select class="form-control" id="athlete_profile"
+                name="athlete_profile">
+            {% for profile in profiles %}
+            <option value="{{ profile.id }}">{{ profile.player_name }}</option>
+            {% endfor %}
+        </select>
+    </div> -->
+    <div>
+        <label for="file">Machine Upload File</label>
+        <input type="file" class="form-control" id="file" name="file">
+    </div>
+    <div class="form-group">
+        <label for="assessment">Name</label>
+        <textarea class="form-control" id="Assessment"
+        name="assessment" placeholder="Enter value"></textarea>
+    </div>
+    </div>
+    <div class="form-group">
+        <label for="assessment">Last Measurement</label>
+        <textarea class="form-control" id="Assessment"
+        name="assessment" placeholder="Enter value"></textarea>
+    </div>
+    <div class="form-group">
+        <label for="assessment">Average Shank Value</label>
+        <textarea class="form-control" id="Assessment"
+        name="assessment" placeholder="Enter value"></textarea>
+    </div>
+    <div class="form-group">
+            <label for="assessment">Number of Passes</label>
+            <textarea class="form-control" id="Assessment"
+            name="assessment" placeholder="Enter value"></textarea>
+    </div>
+    <div class="form-group">
+            <label for="treatment">What is the force applied to the Passes</label>
+            <textarea class="form-control" id="treatment"
+            name="treatment" placeholder="Enter value"></textarea>
+    </div>
+    <br>
+    <button type="submit" class="btn btn-primary"> <a href="{{url_for('dashboard')}}"> </a> Upload </button>
+</form>
+</div>
+{% endblock %}

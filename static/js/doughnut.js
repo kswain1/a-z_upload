@@ -27,10 +27,10 @@ function loadSkills1() {
     diff = ((al / 100) * Math.PI * 2 * 10).toFixed(2); //change the arc by multiplying .. * Math.PI*2* --> 7.5=75, 5=50 etc.
     ctx.clearRect(0, 0, cw, ch);
     ctx.lineWidth = 5; //thickness of the line
-    ctx.fillStyle = '#f96332';
-    ctx.strokeStyle = "#f96332";
+    ctx.fillStyle = '#1e3d60';
+    ctx.strokeStyle = "#1e3d60";
     ctx.textAlign = 'center';
-    ctx.font = "30px Radley";
+    ctx.font = "30px Nucleo Outline";
     ctx.fillText(al + '%', cw * .5 + 2, ch * .5 + 8, cw);
     ctx.beginPath();
     ctx.arc(60, 60, 55, start, diff / 10 + start, false); //.arc(x, y , radius, startAngle, endAngle, anticlockwise)
@@ -56,15 +56,15 @@ function loadSkills2() {
     diff = ((al / 100) * Math.PI * 2 * 10).toFixed(2); //change the arc by multiplying .. * Math.PI*2* --> 7.5=75, 5=50 etc.
     ctx.clearRect(0, 0, cw, ch);
     ctx.lineWidth = 5; //thickness of the line
-    ctx.fillStyle = "#f96332";
-    ctx.strokeStyle = "#f96332";
+    ctx.fillStyle = "#1e3d60";
+    ctx.strokeStyle = "#1e3d60";
     ctx.textAlign = 'center';
-    ctx.font = "30px Radley";
+    ctx.font = "30px Nucleo Outline";
     ctx.fillText(al + '%', cw * .5 + 2, ch * .5 + 8, cw);
     ctx.beginPath();
     ctx.arc(60, 60, 55, start, diff / 10 + start, false); //.arc(x, y , radius, startAngle, endAngle, anticlockwise)
     ctx.stroke();
-    if (al >= 83) { // stop the recreation at your desired point, i.e change 100 to 75 if you need just 75%.
+    if (al >= 82) { // stop the recreation at your desired point, i.e change 100 to 75 if you need just 75%.
       clearTimeout(sim);
       // Add scripting here that will run when progress completes
     }
@@ -86,8 +86,8 @@ function loadSkills3() {
     diff = ((al / 100) * Math.PI * 2 * 10).toFixed(2); //change the arc by multiplying .. * Math.PI*2* --> 7.5=75, 5=50 etc.
     ctx.clearRect(0, 0, cw, ch);
     ctx.lineWidth = 5; //thickness of the line
-    ctx.fillStyle = "#f96332";
-    ctx.strokeStyle = "#f96332";
+    ctx.fillStyle = "#1e3d60";
+    ctx.strokeStyle = "#1e3d60";
     ctx.textAlign = 'center';
     ctx.font = "30px Radley";
     ctx.fillText(al + '%', cw * .5 + 2, ch * .5 + 8, cw);
@@ -115,8 +115,8 @@ function loadSkills4() {
     diff = ((al / 100) * Math.PI * 2 * 10).toFixed(2); //change the arc by multiplying .. * Math.PI*2* --> 7.5=75, 5=50 etc.
     ctx.clearRect(0, 0, cw, ch);
     ctx.lineWidth = 5; //thickness of the line
-    ctx.fillStyle = "#f96332";
-    ctx.strokeStyle = "#f96332";
+    ctx.fillStyle = "#1e3d60";
+    ctx.strokeStyle = "#1e3d60";
     ctx.textAlign = 'center';
     ctx.font = "30px Radley";
     ctx.fillText(al + '%', cw * .5 + 2, ch * .5 + 8, cw);
