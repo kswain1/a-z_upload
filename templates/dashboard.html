@@ -68,31 +68,53 @@
         </div>
         <div class="main-panel">
             <!-- NAV Bar Starts Here -->
+            <nav class="navbar navbar-expand-lg navbar-absolute bg-primary fixed-top">
+              <div class="container-fluid">
+                
+                <div class="collapse navbar-collapse" id="navigation">
+                  <form>
+                    <div>
+                      <select name="search" class="form-control search-dropdown">
+                        {%for name in productTestNames %}
+                        <option default value= {{ name | safe }}> {{ name}}</option>
+                        {%endfor%}
+                      </select>
+                      <!-- <div class="input-group-append">
+                        <div class="input-group-text">
+                          <i class="now-ui-icons ui-1_zoom-bold"></i>
+                        </div>
+                      </div> -->
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </nav>
+            <!-- End Navbar -->
             <!-- End Nav Bar --->
             <div class="col-lg-12">
               <!-- Stats Row -->
                   <div class="row">
                       <div class="container">
-                          <div class="row">
-                              <div class="col-md-3 text-center">
+                          <div class="row pull-down">
+                              <div class="col-md-3 text-center responsive-title">
                                   <h2>Performance</h2>
                                   <canvas id="doughnut" width="120" height="120"></canvas>
                                   <canvas id="skill1" width="120" height="120" class=""></canvas>
                                   <p></p>
                               </div>
-                              <div class="col-md-3 text-center">
+                              <div class="col-md-3 text-center responsive-title">
                                   <h2>Endurance</h2>
                                   <canvas id="doughnut2" width="120" height="120"></canvas>
                                   <canvas id="skill2" width="120" height="120" class=""></canvas>
                                   <p></p>
                               </div>
-                              <div class="col-md-3 text-center">
+                              <div class="col-md-3 text-center responsive-title">
                                   <h2>Nuero Work </h2>
                                   <canvas id="doughnut3" width="120" height="120"></canvas>
                                   <canvas id="skill3" width="120" height="120" class=""></canvas>
                                   <p></p>
                               </div>
-                              <div class="col-md-3 text-center">
+                              <div class="col-md-3 text-center responsive-title">
                                   <h2>Fatigue</h2>
                                   <canvas id="doughnut4" width="120" height="120"></canvas>
                                   <canvas id="skill4" width="120" height="120" class=""></canvas>
@@ -356,7 +378,7 @@
               type: 'line',
               responsive: true,
               data: {
-                labels: {{ gamerTest }},
+                labels: '{{ productName }}',
                 datasets: [{
                   label: "Active Users",
                   borderColor: "#f96332",
@@ -495,7 +517,7 @@
             var myChart = new Chart(ctx, {
               type: 'line',
               data: {
-                labels: {{ gamerTest }},
+                labels: {{ productName | safe }},
                 datasets: [{
                   label: "Performance",
                   borderColor: "#fd7e14",
@@ -510,7 +532,7 @@
                   fill: true,
                   backgroundColor: gradientFill,
                   borderWidth: 2,
-                  data: [56, 94, 94, 80.36,]
+                  data: {{ comfort }}
                 },
                 {
                 label: "Endurance",
@@ -526,7 +548,7 @@
                   fill: true,
                   backgroundColor: gradientFill,
                   borderWidth: 2,
-                data: [69, 47, 92, 79.41]
+                data: {{ endurance }}
                 }]
               },
               options: {

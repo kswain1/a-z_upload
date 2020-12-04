@@ -1876,6 +1876,12 @@ h2,
   margin-bottom: 30px;
 }
 
+@media screen and (min-width: 775px) {
+  .responsive-title h2 .h2 {
+    font-size: 1.5em;
+  }
+}
+
 h3,
 .h3 {
   font-size: 2em;
@@ -5343,6 +5349,7 @@ Created using IcoMoon - icomoon.io
   .page-header .container h6.category-absolute {
     width: 90%;
   }
+
 }
 
 /*# sourceMappingURL=dashboard-free.css.map */

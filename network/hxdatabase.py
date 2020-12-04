@@ -16,6 +16,17 @@ test_ref = db.collection(u'test')
 def writeDocs(doc_ref, payload):
     doc_ref.document().set(payload)
 
+def productTestNames(): 
+    productTestResults = test_ref.stream()
+    namesList = []
+    for name in productTestResults:
+        if name.to_dict().get('productTestName'):
+            productTestName = name.to_dict()["productTestName"]
+            print(productTestName)
+            if productTestName in namesList:
+                break
+            namesList.append(productTestName)
+    return namesList
 
 #I can use the cloud functions as an alternative or use a javascript app
 def readTestDocs():
@@ -35,10 +46,30 @@ def readTestDocs():
         fatigueScores.append(docs.to_dict()['fatigue'])
         htScores.append(docs.to_dict()['htScore'])
         test_results.append(docs.to_dict())
-    print(test_results, "hello")
+    #print(test_results, "hello")
     return test_results
     #query_ref = cities_ref.where(u'state', u'==', u'CA')
     #https://firebase.google.com/docs/firestore/query-data/queries
+
+def readTestDocsNew(testName):
+    test_docs = test_ref.where(u'productTestName', u'==', testName).stream()
+    productTestName = test_ref.order_by(u'productTestName',direction=firestore.Query.DESCENDING)
+    results = productTestName.stream()
+    
+    productNames = []
+    fatigueScores = []
+    comfortScores = []
+    fatigueScores = []
+    htScores = []
+    test_results =[]
+    for docs in test_docs: 
+        productNames.append(docs.to_dict()['shoeName'])
+        comfortScores.append(docs.to_dict()['comfort'])
+        fatigueScores.append(docs.to_dict()['fatigue'])
+        htScores.append(docs.to_dict()['htScore'])
+        test_results.append(docs.to_dict())
+    #print(test_results, "hello")
+    return test_results
 
 
 ## create read function
@@ -50,4 +81,6 @@ def readDocs(doc_ref):
         hxObjects.append(docs.to_dict())
 
 print(default_app.name)
-# readTestDocs(testName=u'Walmart Rick Slip Stock')
+readTestDocs()
+print('----------------')
+readTestDocsNew(testName=u'Walmart Slip Study')
