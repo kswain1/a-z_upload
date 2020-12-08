@@ -8,6 +8,7 @@ from parser import HomerTechniqueCSVReader as reader
 import json
 import pandas as pd
 import network.hxdatabase 
+import player_data as s
 
 UPLOAD_FOLDER = '~/'
 ALLOWED_EXTENSIONS = set(['txt', 'csv', 'xlsx'])
@@ -32,7 +33,7 @@ def login():
         if res.ok:
             session['access_token'] = res.json()['token']
             session['username'] = username
-            return redirect(url_for('trainer'))
+            return redirect(url_for('dashboard'))
         else:
             error = 'Login failed, error code: %s' % res.status_code
     return render_template('login.html', error=error, username=username)
@@ -297,8 +298,33 @@ def update_session(player_id):
 
 @app.route('/dashboard', methods=['GET', 'POST'])
 def dashboard():
+    
+    if request.method == 'POST':
+      productName = request.form.get('search')
+      print("my product name: ", productName)
+      print('------')
+      player_data = s.player_athlete()
+      testResults = network.hxdatabase.readTestDocsNew(productName)
+      productTestNames = network.hxdatabase.productTestNames()
+      searchValue = productName if productName else productTestNames[0]
+      comfort = []
+      htScore = []
+      endurance = []
+      productName = []
+      productNameList = []
+      gamerTest = [1,2,3]
+      for docs in testResults: 
+          comfort.append(docs["comfort"])
+          endurance.append(docs["fatigue"])
+          htScore.append(docs["htScore"])
+          productName.append(docs["shoeName"])
+    
+      return render_template("dashboard.html",player_session=player_data, comfort = comfort,
+     htScore = htScore, endurance = endurance, productName = productName, gamerTest = gamerTest,
+      productTestNames =  productTestNames, searchValue = searchValue)
+
+
     # player_session = requests.get('%s/api/session')
-    import player_data as s
     player_data = s.player_athlete()
     testResults = network.hxdatabase.readTestDocs()
     productTestNames = network.hxdatabase.productTestNames()
@@ -316,7 +342,6 @@ def dashboard():
     
     # productName[-1] = productName[-1] + ","
     print("=-------")
-    print(productTestNames)
     return render_template('dashboard.html', player_session=player_data, comfort = comfort,
      htScore = htScore, endurance = endurance, productName = productName, gamerTest = gamerTest,
       productTestNames =  productTestNames)

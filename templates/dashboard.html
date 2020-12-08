@@ -72,12 +72,18 @@
               <div class="container-fluid">
                 
                 <div class="collapse navbar-collapse" id="navigation">
-                  <form>
-                    <div>
-                      <select name="search" class="form-control search-dropdown">
+                  <form action= "{{ url_for('dashboard') }}" method="POST">
+                    <div style="display: flex;">
+                      <select name="search" class="form-control search-dropdown" value="{{searchValue}}">
                         {%for name in productTestNames %}
-                        <option default value= {{ name | safe }}> {{ name}}</option>
+                          {% if name == searchValue %}
+                            <option value= "{{ name }}" selected> {{ name}}</option>
+                          {% else %}
+                            <option value= "{{ name }}"> {{ name}}</option>
+                          {% endif %}
+
                         {%endfor%}
+                        <input type = "submit" value = "submit" class="btn btn-light submit-btn" />
                       </select>
                       <!-- <div class="input-group-append">
                         <div class="input-group-text">

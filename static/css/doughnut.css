@@ -4,3 +4,20 @@
 #skill1,#skill2,#skill3,#skill4{
   position: relative;
 }
+
+.pull-down{
+  margin-top:100px;
+}
+
+.search-dropdown{
+  width:250px !important;
+  background-color: white !important;
+}
+
+.submit-btn {
+  border-radius: 20px;
+  background-color: white;
+  color: #2c2c2c;
+  margin: 0px;
+  margin-left: 20px;
+}
