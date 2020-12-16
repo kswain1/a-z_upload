@@ -17,15 +17,15 @@ def writeDocs(doc_ref, payload):
     doc_ref.document().set(payload)
 
 def productTestNames(): 
-    productTestResults = test_ref.stream()
     namesList = []
-    for name in productTestResults:
-        if name.to_dict().get('productTestName'):
-            productTestName = name.to_dict()["productTestName"]
-            print(productTestName)
-            if productTestName in namesList:
-                break
+
+    productTest = test_ref.order_by(u'productTestName',direction=firestore.Query.DESCENDING)
+    results = productTest.stream()
+    for name in results: 
+        productTestName = name.to_dict()['productTestName']
+        if productTestName not in namesList: 
             namesList.append(productTestName)
+         
     return namesList
 
 #I can use the cloud functions as an alternative or use a javascript app
@@ -33,7 +33,8 @@ def readTestDocs():
     test_docs = test_ref.where(u'productTestName', u'==', u'Walmart Slip Study').stream()
     productTestName = test_ref.order_by(u'productTestName',direction=firestore.Query.DESCENDING)
     results = productTestName.stream()
-    
+    for docs in results: 
+        print(docs.to_dict(), "----/n")
     productNames = []
     fatigueScores = []
     comfortScores = []
@@ -55,7 +56,8 @@ def readTestDocsNew(testName):
     test_docs = test_ref.where(u'productTestName', u'==', testName).stream()
     productTestName = test_ref.order_by(u'productTestName',direction=firestore.Query.DESCENDING)
     results = productTestName.stream()
-    
+    # for docs in results: 
+    #     print(docs.to_dict())
     productNames = []
     fatigueScores = []
     comfortScores = []
@@ -80,7 +82,22 @@ def readDocs(doc_ref):
         print(docs.id, " =>", docs.to_dict())
         hxObjects.append(docs.to_dict())
 
+
+def deleteRepeatedTestDocs():
+    results = test_ref.order_by(u'shoeName',direction=firestore.Query.DESCENDING)
+    results = results.stream()
+    name = []
+    for doc in results: 
+        productName = doc.to_dict()['shoeName']
+        if productName not in name: 
+            name.append(productName)
+        else: 
+            #delete document
+            #print(doc.id)
+            test_ref.document(doc.id).delete()
 print(default_app.name)
-readTestDocs()
-print('----------------')
-readTestDocsNew(testName=u'Walmart Slip Study')
+#readTestDocs()
+#print('----------------')
+#readTestDocsNew(testName=u'Walmart Slip Study')
+#print(productTestNames())
+#deleteRepeatedTestDocs()

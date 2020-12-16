@@ -103,7 +103,7 @@
                       <div class="container">
                           <div class="row pull-down">
                               <div class="col-md-3 text-center responsive-title">
-                                  <h2>Performance</h2>
+                                  <h2>Ht Score</h2>
                                   <canvas id="doughnut" width="120" height="120"></canvas>
                                   <canvas id="skill1" width="120" height="120" class=""></canvas>
                                   <p></p>
@@ -121,7 +121,7 @@
                                   <p></p>
                               </div>
                               <div class="col-md-3 text-center responsive-title">
-                                  <h2>Fatigue</h2>
+                                  <h2>Comfort</h2>
                                   <canvas id="doughnut4" width="120" height="120"></canvas>
                                   <canvas id="skill4" width="120" height="120" class=""></canvas>
                                   <p></p>
@@ -292,6 +292,14 @@
 
  <!-- Now Ui Dashboard DEMO methods, don't include it in your project! -->
     <!--<script src="{{url_for('static', filename='demo/demo.js')}}"></script>-->
+    <script>
+      var comfort = {{ comfort }}
+      var endurance = {{ endurance }}
+      var htScore = {{ htScore }}
+      console.log("Endurance Scores ",endurance)
+      console.log("ht Scores: ", htScore)
+      console.log("comfort: ", comfort)
+    </script>
     <script src="{{ url_for('static', filename='js/doughnut.js') }}" type="text/javascript"></script>
     <script src="{{ url_for('static', filename='js/doughnutTwo.js') }}" type="text/javascript"></script>
     <script>
@@ -320,7 +328,7 @@
             gradientChartOptionsConfiguration = {
               maintainAspectRatio: false,
               legend: {
-                display: false
+                display: true
               },
               tooltips: {
                 bodySpacing: 4,
@@ -384,9 +392,9 @@
               type: 'line',
               responsive: true,
               data: {
-                labels: '{{ productName }}',
+                labels: "{{ productName | safe }}" , 
                 datasets: [{
-                  label: "Active Users",
+                  label: "Enduarance Scores",
                   borderColor: "#f96332",
                   pointBorderColor: "#FFF",
                   pointBackgroundColor: "#f96332",
@@ -397,7 +405,7 @@
                   fill: true,
                   backgroundColor: gradientFill,
                   borderWidth: 2,
-                  data: {{ comfort }},
+                  data: comfort,
                 }]
               },
               options: gradientChartOptionsConfiguration
@@ -413,7 +421,7 @@
             gradientChartOptionsConfiguration = {
               maintainAspectRatio: false,
               legend: {
-                display: false
+                display: true
               },
               tooltips: {
                 bodySpacing: 4,
@@ -525,7 +533,7 @@
               data: {
                 labels: {{ productName | safe }},
                 datasets: [{
-                  label: "Performance",
+                  label: "Ht Score",
                   borderColor: "#fd7e14",
                   pointBorderColor: chartColor,
                   pointBackgroundColor: "#1e3d60",
@@ -538,7 +546,7 @@
                   fill: true,
                   backgroundColor: gradientFill,
                   borderWidth: 2,
-                  data: {{ comfort }}
+                  data: {{ htScore }}
                 },
                 {
                 label: "Endurance",
@@ -580,7 +588,7 @@
                 legend: {
                   position: "bottom",
                   fillStyle: "#FFF",
-                  display: false
+                  display: true,
                 },
                 scales: {
                   yAxes: [{
@@ -633,9 +641,9 @@
               type: 'line',
               responsive: true,
               data: {
-                labels: {{ gamerTest }},
+                labels: {{ productName | safe }} ,
                 datasets: [{
-                  label: "Active Users",
+                  label: "Product Names",
                   borderColor: "#f96332",
                   pointBorderColor: "#FFF",
                   pointBackgroundColor: "#f96332",
@@ -646,7 +654,7 @@
                   fill: true,
                   backgroundColor: gradientFill,
                   borderWidth: 2,
-                  data: [542, 480, 430, 550, 530, 453, 380, 434, 568, 610, 700, 630]
+                  data: {{ endurance }}
                 }]
               },
               options: gradientChartOptionsConfiguration
@@ -667,7 +675,7 @@
               type: 'line',
               responsive: true,
               data: {
-                labels: ["hello"],
+                labels: {{ productName | safe }},
                 datasets: [{
                   label: "Comfort Scores",
                   borderColor: "#18ce0f",

@@ -1,3 +1,5 @@
+
+
 //draw the doughnut
 var doughnutArray = [document.getElementById('doughnut').getContext('2d'), document.getElementById('doughnut2').getContext('2d'), document.getElementById('doughnut3').getContext('2d'), document.getElementById('doughnut4').getContext('2d')];
 for (var i = 0; i < doughnutArray.length; i++) {
@@ -35,7 +37,7 @@ function loadSkills1() {
     ctx.beginPath();
     ctx.arc(60, 60, 55, start, diff / 10 + start, false); //.arc(x, y , radius, startAngle, endAngle, anticlockwise)
     ctx.stroke();
-    if (al >= 89) { // stop the recreation at your desired point, i.e change 100 to 75 if you need just 75%.
+    if (al >= htScore[0]) { // stop the recreation at your desired point, i.e change 100 to 75 if you need just 75%.
       clearTimeout(sim);
       // Add scripting here that will run when progress completes
     }
@@ -64,7 +66,7 @@ function loadSkills2() {
     ctx.beginPath();
     ctx.arc(60, 60, 55, start, diff / 10 + start, false); //.arc(x, y , radius, startAngle, endAngle, anticlockwise)
     ctx.stroke();
-    if (al >= 82) { // stop the recreation at your desired point, i.e change 100 to 75 if you need just 75%.
+    if (al >= endurance[0]) { // stop the recreation at your desired point, i.e change 100 to 75 if you need just 75%.
       clearTimeout(sim);
       // Add scripting here that will run when progress completes
     }
@@ -94,7 +96,7 @@ function loadSkills3() {
     ctx.beginPath();
     ctx.arc(60, 60, 55, start, diff / 10 + start, false); //.arc(x, y , radius, startAngle, endAngle, anticlockwise)
     ctx.stroke();
-    if (al >= 30) { // stop the recreation at your desired point, i.e change 100 to 75 if you need just 75%.
+    if (al >= endurance[1]) { // stop the recreation at your desired point, i.e change 100 to 75 if you need just 75%.
       clearTimeout(sim);
       // Add scripting here that will run when progress completes
     }
@@ -123,7 +125,7 @@ function loadSkills4() {
     ctx.beginPath();
     ctx.arc(60, 60, 55, start, diff / 10 + start, false); //.arc(x, y , radius, startAngle, endAngle, anticlockwise)
     ctx.stroke();
-    if (al >= 40) { // stop the recreation at your desired point, i.e change 100 to 75 if you need just 75%.
+    if (al >= comfort[0]) { // stop the recreation at your desired point, i.e change 100 to 75 if you need just 75%.
       clearTimeout(sim);
       // Add scripting here that will run when progress completes
     }
