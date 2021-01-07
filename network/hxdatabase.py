@@ -1,9 +1,10 @@
 import firebase_admin
 from firebase_admin import credentials
 from firebase_admin import firestore
-
+import os
 #use application default credentials 
-cred = credentials.Certificate('/Users/kehlinswain/Documents/software_projects/a-z_upload/network/service-account-file.json')
+#cred = credentials.Certificate('/Users/kehlinswain/Documents/software_projects/a-z_upload/network/service-account-file.json')
+cred = credentials.Certificate(os.path.join('network','service-account-file.json'))
 
 
 default_app = firebase_admin.initialize_app(cred)
