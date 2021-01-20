@@ -71,7 +71,7 @@ def readTestDocsNew(testName):
         fatigueScores.append(docs.to_dict()['fatigue'])
         htScores.append(docs.to_dict()['htScore'])
         test_results.append(docs.to_dict())
-    #print(test_results, "hello")
+    print(test_results, "hello")
     return test_results
 
 
