@@ -296,6 +296,7 @@
       var comfort = {{ comfort }}
       var endurance = {{ endurance }}
       var htScore = {{ htScore }}
+      var balance = 0
       console.log("Endurance Scores ",endurance)
       console.log("ht Scores: ", htScore)
       console.log("comfort: ", comfort)
@@ -345,20 +346,20 @@
                   display: 0,
                   gridLines: 0,
                   ticks: {
-                    display: false
+                    display: true
                   },
                   gridLines: {
                     zeroLineColor: "transparent",
-                    drawTicks: false,
-                    display: false,
-                    drawBorder: false
+                    drawTicks: true,
+                    display: true,
+                    drawBorder: true
                   }
                 }],
                 xAxes: [{
                   display: 0,
                   gridLines: 0,
                   ticks: {
-                    display: false
+                    display: true
                   },
                   gridLines: {
                     zeroLineColor: "transparent",
@@ -438,26 +439,26 @@
                   display: 0,
                   gridLines: 0,
                   ticks: {
-                    display: false
+                    display: true
                   },
                   gridLines: {
                     zeroLineColor: "transparent",
-                    drawTicks: false,
-                    display: false,
-                    drawBorder: false
+                    drawTicks: true,
+                    display: true,
+                    drawBorder: true
                   }
                 }],
                 xAxes: [{
                   display: 0,
                   gridLines: 0,
                   ticks: {
-                    display: false
+                    display: true
                   },
                   gridLines: {
                     zeroLineColor: "transparent",
-                    drawTicks: false,
-                    display: false,
-                    drawBorder: false
+                    drawTicks: true,
+                    display: true,
+                    drawBorder: true,
                   }
                 }]
               },
@@ -474,7 +475,7 @@
             gradientChartOptionsConfigurationWithNumbersAndGrid = {
               maintainAspectRatio: false,
               legend: {
-                display: false
+                display: true
               },
               tooltips: {
                 bodySpacing: 4,
@@ -482,8 +483,8 @@
                 intersect: 0,
                 position: "nearest",
                 xPadding: 10,
-                yPadding: 10,
-                caretPadding: 10
+                yPadding: 20,
+                caretPadding: 5
               },
               responsive: true,
               scales: {
@@ -497,15 +498,16 @@
                 xAxes: [{
                   display: 0,
                   gridLines: 0,
-                  ticks: {
-                    display: false
-                  },
-                  gridLines: {
-                    zeroLineColor: "transparent",
-                    drawTicks: false,
-                    display: false,
-                    drawBorder: false
-                  }
+                  //labels: true,
+                  // ticks: {
+                  //   display: true
+                  // },
+                  // gridLines: {
+                  //   zeroLineColor: "transparent",
+                  //   drawTicks: true,
+                  //   display: true,
+                  //   drawBorder: false
+                  // }
                 }]
               },
               layout: {
@@ -513,7 +515,7 @@
                   left: 0,
                   right: 0,
                   top: 15,
-                  bottom: 15
+                  bottom: 5
                 }
               }
             };
@@ -529,7 +531,7 @@
             gradientFill.addColorStop(1, "rgba(255, 255, 255, 0.24)");
 
             var myChart = new Chart(ctx, {
-              type: 'line',
+              type: 'bar',
               data: {
                 labels: {{ productName | safe }},
                 datasets: [{
@@ -638,12 +640,12 @@
             gradientFill.addColorStop(1, "rgba(249, 99, 59, 0.40)");
 
             myChart = new Chart(ctx, {
-              type: 'line',
+              type: 'bar',
               responsive: true,
               data: {
                 labels: {{ productName | safe }} ,
                 datasets: [{
-                  label: "Product Names",
+                  label: "Endurance Scores",
                   borderColor: "#f96332",
                   pointBorderColor: "#FFF",
                   pointBackgroundColor: "#f96332",
@@ -657,7 +659,7 @@
                   data: {{ endurance }}
                 }]
               },
-              options: gradientChartOptionsConfiguration
+              options: gradientChartOptionsConfigurationWithNumbersAndGrid
             });
 
 
@@ -672,7 +674,7 @@
             gradientFill.addColorStop(1, hexToRGB('#18ce0f', 0.4));
 
             myChart = new Chart(ctx, {
-              type: 'line',
+              type: 'bar',
               responsive: true,
               data: {
                 labels: {{ productName | safe }},
