@@ -1,6 +1,6 @@
 from flask import (
     Flask, render_template, redirect, url_for, request, session, g,
-    flash)
+    flash, jsonify)
 import requests
 import os
 from werkzeug.utils import secure_filename
@@ -9,6 +9,9 @@ import json
 import pandas as pd
 import network.hxdatabase 
 import player_data as s
+from firebase_admin import auth
+from firebase_admin import credentials
+import datetime
 
 UPLOAD_FOLDER = '~/'
 ALLOWED_EXTENSIONS = set(['txt', 'csv', 'xlsx'])
@@ -26,11 +29,12 @@ def login():
     error = ''
     username = ''
     if request.method == 'POST':
+        return redirect(url_for('dashboard'))
         username = request.form.get('username', '')
         password = request.form.get('password', '')
         login = dict(username=username, password=password)
         res = requests.post('%s/login/' % API_BASE_URL, data=login)
-        if res.ok:
+        if res.ok :
             session['access_token'] = res.json()['token']
             session['username'] = username
             return redirect(url_for('dashboard'))
@@ -38,6 +42,19 @@ def login():
             error = 'Login failed, error code: %s' % res.status_code
     return render_template('login.html', error=error, username=username)
 
+@app.route('/sessionInit', methods=['POST'])
+def session_initializer():
+    id_token = request.form['idToken']
+    expires_in = datetime.timedelta(days=5)
+    try:
+        session_cookie = auth.create_session_cookie(id_token, expires_in=expires_in)
+        response = jsonify({'status': 'success'})
+        expires = datetime.datetime.now() + expires_in
+        response.set_cookie(
+            'session', session_cookie, expires=expires, httponly=True)
+        return response
+    except auth.AuthError:
+        return flask.abort(401, 'Failed to create a session cookie')
 
 @app.route('/trainer', methods=['GET', 'POST'])
 def trainer():
@@ -298,7 +315,10 @@ def update_session(player_id):
 
 @app.route('/dashboard', methods=['GET', 'POST'])
 def dashboard():
-    
+    if request.method == 'GET':
+        print(request.json)
+        return redirect(url_for('dashboard'))
+
     if request.method == 'POST':
       productName = request.form.get('search')
       print("my product name: ", productName)
@@ -317,7 +337,7 @@ def dashboard():
           comfort.append(docs["comfort"])
           endurance.append(docs["fatigue"])
           htScore.append(docs["htScore"])
-          productName.append(docs["shoeName"])
+          productName.append (docs["shoeName"])
     
       return render_template("dashboard.html",player_session=player_data, comfort = comfort,
      htScore = htScore, endurance = endurance, productName = productName, gamerTest = gamerTest,
