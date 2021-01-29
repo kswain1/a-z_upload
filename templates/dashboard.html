@@ -19,17 +19,21 @@
 </head>
 <body class="">
     <div class="wrapper">
-        <div class="sidebar" data-color="primary">
+        <div class="sidebar" data-color="blue">
       <!--
         Tip 1: You can change the color of the sidebar using: data-color="blue | green | orange | red | yellow"
     -->
           <div class="logo">
-            <a href="" class="simple-text logo-mini">
+            <div>
+              <img src="{{ url_for('static', filename='img/HXI-Primary-Logo_Dark-Version_RGB.png')}}" alt="Hx Innovations">
+
+            </div>
+            <!-- <a href="" class="simple-text logo-mini" >
               HX
             </a>
             <a href="" class="simple-text logo-normal">
               Dashboard
-            </a>
+            </a> -->
           </div>
           <div class="sidebar-wrapper">
             <ul class="nav">
@@ -184,7 +188,7 @@
                         </div>
                         <div class="card-body">
                             <div class="chart-body">
-                                <canvas id="lineChartExampleWithNumbersAndGrid"></canvas>
+                                <canvas id="lineChartExampleWithNumbersAndGrid" style="height: 190px !important;"></canvas>
                             </div>
 
                         </div>
