@@ -3,21 +3,100 @@
 <head>
     {% block head %}
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no"> 
+    <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">  -->
     <!--<link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.css') }}">-->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/now-ui-dashboard.css') }}">
     <!--<LINK rel="stylesheet" title="compact" href="{{ url_for('static', filename='css/pdf-view.css')}}">-->
     <!--<link rel="stylesheet" href="{{ url_for('static', filename='css/column-view.css')}}" >-->
+     
+    <script src="https://www.gstatic.com/firebasejs/8.2.6/firebase-app.js"></script>
+
+    <script src="https://www.gstatic.com/firebasejs/8.2.6/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.2.6/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/ui/4.6.1/firebase-ui-auth.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/4.6.1/firebase-ui-auth.css" />   
+
+
 
     <title>{% block title %}{% endblock %}</title>
     {% endblock %}
 </head>
 <body>
+
+    <script>
+
+        var firebaseInstance = null;
+        // Your web app's Firebase configuration
+        // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+        var firebaseConfig = {
+          apiKey: "AIzaSyCtHfLNTh_mQt5YRTAol5QouEuoFWFrQyI",
+          authDomain: "hxapp-38bf8.firebaseapp.com",
+          databaseURL: "https://hxapp-38bf8.firebaseio.com",
+          projectId: "hxapp-38bf8",
+          storageBucket: "hxapp-38bf8.appspot.com",
+          messagingSenderId: "435889074381",
+          appId: "1:435889074381:web:924283ad413202a241f984",
+          measurementId: "G-JWNC4M16WK"
+        };
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        firebaseInstance = firebase;
+        //firebase.analytics();
+
+        var ui = new firebaseui.auth.AuthUI(firebase.auth());
+        var uiConfig = {
+          callbacks: {
+            signInSuccessWithAuthResult: function(authResult, redirectUrl) {
+              // User successfully signed in.
+              // Return type determines whether we continue the redirect automatically
+              // or whether we leave that to developer to handle.
+
+              var user = firebase.auth().currentUser;
+              console.log('user', user);
+              let uid = user.uid;
+              
+            //   window.location = "{{ url_for('dashboard', uid='uid' ) }}";//
+            var BASE_URL = 'http://127.0.0.1:5000';
+            window.location = BASE_URL + '/dashboard?uid=' + user.uid;
+            //   return redirect(url_for('found', email=x, listOfObjects=y))
+              return false;
+            },
+            uiShown: function() {
+              // The widget is rendered.
+              // Hide the loader.
+              document.getElementById('loader').style.display = 'none';
+            }
+          },
+          // Will use popup for IDP Providers sign-in flow instead of the default, redirect.
+          signInFlow: 'popup',
+          // signInSuccessUrl: "{{ url_for('static', filename='templates/dashboard.html') }}",
+          signInSuccessUrl: "{{ url_for('dashboard') }}",
+          signInOptions: [
+            // Leave the lines as is for the providers you want to offer your users.
+            firebase.auth.GoogleAuthProvider.PROVIDER_ID,
+            firebase.auth.EmailAuthProvider.PROVIDER_ID,
+            firebase.auth.PhoneAuthProvider.PROVIDER_ID
+          ],
+          // Terms of service url.
+          tosUrl: '<your-tos-url>',
+          // Privacy policy url.
+          privacyPolicyUrl: '<your-privacy-policy-url>',
+       
+        };
+
+        // The start method will wait until the DOM is loaded.
+        ui.start('#firebaseui-auth-container', uiConfig);
+
+        
+      </script>
     <div id="content" class="container">{% block content %}{% endblock %}</div>
     <div id="footer" class="container">
         {% block footer %}{% endblock %}
     </div>
+    <!-- Insert these scripts at the bottom of the HTML, but before you use any Firebase services -->
+
+    
 </body>
 </html>

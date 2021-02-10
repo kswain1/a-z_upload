@@ -1,3 +1,4 @@
+{% extends "base.html" %}
 {% block content %}
 <head>
   <meta charset="utf-8" />
@@ -11,15 +12,16 @@
   <!--     Fonts and icons     -->
   <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700,200" rel="stylesheet" />
   <link href="https://use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet">
-    <link href="{{url_for('static', filename='demo/demo.css')}}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/now-ui-dashboard.css') }}">
+    <!-- <link href="{{url_for('static', filename='demo/demo.css')}}"> -->
+    <!-- <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.css') }}"> -->
+    <!-- <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}"> -->
+    <!-- <link rel="stylesheet" href="{{ url_for('static', filename='css/now-ui-dashboard.css') }}"> -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/doughnut.css') }}">
+
 </head>
 <body class="">
-    <div class="wrapper">
-        <div class="sidebar" data-color="blue">
+    <div class="wrapper" style="width: 100vw; left: 0px; position: absolute;">
+        <div class="sidebar" data-color="blue" >
       <!--
         Tip 1: You can change the color of the sidebar using: data-color="blue | green | orange | red | yellow"
     -->
@@ -107,7 +109,7 @@
                       <div class="container">
                           <div class="row pull-down">
                               <div class="col-md-3 text-center responsive-title">
-                                  <h2>Ht Score</h2>
+                                  <h2>HT Score</h2>
                                   <canvas id="doughnut" width="120" height="120"></canvas>
                                   <canvas id="skill1" width="120" height="120" class=""></canvas>
                                   <p></p>
@@ -300,7 +302,7 @@
       var comfort = {{ comfort }}
       var endurance = {{ endurance }}
       var htScore = {{ htScore }}
-      var balance = 0
+      var balance = 0 
       console.log("Endurance Scores ",endurance)
       console.log("ht Scores: ", htScore)
       console.log("comfort: ", comfort)
@@ -935,9 +937,16 @@
       // Javascript method's body can be found in assets/js/demos.js
       demo.initDashboardPageCharts();
 
+      var user = firebase.auth().currentUser;
+      console.log("user2", user);
 
     });
   </script>
-
+<script>
+  console.log('firebaseInstance', firebaseInstance)
+  let user = firebaseInstance.auth().currentUser;
+  console.log(user, 'user')
+ 
+</script>
 </body>
 {% endblock %}

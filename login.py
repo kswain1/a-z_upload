@@ -298,6 +298,10 @@ def update_session(player_id):
 
 @app.route('/dashboard', methods=['GET', 'POST'])
 def dashboard():
+
+    uid = request.args.get('uid')
+    print("uid: ", uid)
+    network.hxdatabase.readUserProductList(uid)
     
     if request.method == 'POST':
       productName = request.form.get('search')

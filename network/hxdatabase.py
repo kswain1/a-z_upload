@@ -12,6 +12,7 @@ db = firestore.client()
 doc_ref = db.collection(u'athletes')
 athletes_ref = db.collection(u'athletes')
 test_ref = db.collection(u'test')
+user_ref = db.collection(u'users')
 
 ## create write function 
 def writeDocs(doc_ref, payload):
@@ -52,6 +53,13 @@ def readTestDocs():
     return test_results
     #query_ref = cities_ref.where(u'state', u'==', u'CA')
     #https://firebase.google.com/docs/firestore/query-data/queries
+
+def readUserProductList(uid):
+    user_docs = user_ref.document(uid).get()
+    # print("user   -->>>> ", user_docs.get('products'))
+    # print(user_docs)
+    return user_docs.get('products')
+    
 
 def readTestDocsNew(testName):
     test_docs = test_ref.where(u'productTestName', u'==', testName).stream()
