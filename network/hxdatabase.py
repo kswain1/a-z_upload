@@ -62,9 +62,11 @@ def readUserProductList(uid):
     
 
 def readTestDocsNew(testName):
+    uTestName = u'{}'
+    print(uTestName.format(testName))
     test_docs = test_ref.where(u'productTestName', u'==', testName).stream()
-    productTestName = test_ref.order_by(u'productTestName',direction=firestore.Query.DESCENDING)
-    results = productTestName.stream()
+    #productTestName = test_ref.order_by(u'productTestName',direction=firestore.Query.DESCENDING)
+    #results = productTestName.stream()
     # for docs in results: 
     #     print(docs.to_dict())
     productNames = []
@@ -74,6 +76,7 @@ def readTestDocsNew(testName):
     htScores = []
     test_results =[]
     for docs in test_docs: 
+        print('we got data')
         productNames.append(docs.to_dict()['shoeName'])
         comfortScores.append(docs.to_dict()['comfort'])
         fatigueScores.append(docs.to_dict()['fatigue'])

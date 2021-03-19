@@ -56,6 +56,8 @@
               var user = firebase.auth().currentUser;
               console.log('user', user);
               let uid = user.uid;
+
+              localStorage.setItem("fb_uid", user.uid);
               
             //   window.location = "{{ url_for('dashboard', uid='uid' ) }}";//
             var BASE_URL = 'http://127.0.0.1:5000';

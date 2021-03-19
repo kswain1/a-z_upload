@@ -296,20 +296,37 @@ def update_session(player_id):
     return render_template('asessment.html', data=player_session, player=player.json(), error=error)
 
 
-@app.route('/dashboard', methods=['GET', 'POST'])
+# @app.route('/dashboard', methods=['GET', 'POST'])
+# def newdashboard(): 
+
+
+@app.route('/dashboard/', methods=['GET', 'POST'])
 def dashboard():
 
     uid = request.args.get('uid')
     print("uid: ", uid)
-    network.hxdatabase.readUserProductList(uid)
     
+    player_data = s.player_athlete()
+    productTestNames = network.hxdatabase.readUserProductList(uid)
+    
+
     if request.method == 'POST':
-      productName = request.form.get('search')
-      print("my product name: ", productName)
+    #   import pdb; pdb.set_trace()
+      #print(request.is_json)
+      print(request.get_json(silent=True))
+      data = request.get_json(silent=True)
+      print('uid: ', data['fb_uid'])
+      print('search:', data['search'])
+
+
+      productName = data['search']
+      productName = productName.strip()
+      #productName = request.form.get('search')
+      print("my product name:t",productName,)
       print('------')
+      print('products name are: ', productTestNames)
       player_data = s.player_athlete()
       testResults = network.hxdatabase.readTestDocsNew(productName)
-      productTestNames = network.hxdatabase.productTestNames()
       searchValue = productName if productName else productTestNames[0]
       comfort = []
       htScore = []
@@ -322,16 +339,18 @@ def dashboard():
           endurance.append(docs["fatigue"])
           htScore.append(docs["htScore"])
           productName.append(docs["shoeName"])
-    
+
+    #   import pdb; pdb.set_trace()
       return render_template("dashboard.html",player_session=player_data, comfort = comfort,
      htScore = htScore, endurance = endurance, productName = productName, gamerTest = gamerTest,
-      productTestNames =  productTestNames, searchValue = searchValue)
+      productTestNames =  productTestNames, searchValue = searchValue,)
 
 
     # player_session = requests.get('%s/api/session')
-    player_data = s.player_athlete()
-    testResults = network.hxdatabase.readTestDocs()
-    productTestNames = network.hxdatabase.productTestNames()
+    
+    print(productTestNames, 'boom', productTestNames[0])
+    testResults = network.hxdatabase.readTestDocsNew(productTestNames[0])
+    print(testResults)
     comfort = []
     htScore = []
     endurance = []
