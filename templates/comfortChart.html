@@ -1,0 +1,7 @@
+{% block javascript %}
+<script>
+var productNameList = {{ productNameList | safe}}
+var comfort = {{ comfort }}
+</script>
+<script src="{{ url_for('static', filename='js/comfortChart.js') }}" type="text/javascript" async></script>
+{% endblock %}

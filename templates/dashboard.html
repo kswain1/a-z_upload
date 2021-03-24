@@ -109,8 +109,8 @@
               <!-- Stats Row -->
                   <div class="row">
                       <div class="container">
-                          <div class="row pull-down">
-                              <div class="col-md-3 text-center responsive-title">
+                          <div id="stat1" class="row pull-down">
+                              <div  class="col-md-3 text-center responsive-title">
                                   <h2>HT Score</h2>
                                   <canvas id="doughnut" width="120" height="120"></canvas>
                                   <canvas id="skill1" width="120" height="120" class=""></canvas>
@@ -138,10 +138,13 @@
                       </div>
                   </div>
               </div>
+             
             <div class="panel-header panel-header-lg panel-default">
+                <!-- <div id=hxDashboardChart></div> -->
                 <canvas id="bigDashboardChart"></canvas>
             </div>
             <!-- gray content area -->
+            
             <div class="content">
                 <div class="row">
                    <div class="col-lg-6">
@@ -163,7 +166,7 @@
                           </div>
                           <div class="card-body">
                             <div class="chart-area">
-                              <canvas id="lineChartExample"></canvas>
+                              <canvas id="enduranceChart"></canvas>
                             </div>
                           </div>
                           <div class="card-footer">
@@ -192,7 +195,8 @@
                         </div>
                         <div class="card-body">
                             <div class="chart-body">
-                                <canvas id="lineChartExampleWithNumbersAndGrid" style="height: 190px !important;"></canvas>
+                                <!-- <canvas id="comfortChart" style="height: 190px !important;"></canvas> -->
+                                <canvas id="comfortChart"></canvas>
                             </div>
 
                         </div>
@@ -201,9 +205,9 @@
                                 <i class="now-ui-icons arrows-1_refresh-69"></i> Just Updated
                             </div>
                         </div>
-                    </div>
+                    <div>
                 </div>
-                        </div>
+              </div>
                         <!--<div class="row">-->
                             <!--<div class="col-md-12">-->
                                 <!--<div class="card card-stats">-->
@@ -279,6 +283,7 @@
                     </div>
                 </div>
     </div>
+    
 <!--   Core JS Files   -->
   <!--<script src="../assets/js/core/jquery.min.js"></script>-->
   <!--<script src="../assets/js/core/popper.min.js"></script>-->
@@ -313,7 +318,7 @@
     <script src="{{ url_for('static', filename='js/doughnutTwo.js') }}" type="text/javascript" async></script> -->
     {% block javascript %}
     <script>
-       var dashboard_url = "{{ url_for('dashboard') }}"
+       var dashboard_url = "{{ url_for('get_data') }}"
        function onSubmit() {
          console.log("we are inside of the submit buton")
           let profileInfo = {
@@ -325,20 +330,30 @@
           console.log("data1", profileInfo);
           let BASE_URL = "http://127.0.0.1:5000"
          $.ajax({
-          //  type: 'POST',
-          //  url : BASE_URL + '/dashboard',
-          //  data : data,
-          //  dataType: 'json',
-          //  contentType:'application/json',
             type : 'POST',
             url : dashboard_url,
             contentType: 'application/json;charset=UTF-8',
             data : jsonData,
-            dataType: 'html',
            success : function(res){
             //  console.log("sucessfully submitted data", res)
             //  $('head').html(res);
-            document.write(res);
+            
+            // $('#skill1').html(res.dashboardStats)
+            $('#bigDashboardChart').html(res.hxPerformanceChart)
+            $('#enduranceChart').html(res.enduranceChart)
+            $('#comfortChart').html(res.comfortChart)
+            $('#skill2').html(res.dashboardStats2)
+            $('#stat1').html(res.dashboardStats)
+            comfort = res.comfort
+            console.log(comfort)
+            // $('#skill2').html(res.dashboardStats2)
+            // $('#skill3').html(res.dashboardStats3)
+            // $('#skill4').html(res.dashboardStats4)
+            $('#search_select').html(res.selectForm)
+           
+            // var comfortChart = document.getElementById('comfortChart')
+            // $(comfortChart).html(res.comfortChart)
+            // comfortChart.html(res.comfortChart)
            },
            error : function(error){
              console.log("error", error)
@@ -346,24 +361,6 @@
          })
        }
 
-      //  $('#productForm').submit(function(event) {
-      //    event.preventDefault();
-
-      //    let data = {
-      //        fb_uid : fb_uid,
-      //        name : $(this).children("option:selected").val()
-      //     };
-      //     console.log("data1", data);
-      //     let BASE_URL = "http://127.0.0.1:5000"
-      //    $.ajax({
-      //      type: 'POST',
-      //      url : BASE_URL + '/dashboard',
-      //      data : data,
-      //      success : function(res){
-      //        console.log(res)
-      //      }
-      //    })
-      //  }
 
 
        var fb_uid = localStorage.getItem("fb_uid");
@@ -446,7 +443,7 @@
               }
             };
 
-            ctx = document.getElementById('lineChartExample').getContext("2d");
+            ctx = document.getElementById('line').getContext("2d");
 
             gradientStroke = ctx.createLinearGradient(500, 0, 100, 0);
             gradientStroke.addColorStop(0, '#80b6f4');
@@ -696,7 +693,7 @@
             var cardStatsMiniLineColor = "#fff",
               cardStatsMiniDotColor = "#fff";
 
-            ctx = document.getElementById('lineChartExample').getContext("2d");
+            ctx = document.getElementById('enduranceChart').getContext("2d");
 
             gradientStroke = ctx.createLinearGradient(500, 0, 100, 0);
             gradientStroke.addColorStop(0, '#80b6f4');
@@ -730,7 +727,7 @@
             });
 
 
-            ctx = document.getElementById('lineChartExampleWithNumbersAndGrid').getContext("2d");
+            ctx = document.getElementById('comfortChart').getContext("2d");
 
             gradientStroke = ctx.createLinearGradient(500, 0, 100, 0);
             gradientStroke.addColorStop(0, '#18ce0f');
@@ -1005,11 +1002,9 @@
     });
   </script>
   <script src="{{ url_for('static', filename='js/doughnut.js') }}" type="text/javascript" async></script>
-  <script>
-    loadSkills1(htScore);
-    loadSkills2(endurance);
-    loadSkills3(balance);
-    loadSkills4(comfort);
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jcanvas/21.0.1/min/jcanvas.min.js" 
+  integrity="sha512-pu2L+33GBCuTrTU3mNJphG2Hm2JKlLA01280LIiz29D40f/UFOU5dEVxVuW46p+HZeZhXvQsUxtVFxPabX9S9g==" 
+  crossorigin="anonymous">
   </script>
   <!-- <script src="{{ url_for('static', filename='js/doughnutTwo.js') }}" type="text/javascript" async></script> -->
 <script>

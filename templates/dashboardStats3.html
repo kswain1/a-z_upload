@@ -1,0 +1,10 @@
+{% block javascript %}
+<script>
+console.log("hello ->", comfort)
+var comfort = {{ comfort }}
+var endurance = {{ endurance }}
+var htScore = {{ htScore }}
+var balance = 0
+</script>
+<script src="{{ url_for('static', filename='js/doughnutAjax3.js') }}" type="text/javascript" async></script>
+{% endblock %}

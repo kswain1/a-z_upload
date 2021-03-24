@@ -1,0 +1,37 @@
+{% block javascript %}
+<script>
+console.log("hello ->", comfort)
+var comfort = {{ comfort }}
+var endurance = {{ endurance }}
+var htScore = {{ htScore }}
+var balance = 0
+</script>
+<script src="{{ url_for('static', filename='js/doughnutAjax.js') }}" type="text/javascript" async></script>
+{% endblock %}
+
+<div  class="col-md-3 text-center responsive-title">
+    <h2>HT Score</h2>
+    <canvas id="doughnut" width="120" height="120"></canvas>
+    <canvas id="skill1" width="120" height="120" class=""></canvas>
+    <p></p>
+</div>
+<div class="col-md-3 text-center responsive-title">
+    <h2>Endurance</h2>
+    <canvas id="doughnut2" width="120" height="120"></canvas>
+    <canvas id="skill2" width="120" height="120" class=""></canvas>
+    <p></p>
+</div>
+
+<div class="col-md-3 text-center responsive-title">
+    <h2>Balance</h2>
+    <canvas id="doughnut3" width="120" height="120"></canvas>
+    <canvas id="skill3" width="120" height="120" class=""></canvas>
+    <p></p>
+</div>
+
+<div class="col-md-3 text-center responsive-title">
+    <h2>Comfort</h2>
+    <canvas id="doughnut4" width="120" height="120"></canvas>
+    <canvas id="skill4" width="120" height="120" class=""></canvas>
+    <p></p>
+</div>

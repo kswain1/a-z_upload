@@ -1,0 +1,9 @@
+
+{% block javascript %}
+<script>
+var productNameList = {{ productNameList | safe}}
+var htScore = {{ htScore }}
+var endurance = {{ endurance }}
+</script>
+<script src="{{ url_for('static', filename='js/largeChart.js') }}" type="text/javascript" async></script>
+{% endblock %}
