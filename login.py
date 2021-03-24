@@ -1,6 +1,6 @@
 from flask import (
     Flask, render_template, redirect, url_for, request, session, g,
-    flash)
+    flash, jsonify)
 import requests
 import os
 from werkzeug.utils import secure_filename
@@ -298,7 +298,7 @@ def update_session(player_id):
 
 # @app.route('/dashboard', methods=['GET', 'POST'])
 # def newdashboard(): 
-
+@app.route('/get_data/', methods=['GET','POST'])
 
 @app.route('/dashboard/', methods=['GET', 'POST'])
 def dashboard():
@@ -321,7 +321,9 @@ def dashboard():
 
       productName = data['search']
       productName = productName.strip()
+      uid = data['fb_uid'].strip()
       #productName = request.form.get('search')
+      productTestNames = network.hxdatabase.readUserProductList(uid)
       print("my product name:t",productName,)
       print('------')
       print('products name are: ', productTestNames)
@@ -344,6 +346,9 @@ def dashboard():
       return render_template("dashboard.html",player_session=player_data, comfort = comfort,
      htScore = htScore, endurance = endurance, productName = productName, gamerTest = gamerTest,
       productTestNames =  productTestNames, searchValue = searchValue,)
+    #   return render_template("dashboard.html",player_session=player_data, comfort = comfort,
+    #  htScore = htScore, endurance = endurance, productName = productName, gamerTest = gamerTest,
+    #   productTestNames =  productTestNames, searchValue = searchValue,)
 
 
     # player_session = requests.get('%s/api/session')

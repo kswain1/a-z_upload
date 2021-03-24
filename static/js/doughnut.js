@@ -11,13 +11,14 @@ for (var i = 0; i < doughnutArray.length; i++) {
   doughnutArray[i].stroke();
 }
 window.onload = function() {
-    loadSkills1();
-    loadSkills2();
-    loadSkills3();
-    loadSkills4();
+    loadSkills1(htScore);
+    loadSkills2(endurance);
+    loadSkills3(balance);
+    loadSkills4(comfort);
   }
+
   /*Load skills one function*/
-function loadSkills1() {
+function loadSkills1(htScore) {
   var ctx = document.getElementById('skill1').getContext('2d');
   var al = 0;
   var start = 4.72;
@@ -46,7 +47,7 @@ function loadSkills1() {
   var sim = setInterval(progressSim, 20); //speed
 }
 /*loadSkills2 function*/
-function loadSkills2() {
+function loadSkills2(endurance) {
   var ctx = document.getElementById('skill2').getContext('2d');
   var al = 0;
   var start = 4.72;
@@ -76,7 +77,7 @@ function loadSkills2() {
 }
 
 /* loadSkill3 function*/
-function loadSkills3() {
+function loadSkills3(balance) {
   var ctx = document.getElementById('skill3').getContext('2d');
   var al = 0;
   var start = 4.72;
@@ -105,7 +106,7 @@ function loadSkills3() {
   var sim = setInterval(progressSim, 40); //speed
 }
 /* loadSkill4 function*/
-function loadSkills4() {
+function loadSkills4(comfort) {
   var ctx = document.getElementById('skill4').getContext('2d');
   var al = 0;
   var start = 4.72;

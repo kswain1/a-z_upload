@@ -1,0 +1,14 @@
+<div style="display: flex;">
+    <select name="search" id="search_select" class="form-control search-dropdown" value="{{searchValue}}">
+      {% if productTestNames is not none %}
+        {%for name in productTestNames %}
+          {% if name == searchValue %}
+            <option value= "{{ name }}" selected> {{ name}}</option>
+          {% else %}
+            <option value= "{{ name }}"> {{ name}}</option>
+          {% endif %}
+        {%endfor%}
+      {% endif %}  
+    </select>
+    <input type="text" id="fb_uid" style="display : none"/>
+    <input value = "submit"  onclick="onSubmit()" class="btn btn-light submit-btn" />
